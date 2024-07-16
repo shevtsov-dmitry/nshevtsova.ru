@@ -1,4 +1,4 @@
-@import "src/components/navbar/navbar.css";
+@import 'components/navbar/navbar.css';
 
 @tailwind base;
 @tailwind components;

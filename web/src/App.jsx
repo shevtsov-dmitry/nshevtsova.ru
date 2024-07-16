@@ -3,9 +3,10 @@ import Preview from "./components/preview/Preview.jsx"
 
 export default function App() {
     return (
-        <div className="w-screen h-fit">
+        <div className="max-w-full h-full">
             <NavBar />
             <Preview />
+
         </div>
     )
 }

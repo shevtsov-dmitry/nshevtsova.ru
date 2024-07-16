@@ -7,5 +7,5 @@
 }
 
 .socialMediaIcon {
-    @apply bg-green-300;
+    @apply max-w-[4rem];
 }

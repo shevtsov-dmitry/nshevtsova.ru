@@ -1,7 +1,11 @@
-function App() {
-  return (
-    <div className='bg-red-700 text-white font-bold font-serif italic size-20'>Title</div>
-  )
-}
+import NavBar from "./components/navbar/NavBar.jsx"
+import Preview from "./components/preview/Preview.jsx"
 
-export default App
+export default function App() {
+    return (
+        <div className="w-screen h-fit">
+            <NavBar />
+            <Preview />
+        </div>
+    )
+}

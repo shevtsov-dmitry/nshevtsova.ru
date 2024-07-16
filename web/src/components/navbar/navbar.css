@@ -1,0 +1,11 @@
+.navBarTab {
+    @apply text-2xl;
+}
+
+.navTabArrowDown {
+    @apply text-[1.2rem];
+}
+
+.socialMediaIcon {
+    @apply bg-green-300;
+}

@@ -1,4 +1,4 @@
 
 export default function Preview() {
-    return <div></div>
+    return <div className=""></div>
 }

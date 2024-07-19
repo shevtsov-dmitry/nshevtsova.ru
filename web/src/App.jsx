@@ -1,8 +1,8 @@
-import Navbar from "./navbar/Navbar"
-import Preview from "./preview/Preview"
+import Navbar from "./components/navbar/Navbar"
+import Preview from "./components/preview/Preview"
 
 function App() {
-    return <div>
+    return <div className="max-w-full h-full">
         <Navbar />
         <Preview />
     </div>

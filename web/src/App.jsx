@@ -1,12 +1,12 @@
-import NavBar from "./components/navbar/NavBar.jsx"
-import Preview from "./components/preview/Preview.jsx"
+import Navbar from "./navbar/Navbar"
+import Preview from "./preview/Preview"
 
-export default function App() {
-    return (
-        <div className="max-w-full h-full">
-            <NavBar />
-            <Preview />
+function App() {
+    return <div>
+        <Navbar />
+        <Preview />
+    </div>
 
-        </div>
-    )
 }
+
+export default App

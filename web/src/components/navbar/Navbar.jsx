@@ -14,10 +14,10 @@ export default function Navbar() {
         <div id="phone-num-and-icons-holder">
             <p id="phone-number" className=""></p>
             <div id="icons-holder" className="flex gap-3">
-                <img src="images/navbar/telegram.png" className="icon" />
-                <img src="images/navbar/viber.png" className="icon" />
-                <img src="images/navbar/vk.png" className="icon" />
-                <img src="images/navbar/whatsapp.png" className="icon" />
+                <img src="images/navbar/telegram.png" className="icon" alt="telegram" />
+                <img src="images/navbar/viber.png" className="icon" alt="viber" />
+                <img src="images/navbar/nt.png" className="icon" alt="vk" />
+                <img src="images/navbar/whatsapp.png" className="icon" alt="whatsapp" />
             </div>
         </div>
 

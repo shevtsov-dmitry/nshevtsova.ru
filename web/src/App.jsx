@@ -1,4 +1,4 @@
-import Navbar from "./component/navbar/Navbar.jsx"
+import Navbar from "./components/navbar/Navbar.jsx"
 import Preview from "./components/preview/Preview.jsx"
 
 function App() {

@@ -3,5 +3,9 @@
 }
 
 .tab-txt {
-  @apply font-jost-medium;
+  @apply select-none font-jost text-3xl text-white transition-colors hover:cursor-pointer hover:text-[#F2AD2A] hover:contrast-125;
+}
+
+.tab-txt-arrow-down {
+  @apply absolute mt-1 text-[60%];
 }

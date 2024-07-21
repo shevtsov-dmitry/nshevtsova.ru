@@ -5,27 +5,27 @@ export default function Navbar() {
 
   return (
     <div
-      className={`${h_navbar} absolute z-10 flex w-full justify-between bg-red-300`}
+      className={`${h_navbar} absolute z-10 mt-[1%] flex w-full justify-between`}
     >
-      <ul id="tabs-holder" className="flex items-center gap-3">
+      <ul id="tabs-holder" className="ml-[4%] flex items-center gap-5">
         <li className="tab-txt">портфолио</li>
         <li className="tab-txt">отзывы</li>
-        <li className="tab-txt">
+        <li className="tab-txt mr-3">
           цены<span className="tab-txt-arrow-down">⯆</span>
         </li>
-        <li className="tab-txt">
+        <li className="tab-txt mr-3">
           услуги<span className="tab-txt-arrow-down">⯆</span>
         </li>
         <li className="tab-txt">новости</li>
       </ul>
-      <div id="phone-num-and-icons-holder" className="flex items-center gap-7">
-        <p id="phone-number" className="text-sm">
+      <div
+        id="phone-num-and-icons-holder"
+        className="mr-[4%] flex items-center gap-7"
+      >
+        <p id="phone-number" className="mb-[-3px] text-sm text-white">
           +7 (903) 733-57-57
         </p>
-        <div
-          id="icons-holder"
-          className={`${h_navbar} flex w-[150%] justify-around`}
-        >
+        <div id="icons-holder" className={`${h_navbar} flex gap-7`}>
           <img
             src="images/navbar/telegram.png"
             className="icon"

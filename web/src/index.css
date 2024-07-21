@@ -12,8 +12,8 @@
 }
 
 @font-face {
-  font-family: 'Jost-Medium';
-  src: url('public/fonts/Jost-Medium.ttf') format('truetype');
+  font-family: 'Jost';
+  src: url('public/fonts/Jost-Regular.ttf') format('truetype');
   font-weight: bold;
   font-style: normal;
 }

@@ -1,5 +1,26 @@
-@import "./components/navbar/navbar.css";
+@import './components/navbar/navbar.css';
 
 @tailwind base;
 @tailwind component;
 @tailwind utilities;
+
+@font-face {
+  font-family: 'Andika-Bold';
+  src: url('public/fonts/.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Jost-Medium';
+  src: url('public/fonts/Jost-Medium.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'PTSans-Bold';
+  src: url('public/fonts/PTSans-Bold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+}

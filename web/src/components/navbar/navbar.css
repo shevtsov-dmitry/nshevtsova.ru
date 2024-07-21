@@ -1,3 +1,7 @@
 .icon {
-    @apply hover:brightness-125 hover:cursor-pointer transition-all;
+  @apply transition-all hover:cursor-pointer hover:brightness-125;
+}
+
+.tab-txt {
+  @apply font-jost-medium;
 }

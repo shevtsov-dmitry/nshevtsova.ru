@@ -1,11 +1,11 @@
-import {useState} from 'react'
+import { useState } from 'react'
 
 export default function Navbar() {
-    const [h_navbar, set_h_navbar] = useState('h-12')
+    const [heightCSS, setHeightCSS] = useState('h-12')
 
     return (
         <div
-            className={`${h_navbar} absolute z-10 mt-[1%] flex w-full justify-between`}
+            className={`${heightCSS} absolute z-10 mt-[1%] flex w-full justify-between`}
         >
             <ul id="tabs-holder" className="ml-[4%] flex items-center gap-5">
                 <li className="tab-txt">портфолио</li>
@@ -25,14 +25,14 @@ export default function Navbar() {
                 <p id="phone-number" className="mb-[-3px] text-sm text-white">
                     +7 (903) 733-57-57
                 </p>
-                <div id="icons-holder" className={`${h_navbar} flex gap-7`}>
+                <div id="icons-holder" className={`${heightCSS} flex gap-7`}>
                     <img
                         src="images/navbar/telegram.png"
                         className="icon"
                         alt="telegram"
                     />
-                    <img src="images/navbar/viber.png" className="icon" alt="viber"/>
-                    <img src="images/navbar/vk.png" className="icon" alt="vk"/>
+                    <img src="images/navbar/viber.png" className="icon" alt="viber" />
+                    <img src="images/navbar/vk.png" className="icon" alt="vk" />
                     <img
                         src="images/navbar/whatsapp.png"
                         className="icon"

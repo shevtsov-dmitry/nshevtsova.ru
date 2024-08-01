@@ -4,7 +4,7 @@ export default function OfferedServices() {
     const IMAGES_PATH = "images/offered-services"
 
     return (
-        <div className='h-fit w-full'>
+        <div className='h-fit w-full mb-[2.5%]'>
             <div className='h-1/5 flex items-center justify-start'>
                 <h1 className="ml-[5%] font-ptsans-bold text-4xl my-[2%]">ПРЕДОСТАВЛЯЕМЫЕ УСЛУГИ</h1>
             </div>

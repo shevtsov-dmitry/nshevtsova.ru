@@ -72,9 +72,9 @@ export default function Footer() {
     const GLOBAL_VALUES = useSelector((state) => state.globalStringValues);
 
     return (
-        <footer className="h-96 w-full bg-neutral-900">
+        <footer className="h-auto w-full bg-neutral-900 py-[2%]">
             <div className="flex w-full justify-center">
-                <div className="flex w-[90%] items-center justify-between px-[3%] py-[2%]">
+                <div className="flex w-[90%] items-center justify-between">
                     <PhoneNumber GLOBAL_VALUES={GLOBAL_VALUES} />
                     <Navigation
                         font={'font-sans'}
@@ -90,9 +90,10 @@ export default function Footer() {
                         г. Воронеж, Ленинский проспект, дом 5Б, 2 подъезд, 38
                         кабинет
                     </address>
-                    <p className="text-[0.9rem] text-white">
-                        Copyright © 2023 - 2024 <br />
-                        Название компании <br />
+                    <p className="text-end text-[0.9rem] text-white">
+                        Copyright © 2024 <br />
+                        Индивидуальный предприниматель <br /> Шевцова Наталья
+                        Николаевна <br />
                         ИНН 123456789012 <br />
                         ОГРН 123456789012345
                     </p>

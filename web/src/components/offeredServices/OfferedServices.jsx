@@ -62,7 +62,7 @@ export default function OfferedServices() {
                 <ServiceDiv
                     title={'КОНСУЛЬТАЦИЯ'}
                     icon={`${IMAGES_PATH}/consult.png`}
-                    description={[]}
+                    description={["+7 (903) 733-57-57",]}
                 />
             </section>
         </div>

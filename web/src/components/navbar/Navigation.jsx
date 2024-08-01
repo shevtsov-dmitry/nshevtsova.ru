@@ -1,21 +1,23 @@
 /*
     @param font and @param textSize expected like tailwind string
-    example font = {"font-sans"} text = {"text-[2rem]"}
+    example font = {"font-sans"} text = {"text-[2rem]"} isFooter={true}
 */
-export default function Navigation({ font, textSize }) {
-    const CUSTOM_STYLE = ` ${font} ${textSize} `;
-    console.log(CUSTOM_STYLE);
+export default function Navigation({ font, textSize, isFooter }) {
+    let CUSTOM_STYLE = ` ${font} ${textSize} `;
+    if (isFooter) {
+        CUSTOM_STYLE += 'underline';
+    }
     return (
         <ul id="tabs-holder" className="flex items-center gap-5">
             <li className={`tab-txt ${CUSTOM_STYLE}`}>портфолио</li>
             <li className={`tab-txt ${CUSTOM_STYLE}`}>отзывы</li>
-            <li className={`tab-txt mr-3 ${CUSTOM_STYLE}`}>
+            <li className={`tab-txt ${CUSTOM_STYLE} ${!isFooter && 'mr-3'}`}>
                 цены
-                <span className={`tab-txt-arrow-down ${CUSTOM_STYLE}`}>⯆</span>
+                {!isFooter && <span className={`tab-txt-arrow-down`}>⯆</span>}
             </li>
-            <li className={`tab-txt mr-3 ${CUSTOM_STYLE}`}>
+            <li className={`tab-txt ${CUSTOM_STYLE} ${!isFooter && 'mr-3'}`}>
                 услуги
-                <span className={`tab-txt-arrow-down ${CUSTOM_STYLE}`}>⯆</span>
+                {!isFooter && <span className={`tab-txt-arrow-down`}>⯆</span>}
             </li>
             <li className={`tab-txt ${CUSTOM_STYLE}`}>новости</li>
         </ul>

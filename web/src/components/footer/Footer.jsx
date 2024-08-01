@@ -4,7 +4,7 @@ import Navigation from '../navbar/Navigation';
 function PhoneNumber({ GLOBAL_VALUES }) {
     return (
         <div id="phone-number" className="flex items-center gap-3">
-            <img src="images/footer/phone.png" className="w-[2.5%]" />
+            <img src="images/footer/phone.png" className="w-[17%]" />
             <div className="flex flex-col gap-1">
                 <u className="phone-number-ul">
                     <p
@@ -36,10 +36,10 @@ function PhoneNumber({ GLOBAL_VALUES }) {
 }
 
 function SocialMedias({ GLOBAL_VALUES }) {
-    const ICON_STYLE = 'w-12';
+    const ICON_STYLE = 'w-10 hover:scale-105 transition-all';
     const IMAGES_PATH = 'images/footer';
     return (
-        <div className="flex gap-2">
+        <div className="flex gap-6">
             <a href={GLOBAL_VALUES.vk}>
                 <img
                     src={`${IMAGES_PATH}/vk.png`}
@@ -73,10 +73,30 @@ export default function Footer() {
 
     return (
         <footer className="h-96 w-full bg-neutral-900">
-            <PhoneNumber GLOBAL_VALUES={GLOBAL_VALUES} />
-            <SocialMedias GLOBAL_VALUES={GLOBAL_VALUES} />
-            <div className="scale-75">
-                <Navigation font={'font-sans'} textSize={'text-[1.5rem]'} />
+            <div className="flex w-full justify-center">
+                <div className="flex w-[90%] items-center justify-between px-[3%] py-[2%]">
+                    <PhoneNumber GLOBAL_VALUES={GLOBAL_VALUES} />
+                    <Navigation
+                        font={'font-sans'}
+                        textSize={'text-[1rem]'}
+                        isFooter={true}
+                    />
+                </div>
+            </div>
+            <div className="flex w-full justify-center">
+                <div className="flex w-[90%] items-center justify-between">
+                    <SocialMedias GLOBAL_VALUES={GLOBAL_VALUES} />
+                    <address className="text-white">
+                        г. Воронеж, Ленинский проспект, дом 5Б, 2 подъезд, 38
+                        кабинет
+                    </address>
+                    <p className="text-[0.9rem] text-white">
+                        Copyright © 2023 - 2024 <br />
+                        Название компании <br />
+                        ИНН 123456789012 <br />
+                        ОГРН 123456789012345
+                    </p>
+                </div>
             </div>
         </footer>
     );

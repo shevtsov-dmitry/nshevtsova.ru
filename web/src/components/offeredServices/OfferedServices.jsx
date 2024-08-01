@@ -11,7 +11,7 @@ export default function OfferedServices() {
             <section className="grid w-full grid-cols-3 gap-5 px-[5%] h-4/5">
                 <ServiceDiv
                     title={'ПОКУПКА'}
-                    icon={'IMAGES_PATH/house-key.png'}
+                    icon={`${IMAGES_PATH}/house-key.png`}
                     description={[
                         'Подбор идеальной недвижимости',
                         'Сопровождение сделки на каждом этапе',
@@ -21,7 +21,7 @@ export default function OfferedServices() {
                 />
                 <ServiceDiv
                     title={'ПРОДАЖА'}
-                    icon={'IMAGES_PATH/house.png'}
+                    icon={`${IMAGES_PATH}/house.png`}
                     description={[
                         'Оценка рыночной стоимости',
                         'Подготовка к продаже',
@@ -31,7 +31,7 @@ export default function OfferedServices() {
                 />
                 <ServiceDiv
                     title={'ПОИСК НЕДВИЖИМОСТИ'}
-                    icon={'IMAGES_PATH/find-house1.png'}
+                    icon={`${IMAGES_PATH}/find-house1.png`}
                     description={[
                         'Поиск по заданным критериям',
                         'Консультации по районам',
@@ -41,7 +41,7 @@ export default function OfferedServices() {
                 />
                 <ServiceDiv
                     title={'АРЕНДА'}
-                    icon={'IMAGES_PATH/rent1.png'}
+                    icon={`${IMAGES_PATH}/rent1.png`}
                     description={[
                         'Поиск долгосрочной аренды',
                         'Оформление договоров',
@@ -51,7 +51,7 @@ export default function OfferedServices() {
                 />
                 <ServiceDiv
                     title={'ПОМОЩЬ В ОФОРМЛЕНИИ'}
-                    icon={'IMAGES_PATH/document.png'}
+                    icon={`${IMAGES_PATH}/document.png`}
                     description={[
                         'Сбор необходимых документов',
                         'Юридическое сопровождение',
@@ -61,7 +61,7 @@ export default function OfferedServices() {
                 />
                 <ServiceDiv
                     title={'КОНСУЛЬТАЦИЯ'}
-                    icon={'IMAGES_PATH/consult.png'}
+                    icon={`${IMAGES_PATH}/consult.png`}
                     description={[]}
                 />
             </section>

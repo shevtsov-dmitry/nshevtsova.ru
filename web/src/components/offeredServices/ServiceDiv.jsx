@@ -2,6 +2,7 @@ export default function ServiceBlock(props) {
     const TITLE = props.title
     const DESCRIPTION_LIST = props.description
     const IMAGE_SRC = props.icon
+    console.log(IMAGE_SRC)
 
     return (
         <div className="h-auto w-full rounded-[0.75rem] border border-gray-300 grid grid-cols-2 py-[3%] px-[2%]">

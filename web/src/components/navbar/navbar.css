@@ -1,11 +1,11 @@
 .icon {
-  @apply transition-all hover:cursor-pointer hover:brightness-125;
+    @apply transition-all hover:cursor-pointer hover:brightness-125;
 }
 
 .tab-txt {
-  @apply select-none font-jost text-3xl text-white transition-colors hover:cursor-pointer hover:text-[#F2AD2A] hover:contrast-125;
+    @apply select-none text-white transition-colors hover:cursor-pointer hover:text-[#F2AD2A] hover:contrast-125;
 }
 
 .tab-txt-arrow-down {
-  @apply absolute mt-1 text-[60%];
+    @apply absolute mt-1 text-[60%];
 }

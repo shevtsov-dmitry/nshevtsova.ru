@@ -1,7 +1,9 @@
+import { useSelector } from 'react-redux'
 import ServiceDiv from './ServiceDiv'
 
 export default function OfferedServices() {
     const IMAGES_PATH = "images/offered-services"
+    const GLOBAL_VALUES = useSelector(state => state.globalStringValues)
 
     return (
         <div className='h-fit w-full mb-[2.5%]'>
@@ -21,7 +23,7 @@ export default function OfferedServices() {
                 />
                 <ServiceDiv
                     title={'ПРОДАЖА'}
-                    icon={`${IMAGES_PATH}/house.png`}
+                    icon={`${IMAGES_PATH}/deal.png`}
                     description={[
                         'Оценка рыночной стоимости',
                         'Подготовка к продаже',
@@ -62,7 +64,7 @@ export default function OfferedServices() {
                 <ServiceDiv
                     title={'КОНСУЛЬТАЦИЯ'}
                     icon={`${IMAGES_PATH}/consult.png`}
-                    description={["+7 (903) 733-57-57",]}
+                    description={[GLOBAL_VALUES.phoneNumber,]}
                 />
             </section>
         </div>

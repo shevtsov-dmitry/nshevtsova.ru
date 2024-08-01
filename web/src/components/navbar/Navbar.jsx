@@ -1,7 +1,10 @@
 import { useState } from 'react'
+import globalStringValuesSlice from '../../store/globalStringValuesSlice'
+import { useSelector } from 'react-redux'
 
 export default function Navbar() {
     const [heightCSS, setHeightCSS] = useState('h-12')
+    const GLOBAL_VALUES = useSelector(state => state.globalStringValues)
 
     return (
         <div
@@ -23,7 +26,8 @@ export default function Navbar() {
                 className="mr-[4%] flex items-center gap-7"
             >
                 <p id="phone-number" className="mb-[-3px] text-sm text-white">
-                    +7 (903) 733-57-57
+                    {GLOBAL_VALUES.phoneNumber}
+
                 </p>
                 <div id="icons-holder" className={`${heightCSS} flex gap-7`}>
                     <img

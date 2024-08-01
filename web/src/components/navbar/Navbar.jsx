@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import globalStringValuesSlice from '../../store/globalStringValuesSlice'
 import { useSelector } from 'react-redux'
 
 export default function Navbar() {
@@ -25,10 +24,18 @@ export default function Navbar() {
                 id="phone-num-and-icons-holder"
                 className="mr-[4%] flex items-center gap-7"
             >
-                <p id="phone-number" className="mb-[-3px] text-sm text-white">
-                    {GLOBAL_VALUES.phoneNumber}
+                <div id="phone-number-holder" className='mb-[-3px]'>
+                    <u className="phone-number-ul">
+                        <p className="phone-number-p text-sm"
+                            onClick={el => {
+                                navigator.clipboard.writeText(el.currentTarget.textContent)
+                            }}>
+                            {GLOBAL_VALUES.phoneNumber}
+                        </p>
+                    </u>
+                </div>
 
-                </p>
+
                 <div id="icons-holder" className={`${heightCSS} flex gap-7`}>
                     <img
                         src="images/navbar/telegram.png"

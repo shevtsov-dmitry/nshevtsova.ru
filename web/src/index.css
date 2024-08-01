@@ -1,7 +1,7 @@
 @import './components/navbar/navbar.css';
 
 @tailwind base;
-@tailwind component;
+@tailwind components;
 @tailwind utilities;
 
 @font-face {
@@ -23,4 +23,12 @@
   src: url('public/fonts/PTSans-Bold.ttf') format('truetype');
   font-weight: bold;
   font-style: normal;
+}
+
+.phone-number-p{ 
+    @apply text-white  hover:cursor-copy hover:text-blue-500;
+}
+
+.phone-number-ul{ 
+    @apply text-white hover:cursor-copy hover:text-blue-500;
 }

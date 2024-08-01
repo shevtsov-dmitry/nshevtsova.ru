@@ -31,7 +31,7 @@ export default function OfferedServices() {
                 />
                 <ServiceDiv
                     title={'ПОИСК НЕДВИЖИМОСТИ'}
-                    icon={`${IMAGES_PATH}/find-house1.png`}
+                    icon={`${IMAGES_PATH}/find-house.png`}
                     description={[
                         'Поиск по заданным критериям',
                         'Консультации по районам',
@@ -41,7 +41,7 @@ export default function OfferedServices() {
                 />
                 <ServiceDiv
                     title={'АРЕНДА'}
-                    icon={`${IMAGES_PATH}/rent1.png`}
+                    icon={`${IMAGES_PATH}/rent.png`}
                     description={[
                         'Поиск долгосрочной аренды',
                         'Оформление договоров',

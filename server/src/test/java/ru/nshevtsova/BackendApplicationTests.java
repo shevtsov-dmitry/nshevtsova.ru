@@ -1,4 +1,4 @@
-package ru.clean;
+package ru.nshevtsova;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

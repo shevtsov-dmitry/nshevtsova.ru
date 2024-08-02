@@ -2,3 +2,9 @@ dist
 node_modules
 *.Identifier
 .idea
+.settings
+
+server/target
+server.db
+.project
+.classpath

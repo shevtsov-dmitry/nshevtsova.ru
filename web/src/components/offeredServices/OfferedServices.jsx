@@ -1,16 +1,18 @@
-import { useSelector } from 'react-redux'
-import ServiceDiv from './ServiceDiv'
+import { useSelector } from 'react-redux';
+import ServiceDiv from './ServiceDiv';
 
 export default function OfferedServices() {
-    const IMAGES_PATH = "images/offered-services"
-    const GLOBAL_VALUES = useSelector(state => state.globalStringValues)
+    const IMAGES_PATH = 'images/offered-services';
+    const GLOBAL_VALUES = useSelector((state) => state.globalStringValues);
 
     return (
-        <div className='h-fit w-full mb-[2.5%]'>
-            <div className='h-1/5 flex items-center justify-start'>
-                <h1 className="ml-[5%] font-ptsans-bold text-4xl my-[2%]">ПРЕДОСТАВЛЯЕМЫЕ УСЛУГИ</h1>
+        <div className="mb-[2.5%] h-fit w-full">
+            <div className="flex h-1/5 items-center justify-start">
+                <h1 className="my-[2%] ml-[5%] font-ptsans-bold text-4xl">
+                    ПРЕДОСТАВЛЯЕМЫЕ УСЛУГИ
+                </h1>
             </div>
-            <section className="grid w-full grid-cols-3 gap-5 px-[5%] h-4/5">
+            <section className="grid h-4/5 w-full grid-cols-3 gap-5 px-[5%]">
                 <ServiceDiv
                     title={'ПОКУПКА'}
                     icon={`${IMAGES_PATH}/house-key.png`}
@@ -18,7 +20,7 @@ export default function OfferedServices() {
                         'Подбор идеальной недвижимости',
                         'Сопровождение сделки на каждом этапе',
                         'Юридическая проверка документов',
-                        'Переговоры с продавцами',
+                        'Переговоры с продавцами'
                     ]}
                 />
                 <ServiceDiv
@@ -28,7 +30,7 @@ export default function OfferedServices() {
                         'Оценка рыночной стоимости',
                         'Подготовка к продаже',
                         'Маркетинг и реклама',
-                        'Проведение показов',
+                        'Проведение показов'
                     ]}
                 />
                 <ServiceDiv
@@ -38,7 +40,7 @@ export default function OfferedServices() {
                         'Поиск по заданным критериям',
                         'Консультации по районам',
                         'Организация просмотров',
-                        'Анализ рынка недвижимости',
+                        'Анализ рынка недвижимости'
                     ]}
                 />
                 <ServiceDiv
@@ -48,7 +50,7 @@ export default function OfferedServices() {
                         'Поиск долгосрочной аренды',
                         'Оформление договоров',
                         'Консультации по аренде',
-                        'Подбор арендаторов',
+                        'Подбор арендаторов'
                     ]}
                 />
                 <ServiceDiv
@@ -58,15 +60,15 @@ export default function OfferedServices() {
                         'Сбор необходимых документов',
                         'Юридическое сопровождение',
                         'Оформление ипотеки',
-                        'Консультации по налогам',
+                        'Консультации по налогам'
                     ]}
                 />
                 <ServiceDiv
                     title={'КОНСУЛЬТАЦИЯ'}
                     icon={`${IMAGES_PATH}/consult.png`}
-                    description={[GLOBAL_VALUES.phoneNumber,]}
+                    description={[GLOBAL_VALUES.phoneNumber]}
                 />
             </section>
         </div>
-    )
+    );
 }

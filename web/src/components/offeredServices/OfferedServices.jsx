@@ -1,9 +1,33 @@
 import { useSelector } from 'react-redux';
-import ServiceDiv from './ServiceDiv';
 
 export default function OfferedServices() {
     const IMAGES_PATH = 'images/offered-services';
     const GLOBAL_VALUES = useSelector((state) => state.globalStringValues);
+
+    function ServiceDiv(props) {
+        const TITLE = props.title;
+        const DESCRIPTION_LIST = props.description;
+        const IMAGE_SRC = props.icon;
+
+        return (
+            <div className="grid h-auto w-full grid-cols-4 grid-rows-3 gap-2 rounded-[0.75rem] border border-gray-300 py-[4%] pr-[5%]">
+                <div className="col-span-1 row-span-1 flex h-full w-full items-center justify-center">
+                    <img className="w-[60%]" src={`${IMAGE_SRC}`} />
+                </div>
+                <div className="col-span-3 row-span-1 flex h-full w-full items-center">
+                    <h1 className="font-ptsans-bold text-2xl">{TITLE}</h1>
+                </div>
+                <div className="col-span-1 row-span-3" />
+                <ul className="col-span-3 row-span-3 flex list-disc flex-col gap-2 marker:text-yellow-400">
+                    {DESCRIPTION_LIST.map((text, index) => (
+                        <li key={index} className="">
+                            {text}
+                        </li>
+                    ))}
+                </ul>
+            </div>
+        );
+    }
 
     return (
         <div className="mb-[2.5%] h-fit w-full">

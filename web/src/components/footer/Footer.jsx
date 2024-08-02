@@ -1,5 +1,5 @@
-import { useSelector } from 'react-redux';
 import Navigation from '../navbar/Navigation';
+import { useSelector } from 'react-redux';
 
 function PhoneNumber({ GLOBAL_VALUES }) {
     return (

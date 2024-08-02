@@ -90,6 +90,17 @@ export default function Reviews() {
                   `}
                 />
             </div>
+            <div className="flex w-full justify-center">
+                <button
+                    className="w-fit rounded-lg bg-white px-5 pb-4 pt-3 font-ptsans-bold text-3xl transition-all hover:scale-105"
+                    style={{
+                        boxShadow:
+                            'rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset'
+                    }}
+                >
+                    Оставить отзыв
+                </button>
+            </div>
         </div>
     );
 }

@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
  * ReviewController
  */
 @RestController
-@RequestMapping("/v0/reviews")
+@RequestMapping("/reviews")
 public class ReviewController {
 
     @Autowired
@@ -31,8 +31,7 @@ public class ReviewController {
     @PostMapping("/add")
     public ResponseEntity<String> addReview(@RequestBody Review review) {
         try {
-            service.addReview(review);
-            return ResponseEntity.ok("");
+            return ResponseEntity.ok(service.addReview(review).toString());
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }

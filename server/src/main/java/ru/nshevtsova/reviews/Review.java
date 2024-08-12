@@ -78,4 +78,10 @@ public class Review {
         this.reviewText = reviewText;
     }
 
+    @Override
+    public String toString() {
+        return "Review [name=" + name + ", surname=" + surname + ", stars=" + stars + ", reviewText=" + reviewText
+                + ", createdAt=" + createdAt + "]";
+    }
+
 }

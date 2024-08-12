@@ -1,0 +1,3 @@
+.switch-review-arrow {
+    @apply text-white transition-transform hover:scale-105 hover:cursor-pointer;
+}

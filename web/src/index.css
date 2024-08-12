@@ -1,34 +1,35 @@
 @import './components/navbar/navbar.css';
+@import './components/reviews/reviews.css';
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @font-face {
-  font-family: 'Andika-Bold';
-  src: url('public/fonts/.ttf') format('truetype');
-  font-weight: bold;
-  font-style: normal;
+    font-family: 'Andika-Bold';
+    src: url('public/fonts/.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
 }
 
 @font-face {
-  font-family: 'Jost';
-  src: url('public/fonts/Jost-Regular.ttf') format('truetype');
-  font-weight: bold;
-  font-style: normal;
+    font-family: 'Jost';
+    src: url('public/fonts/Jost-Regular.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
 }
 
 @font-face {
-  font-family: 'PTSans-Bold';
-  src: url('public/fonts/PTSans-Bold.ttf') format('truetype');
-  font-weight: bold;
-  font-style: normal;
+    font-family: 'PTSans-Bold';
+    src: url('public/fonts/PTSans-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
 }
 
-.phone-number-p{ 
-    @apply text-white  hover:cursor-copy hover:text-blue-500;
+.phone-number-p {
+    @apply text-white hover:cursor-copy hover:text-blue-500;
 }
 
-.phone-number-ul{ 
+.phone-number-ul {
     @apply text-white hover:cursor-copy hover:text-blue-500;
 }

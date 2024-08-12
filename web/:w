@@ -1,7 +1,6 @@
 import { useRef, useState, useEffect } from 'react';
 import StarRating from '../common/StarRating';
 import { useSelector } from 'react-redux';
-import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 
 export default function Reviews() {
     const defaultUserData = {
@@ -41,25 +40,9 @@ export default function Reviews() {
     function ReviewDiv({ positionIdx, json }) {
         const [isShowMore, setIsShowMore] = useState(false);
 
-        const isMid = positionIdx === positions.MID;
-
-        const [divHeight, setDivHeight] = useState('h-auto');
-
-        useEffect(() => {
-            let height = '';
-            if (isMid) {
-                height = isShowMore ? 'h-auto' : 'h-80';
-            } else {
-                height = isShowMore ? 'h-auto' : 'h-52';
-                console.log(height);
-            }
-            setDivHeight(height);
-        }, [isShowMore]);
-
         return (
             <div
-                // className={`flex w-full flex-col gap-3 rounded bg-white px-[1.5%] py-[1%] ${isMid ? 'h-80' : 'h-52'} ${isShowMore ? 'h-[1000px]' : 'h-[20px]'}`}
-                className={`${divHeight} ${isShowMore && 'max-h-92'} flex w-full flex-col gap-3 rounded bg-white px-[1.5%] py-[1%]`}
+                className={`${isShowMore ? 'h-auto' : 'h-1/3'} flex flex-col gap-3 rounded bg-white px-[1.5%] py-[1%] ${positionIdx !== positions.MID && 'bg-red-500'}`}
                 style={{
                     boxShadow: 'rgba(0, 0, 0, 0.56) 0px 22px 70px 4px'
                 }}
@@ -80,54 +63,46 @@ export default function Reviews() {
                         />
                     </div>
                 </div>
-                <p className="overflow-hidden">{json.reviewText}</p>
                 <p
-                    className={`w-fit font-[0.7rem] underline hover:cursor-pointer hover:text-blue-500`}
-                    onClick={() => setIsShowMore(isShowMore ? false : true)}
+                    className={`${isShowMore ? 'overflow-auto' : 'overflow-hidden'} `}
                 >
-                    {isShowMore ? 'закрыть' : 'посмотреть полностью'}
+                    {json.reviewText}
+                </p>
+                <p
+                    className="font-[0.7rem] underline hover:cursor-pointer hover:text-blue-500"
+                    onClick={() => {
+                        if (isShowMore) setIsShowMore(false);
+                        else setIsShowMore(true);
+                    }}
+                >
+                    посмотреть полностью
                 </p>
             </div>
         );
     }
 
     return (
-        <div
-            className={`flex h-full flex-col gap-24 bg-[url('images/reviews/foggy-city.jpg')] bg-center bg-no-repeat px-[6%] py-[2%]`}
-        >
+        <div className="flex h-full flex-col bg-[url('images/reviews/foggy-city.jpg')] bg-center bg-no-repeat">
             <div className="h-full w-full flex-1">
                 <h1 className="text-center font-ptsans-bold text-4xl">
                     Отзывы тех, кто уже совершил <br /> выгодную сделку с моей
                     помощью
                 </h1>
             </div>
-            <div className="flex-2 flex w-full flex-col items-center">
-                <div className="flex items-center gap-5 max-mobile:flex-col">
+            <div className="flex-2 w-full bg-red-600">
+                <div className="flex max-h-full w-full gap-5 overflow-scroll">
                     <ReviewDiv
                         positionIdx={positions.LEFT}
-                        json={reviewsJsonArray[positions.LEFT]}
+                        json={reviewsJsonArray[midReviewIdx - 1]}
                     />
                     <ReviewDiv
                         positionIdx={positions.MID}
-                        json={reviewsJsonArray[positions.MID]}
+                        json={reviewsJsonArray[midReviewIdx]}
                     />
                     <ReviewDiv
                         positionIdx={positions.RIGHT}
-                        json={reviewsJsonArray[positions.RIGHT]}
+                        json={reviewsJsonArray[midReviewIdx + 1]}
                     />
-                </div>
-                <div>
-                    <div className="absolute flex items-center gap-5">
-                        <FaArrowLeft
-                            size={30}
-                            className="switch-review-arrow"
-                        />
-                        <p className="text-[2rem] font-bold text-white">0</p>
-                        <FaArrowRight
-                            size={30}
-                            className="switch-review-arrow"
-                        />
-                    </div>
                 </div>
             </div>
             <div className="flex w-full flex-1 justify-center">

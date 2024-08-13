@@ -27,6 +27,12 @@ export default function Reviews() {
 
     const sliderRef = useRef();
 
+    useEffect(() => {
+      if(sliderRef.current) {
+        sliderRef.current.scrollLeft = 0
+      }
+    },[])
+
     const GLOBAL_VALUES = useSelector((state) => state.globalStringValues);
 
     let scrollDistancePx = 300;

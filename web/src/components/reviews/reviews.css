@@ -1,3 +1,45 @@
 .switch-review-arrow {
-    @apply text-white transition-transform hover:scale-105 hover:cursor-pointer;
+    @apply text-white transition-transform hover:scale-110 hover:cursor-pointer;
+}
+
+@keyframes scaleUp {
+    0% {
+        @apply scale-100;
+    }
+    100% {
+        @apply scale-125;
+    }
+}
+
+.animate-scale-up {
+    animation: scaleUp 400ms forwards;
+}
+
+@keyframes scaleDownLeft {
+    0% {
+        @apply h-[20em] w-1/2;
+    }
+    100% {
+        @apply w-1/4;
+    }
+}
+
+.animate-scale-down-left {
+    animation: scaleDownLeft 400ms forwards;
+}
+
+@keyframes scaleDownRight {
+    0% {
+        @apply ml-[-25%] h-[20em] w-1/2;
+    }
+    60% {
+        @apply ml-0;
+    }
+    100% {
+        @apply w-1/4;
+    }
+}
+
+.animate-scale-down-right {
+    animation: scaleDownRight 400ms forwards;
 }

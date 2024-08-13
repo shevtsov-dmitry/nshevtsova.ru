@@ -18,6 +18,7 @@ export default function Reviews() {
     ]);
 
     const [midIdx, setMidIdx] = useState(1);
+    const [maxReviewsFetched, setMaxReviewsFetched] = useState(15);
 
     const positions = {
         LEFT: midIdx - 1,
@@ -44,7 +45,7 @@ export default function Reviews() {
     }
 
     function switchToPrev() {
-        setMidIdx(midIdx - 1);
+        if (midIdx - 1 > 0) setMidIdx(midIdx - 1);
         setIsScrollRight(false);
         if (sliderRef.current) {
             sliderRef.current.scrollLeft -= scrollDistancePx;
@@ -52,7 +53,7 @@ export default function Reviews() {
     }
 
     function switchToNext() {
-        setMidIdx(midIdx + 1);
+        if (midIdx - 1 < maxReviewsFetched) setMidIdx(midIdx + 1);
         setIsScrollRight(true);
         if (sliderRef.current) {
             sliderRef.current.scrollLeft += scrollDistancePx;
@@ -61,7 +62,10 @@ export default function Reviews() {
 
     useEffect(() => {
         async function fetchUserReviews() {
-            const url = GLOBAL_VALUES.serverUrl + '/reviews/list/recent/' + 15;
+            const url =
+                GLOBAL_VALUES.serverUrl +
+                '/reviews/list/recent/' +
+                maxReviewsFetched;
             const req = await fetch(url);
             const res = await req.json();
             setReviewsJsonArray(res);
@@ -96,12 +100,18 @@ export default function Reviews() {
         return (
             <div
                 ref={reviewDivRef}
-                className={`${isMid && 'z-20'} mx-[1.665%] flex h-[20em] w-[30%] flex-shrink-0 flex-col rounded-lg bg-white p-5`}
+                // className={`${isMid && 'z-20'} mx-[1.665%] flex h-[20em] w-[30%] flex-shrink-0 flex-col rounded-lg bg-white p-5`}
+                className={
+                    `mx-[3.1665%] flex h-[20em] w-[27%] flex-shrink-0 flex-col rounded-lg bg-white p-5 ` +
+                    ` ${isShowMore && isRight && 'right-0 z-50 h-auto'} ` +
+                    ` ${isShowMore && isLeft && 'left-0 z-50 h-auto'} ` +
+                    ` ${isShowMore && isMid && 'left-1/3 z-50 h-auto'} `
+                }
                 style={{
-                    boxShadow: 'rgba(0, 0, 0, 0.56) 0px 22px 70px 4px'
+                    boxShadow: 'rgba(0, 0, 0, 0.35) 0px 5px 15px'
                 }}
             >
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 pb-[2%]">
                     <img
                         id="usr-pic"
                         src={`images/reviews/default-user-pic.png`}
@@ -117,9 +127,9 @@ export default function Reviews() {
                         />
                     </div>
                 </div>
-                <p className="overflow-hidden">{json.reviewText}</p>
+                <p className={`overflow-hidden`}>{json.reviewText}</p>
                 <p
-                    className={`w-fit select-none py-[5%] font-[0.7rem] underline hover:cursor-pointer hover:text-blue-500`}
+                    className={`w-fit select-none py-[2%] font-[0.7rem] underline hover:cursor-pointer hover:text-blue-500`}
                     onClick={() => setIsShowMore(isShowMore ? false : true)}
                 >
                     {isShowMore ? 'закрыть' : 'посмотреть полностью'}
@@ -130,15 +140,16 @@ export default function Reviews() {
 
     function SwitchArrows() {
         return (
-            <div className="absolute flex w-full justify-center">
-                <div className="z-50 flex items-center gap-5 bg-pink-400">
+            <div className="flex h-12 w-full justify-center">
+                <div className="z-50 mt-[-10%] flex items-center gap-5">
                     <FaArrowLeft
                         size={30}
                         className="switch-review-arrow"
                         onClick={() => switchToPrev()}
                     />
+                    {/* TODO set here somethin like 1..252 underlined. go from newest requests to oldests */}
                     <p className="select-none text-[2rem] font-bold text-white">
-                        1
+                        {midIdx}
                     </p>
                     <FaArrowRight
                         size={30}
@@ -155,19 +166,29 @@ export default function Reviews() {
             className={`flex h-full flex-col bg-[url('images/reviews/foggy-city.jpg')] bg-center bg-no-repeat py-[2%]`}
         >
             <div className="h-full w-full flex-1">
-                <h1 className="text-center font-ptsans-bold text-4xl">
+                <h1 className="text-center font-ptsans-bold text-5xl">
                     Отзывы тех, кто уже совершил <br /> выгодную сделку с моей
                     помощью
                 </h1>
             </div>
             <div className="flex-2 flex h-full w-full flex-col items-center justify-center">
                 <div
+                    // FIXME add antispam restriction for horizontal scrolling to prevent review position shift
                     ref={sliderRef}
-                    className="z-20 flex w-full items-center overflow-hidden scroll-smooth py-[10%] max-mobile:h-full max-mobile:flex-col"
+                    className="z-20 flex w-full items-center overflow-hidden scroll-smooth py-[8%] max-mobile:h-full max-mobile:flex-col"
                 >
+                    {/* TODO decide what to do with confict of empty divs and smooth scrolling */}
+                    {/* <div */}
+                    {/*     id={'left-empty-space'} */}
+                    {/*     className={`${midIdx == 0 ? 'w-1/3' : 'w-0'} flex-shrink-0 transition-all`} */}
+                    {/* /> */}
                     {reviewsJsonArray.map((json, idx) => (
                         <ReviewDiv key={idx} json={json} positionIdx={idx} />
                     ))}
+                    {/* <div */}
+                    {/*     id={'right-empty-space'} */}
+                    {/*     className={`w-1/3 flex-shrink-0`} */}
+                    {/* /> */}
                 </div>
                 <SwitchArrows />
             </div>

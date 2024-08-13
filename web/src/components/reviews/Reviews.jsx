@@ -25,13 +25,15 @@ export default function Reviews() {
         RIGHT: midIdx + 1
     };
 
+    const [isScrollRight, setIsScrollRight] = useState(false);
+
     const sliderRef = useRef();
 
     useEffect(() => {
-      if(sliderRef.current) {
-        sliderRef.current.scrollLeft = 0
-      }
-    },[])
+        if (sliderRef.current) {
+            sliderRef.current.scrollLeft = 0;
+        }
+    }, []);
 
     const GLOBAL_VALUES = useSelector((state) => state.globalStringValues);
 
@@ -43,7 +45,7 @@ export default function Reviews() {
 
     function switchToPrev() {
         setMidIdx(midIdx - 1);
-        // setIsScrollRight(false);
+        setIsScrollRight(false);
         if (sliderRef.current) {
             sliderRef.current.scrollLeft -= scrollDistancePx;
         }
@@ -51,11 +53,9 @@ export default function Reviews() {
 
     function switchToNext() {
         setMidIdx(midIdx + 1);
-        // setIsScrollRight(true);
+        setIsScrollRight(true);
         if (sliderRef.current) {
-          console.log("before",sliderRef.current.scrollLeft)
             sliderRef.current.scrollLeft += scrollDistancePx;
-            console.log("after",sliderRef.current.scrollLeft)
         }
     }
 
@@ -72,19 +72,30 @@ export default function Reviews() {
 
     function ReviewDiv({ positionIdx, json }) {
         const [isShowMore, setIsShowMore] = useState(false);
-        const midElRef = useRef()
+        const reviewDivRef = useRef();
+
+        const isLeft = positionIdx === positions.LEFT;
+        const isMid = positionIdx === positions.MID;
+        const isRight = positionIdx === positions.RIGHT;
 
         useEffect(() => {
-          if (positionIdx === positions.MID) {
-            midElRef.current.style.transform = "scale(1.25)"
-            midElRef.current.classList.add("animate-scale-up")
-          }
-        }, [midIdx])
+            if (isMid) {
+                reviewDivRef.current.style.transform = 'scale(1.25)';
+                reviewDivRef.current.classList.add('animate-scale-up');
+            }
+            if (isScrollRight) {
+                if (isLeft) {
+                    reviewDivRef.current.classList.add('animate-scale-down');
+                }
+                // isRight &&
+                //     reviewDivRef.current.classList.add('animate-scale-down');
+            }
+        }, [midIdx]);
 
         return (
             <div
-                ref={midElRef}
-                className={`mx-[1.5%] h-[20em] w-[30%] flex-shrink-0 flex flex-col p-5 bg-white rounded-lg`}
+                ref={reviewDivRef}
+                className={`mx-[1.5%] flex h-[20em] w-[30%] flex-shrink-0 flex-col rounded-lg bg-white p-5`}
                 style={{
                     boxShadow: 'rgba(0, 0, 0, 0.56) 0px 22px 70px 4px'
                 }}
@@ -107,36 +118,35 @@ export default function Reviews() {
                 </div>
                 <p className="overflow-hidden">{json.reviewText}</p>
                 <p
-                    className={`w-fit select-none font-[0.7rem] underline hover:cursor-pointer hover:text-blue-500 py-[5%]`}
+                    className={`w-fit select-none py-[5%] font-[0.7rem] underline hover:cursor-pointer hover:text-blue-500`}
                     onClick={() => setIsShowMore(isShowMore ? false : true)}
                 >
-                  {isShowMore ?  'закрыть' : 'посмотреть полностью' }
+                    {isShowMore ? 'закрыть' : 'посмотреть полностью'}
                 </p>
             </div>
         );
     }
 
-    function SwitchArrows () {
-
-      return (
-      <div className="flex w-full justify-center">
-          <div className="flex items-center gap-5 z-50 bg-pink-400">
-              <FaArrowLeft
-                  size={30}
-                  className="switch-review-arrow"
-                  onClick={() => switchToPrev()}
-              />
-              <p className="select-none text-[2rem] font-bold text-white">
-                  1
-              </p>
-              <FaArrowRight
-                  size={30}
-                  className="switch-review-arrow"
-                  onClick={ () => switchToNext()}
-              />
-          </div>
-      </div>
-      )
+    function SwitchArrows() {
+        return (
+            <div className="absolute flex w-full justify-center">
+                <div className="z-50 flex items-center gap-5 bg-pink-400">
+                    <FaArrowLeft
+                        size={30}
+                        className="switch-review-arrow"
+                        onClick={() => switchToPrev()}
+                    />
+                    <p className="select-none text-[2rem] font-bold text-white">
+                        1
+                    </p>
+                    <FaArrowRight
+                        size={30}
+                        className="switch-review-arrow"
+                        onClick={() => switchToNext()}
+                    />
+                </div>
+            </div>
+        );
     }
 
     return (
@@ -152,13 +162,13 @@ export default function Reviews() {
             <div className="flex-2 flex h-full w-full flex-col items-center justify-center">
                 <div
                     ref={sliderRef}
-                    className="flex z-20 max-mobile:h-full max-mobile:flex-col items-center w-full scroll-smooth overflow-hidden py-[10%]"
+                    className="z-20 flex w-full items-center overflow-hidden scroll-smooth py-[10%] max-mobile:h-full max-mobile:flex-col"
                 >
                     {reviewsJsonArray.map((json, idx) => (
                         <ReviewDiv key={idx} json={json} positionIdx={idx} />
                     ))}
                 </div>
-                  <SwitchArrows />
+                <SwitchArrows />
             </div>
             <div className="flex w-full flex-1 justify-center">
                 <button

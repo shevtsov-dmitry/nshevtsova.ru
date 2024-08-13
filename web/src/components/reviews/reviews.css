@@ -15,31 +15,15 @@
     animation: scaleUp 400ms forwards;
 }
 
-@keyframes scaleDownLeft {
+@keyframes scaleDown {
     0% {
-        @apply h-[20em] w-1/2;
+        @apply scale-125;
     }
     100% {
-        @apply w-1/4;
+        @apply scale-100;
     }
 }
 
-.animate-scale-down-left {
-    animation: scaleDownLeft 400ms forwards;
-}
-
-@keyframes scaleDownRight {
-    0% {
-        @apply ml-[-25%] h-[20em] w-1/2;
-    }
-    60% {
-        @apply ml-0;
-    }
-    100% {
-        @apply w-1/4;
-    }
-}
-
-.animate-scale-down-right {
-    animation: scaleDownRight 400ms forwards;
+.animate-scale-down {
+    animation: scaleDown 400ms forwards;
 }

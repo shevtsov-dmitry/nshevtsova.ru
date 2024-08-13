@@ -84,18 +84,19 @@ export default function Reviews() {
                 reviewDivRef.current.classList.add('animate-scale-up');
             }
             if (isScrollRight) {
-                if (isLeft) {
+                isLeft &&
                     reviewDivRef.current.classList.add('animate-scale-down');
-                }
-                // isRight &&
-                //     reviewDivRef.current.classList.add('animate-scale-down');
+            }
+            if (!isScrollRight) {
+                isRight &&
+                    reviewDivRef.current.classList.add('animate-scale-down');
             }
         }, [midIdx]);
 
         return (
             <div
                 ref={reviewDivRef}
-                className={`mx-[1.5%] flex h-[20em] w-[30%] flex-shrink-0 flex-col rounded-lg bg-white p-5`}
+                className={`${isMid && 'z-20'} mx-[1.665%] flex h-[20em] w-[30%] flex-shrink-0 flex-col rounded-lg bg-white p-5`}
                 style={{
                     boxShadow: 'rgba(0, 0, 0, 0.56) 0px 22px 70px 4px'
                 }}

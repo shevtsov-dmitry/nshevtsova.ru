@@ -1,8 +1,7 @@
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import Navigation from './Navigation';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FaBars, FaWindowClose } from 'react-icons/fa';
+import Navigation from './Navigation';
 
 export default function Navbar() {
     const GLOBAL_VALUES = useSelector((state) => state.globalStringValues);
@@ -15,22 +14,33 @@ export default function Navbar() {
                 id="icons-holder"
                 className={`${heightCSS} ${isBurgerOpened ? 'max-laptop:flex' : 'max-laptop:hidden'} flex w-fit gap-7 max-laptop:flex-col max-laptop:gap-5`}
             >
-                <img
-                    src="images/navbar/telegram.png"
-                    className="icon"
-                    alt="telegram"
-                />
-                <img
-                    src="images/navbar/viber.png"
-                    className="icon"
-                    alt="viber"
-                />
-                <img src="images/navbar/vk.png" className="icon" alt="vk" />
-                <img
-                    src="images/navbar/whatsapp.png"
-                    className="icon"
-                    alt="whatsapp"
-                />
+                <a href={GLOBAL_VALUES.telegram} className="h-full w-full">
+                    <img
+                        src="images/navbar/telegram.png"
+                        className="icon"
+                        alt="telegram"
+                    />
+                </a>
+
+                <a href={GLOBAL_VALUES.viber} className="h-full w-full">
+                    <img
+                        src="images/navbar/viber.png"
+                        className="icon"
+                        alt="viber"
+                    />
+                </a>
+
+                <a href={GLOBAL_VALUES.vk} className="h-full w-full">
+                    <img src="images/navbar/vk.png" className="icon" alt="vk" />
+                </a>
+
+                <a href={GLOBAL_VALUES.whatsapp} className="h-full w-full">
+                    <img
+                        src="images/navbar/whatsapp.png"
+                        className="icon"
+                        alt="whatsapp"
+                    />
+                </a>
             </div>
         );
     }

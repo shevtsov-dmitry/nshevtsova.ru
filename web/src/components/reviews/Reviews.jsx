@@ -98,42 +98,44 @@ export default function Reviews() {
         }, [midIdx]);
 
         return (
-            <div
-                ref={reviewDivRef}
-                // className={`${isMid && 'z-20'} mx-[1.665%] flex h-[20em] w-[30%] flex-shrink-0 flex-col rounded-lg bg-white p-5`}
-                className={
-                    `mx-[3.1665%] flex h-[20em] w-[27%] flex-shrink-0 flex-col rounded-lg bg-white p-5 ` +
-                    ` ${isShowMore && isRight && 'right-0 z-50 h-auto'} ` +
-                    ` ${isShowMore && isLeft && 'left-0 z-50 h-auto'} ` +
-                    ` ${isShowMore && isMid && 'left-1/3 z-50 h-auto'} `
-                }
-                style={{
-                    boxShadow: 'rgba(0, 0, 0, 0.35) 0px 5px 15px'
-                }}
-            >
-                <div className="flex items-center gap-2 pb-[2%]">
-                    <img
-                        id="usr-pic"
-                        src={`images/reviews/default-user-pic.png`}
-                        className="w-[12%]"
-                    />
-                    <div>
-                        <h3 id="user-name">
-                            {json.name} {json.surname}
-                        </h3>
-                        <StarRating
-                            stars={json.stars}
-                            isDefaultChecked={true}
-                        />
-                    </div>
-                </div>
-                <p className={`overflow-hidden`}>{json.reviewText}</p>
-                <p
-                    className={`w-fit select-none py-[2%] font-[0.7rem] underline hover:cursor-pointer hover:text-blue-500`}
-                    onClick={() => setIsShowMore(isShowMore ? false : true)}
+            <div className="mx-[3.1665%] w-[27%] flex-shrink-0">
+                <div
+                    ref={reviewDivRef}
+                    // className={`${isMid && 'z-20'} mx-[1.665%] flex h-[20em] w-[30%] flex-shrink-0 flex-col rounded-lg bg-white p-5`}
+                    className={
+                        `flex h-[20em] flex-col rounded-lg bg-white p-5 ` +
+                        ` ${isShowMore && isLeft && 'z-50 h-auto'} ` +
+                        ` ${isShowMore && isMid && 'z-50 h-auto'} ` +
+                        ` ${isShowMore && isRight && 'z-50 h-auto'} `
+                    }
+                    style={{
+                        boxShadow: 'rgba(0, 0, 0, 0.35) 0px 5px 15px'
+                    }}
                 >
-                    {isShowMore ? 'закрыть' : 'посмотреть полностью'}
-                </p>
+                    <div className="flex items-center gap-2 pb-[2%]">
+                        <img
+                            id="usr-pic"
+                            src={`images/reviews/default-user-pic.png`}
+                            className="w-[12%]"
+                        />
+                        <div>
+                            <h3 id="user-name">
+                                {json.name} {json.surname}
+                            </h3>
+                            <StarRating
+                                stars={json.stars}
+                                isDefaultChecked={true}
+                            />
+                        </div>
+                    </div>
+                    <p className={`overflow-hidden`}>{json.reviewText}</p>
+                    <p
+                        className={`w-fit select-none py-[2%] font-[0.7rem] underline hover:cursor-pointer hover:text-blue-500`}
+                        onClick={() => setIsShowMore(isShowMore ? false : true)}
+                    >
+                        {isShowMore ? 'закрыть' : 'посмотреть полностью'}
+                    </p>
+                </div>
             </div>
         );
     }
@@ -163,7 +165,7 @@ export default function Reviews() {
 
     return (
         <div
-            className={`flex h-full flex-col bg-[url('images/reviews/foggy-city.jpg')] bg-center bg-no-repeat py-[2%]`}
+            className={`flex h-full flex-col bg-[url('images/reviews/foggy-city.jpg')] bg-cover bg-no-repeat py-[2%]`}
         >
             <div className="h-full w-full flex-1">
                 <h1 className="text-center font-ptsans-bold text-5xl">

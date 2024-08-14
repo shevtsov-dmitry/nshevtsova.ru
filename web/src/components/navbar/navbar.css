@@ -1,5 +1,5 @@
 .icon {
-    @apply transition-all hover:cursor-pointer hover:brightness-125;
+    @apply h-full w-full transition-all hover:cursor-pointer hover:brightness-125;
 }
 
 .tab-txt {

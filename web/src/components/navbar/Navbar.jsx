@@ -8,9 +8,11 @@ export default function Navbar() {
 
     return (
         <div
-            className={`${heightCSS} absolute z-10 mt-[1%] flex w-full justify-between`}
+            className={`${heightCSS} absolute z-10 mt-[1%] flex w-full justify-between bg-purple-700`}
         >
-            <Navigation textSize={'text-3xl'} font={'font-jost'} />
+            <div className="ml-[4%] mt-[0.15rem]">
+                <Navigation textSize={'text-3xl'} font={'font-jost'} />
+            </div>
             <div
                 id="phone-num-and-icons-holder"
                 className="mr-[4%] flex items-center gap-7"

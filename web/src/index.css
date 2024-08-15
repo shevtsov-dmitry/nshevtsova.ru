@@ -7,7 +7,7 @@
 
 @font-face {
     font-family: 'Andika-Bold';
-    src: url('public/fonts/.ttf') format('truetype');
+    src: url('public/fonts/Andika-Bold.ttf') format('truetype');
     font-weight: bold;
     font-style: normal;
 }

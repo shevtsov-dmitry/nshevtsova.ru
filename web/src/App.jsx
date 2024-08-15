@@ -1,3 +1,4 @@
+import Advantages from './components/advantages/Advantages.jsx';
 import Footer from './components/footer/Footer.jsx';
 import Navbar from './components/navbar/Navbar.jsx';
 import OfferedServices from './components/offeredServices/OfferedServices.jsx';
@@ -10,7 +11,7 @@ function App() {
             <Navbar />
             <Preview />
             <OfferedServices />
-            <div className="h-[700px] w-full bg-black"></div>
+            <Advantages />
             <Reviews />
             <Footer />
         </div>

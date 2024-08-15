@@ -1,6 +1,6 @@
 export default function Advantages() {
     return (
-        <div className="h-fit w-full flex flex-col text-black gap-5 py-[2%] px-[5%]"
+        <div className="h-fit w-full flex flex-col text-black gap-5 pt-[2%] px-[5%]"
         // style={ {
         //     background: "rgb(210,210,210) radial-gradient(circle, rgba(210,210,210,0.8253502084427521) 0%, rgba(207,216,226,0.4107843821122199) 100%)",
         //   } }

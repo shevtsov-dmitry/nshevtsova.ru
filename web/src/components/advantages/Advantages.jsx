@@ -11,28 +11,28 @@ export default function Advantages() {
             <h1 className=" font-ptsans-bold text-4xl">ВОЗЬМУ ВСЮ РАБОТУ НА СЕБЯ</h1>
             <p className="text-2xl">
                 Моя задача - сохранить ваше время и деньги и уберечь от стресса
-                в таком нелегком процессе, как продажа квартиры. Сбор
+                в таком нелегком процессе, как продажа квартиры. <br/> Сбор
                 необходимых документов, уборка в квартире, размещение
                 объявлений, показы и заключение сделки — все эти этапы я возьму
-                на себя. А вы каждую неделю будете получать подробный отчет о
+                на себя. <br/> А вы каждую неделю будете получать подробный отчет о
                 результатах.
             </p>
             <ul className="flex text-[1rem]">
                 <li className="advantage-icon-holder">
                     <img src="images/advantages/benefits.png" alt="" />
-                    <p>Решение о цене недвижимости всегда за клиентом</p>
+                    <p className="font-medium">Решение о цене недвижимости всегда за клиентом</p>
                 </li>
                 <li className="advantage-icon-holder">
                     <img src="images/advantages/pack-house.png" alt="" />
-                    <p>Грамотная упаковка объекта для продажи</p>
+                    <p className="font-medium">Грамотная упаковка объекта для продажи</p>
                 </li>
                 <li className="advantage-icon-holder">
                     <img src="images/advantages/evaluate.png" alt="" />
-                    <p>Точная и качественная оценка квартиры</p>
+                    <p className="font-medium">Точная и качественная оценка квартиры</p>
                 </li>
                 <li className="advantage-icon-holder">
                     <img src="images/advantages/adds.png" alt="" />
-                    <p>Эффективная реклама и размещение объявлений</p>
+                    <p className="font-medium">Эффективная реклама и размещение объявлений</p>
                 </li>
             </ul>
         </div>

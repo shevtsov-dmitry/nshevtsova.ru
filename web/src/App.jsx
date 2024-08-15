@@ -1,3 +1,4 @@
+import AboutMe from './components/aboutme/AboutMe.jsx';
 import Advantages from './components/advantages/Advantages.jsx';
 import Footer from './components/footer/Footer.jsx';
 import Navbar from './components/navbar/Navbar.jsx';
@@ -12,6 +13,7 @@ function App() {
             <Preview />
             <OfferedServices />
             <Advantages />
+            <AboutMe/>
             <Reviews />
             <Footer />
         </div>

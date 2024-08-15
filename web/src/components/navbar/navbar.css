@@ -7,5 +7,5 @@
 }
 
 .tab-txt-arrow-down {
-    @apply absolute mt-1 text-[60%];
+    @apply absolute mt-1 text-[80%];
 }

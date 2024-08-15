@@ -1,1 +1,19 @@
+.li-holder {
+    @apply flex justify-between gap-3;
+}
 
+.li-num {
+    @apply text-[2.5rem] text-[#F2AD2A];
+}
+
+.li-num-holder {
+    @apply flex w-1/5 justify-end;
+}
+
+.li-txt {
+    @apply text-[2.5rem] text-white;
+}
+
+.li-txt-holder {
+    @apply flex w-full justify-start;
+}

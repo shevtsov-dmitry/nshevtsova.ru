@@ -1,5 +1,6 @@
 @import './components/navbar/navbar.css';
 @import './components/reviews/reviews.css';
+@import './components/advantages/advantages.css';
 
 @tailwind base;
 @tailwind components;

@@ -1,8 +1,13 @@
 package ru.nshevtsova.estates.enums;
 
+import lombok.AllArgsConstructor;
+import lombok.ToString;
+
 /**
  * FinishingType
  */
+@AllArgsConstructor
+@ToString
 public enum FinishingType {
 
     CLEAN("чистовая"),
@@ -11,13 +16,4 @@ public enum FinishingType {
     ;
 
     private String name;
-
-    FinishingType(String name) {
-        this.name = name;
-    }
-
-    @Override
-    public String toString() {
-        return name;
-    }
 }

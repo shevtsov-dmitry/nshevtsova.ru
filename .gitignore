@@ -8,4 +8,5 @@ node_modules
 server/target
 server.db
 .project
+.factorypath
 .classpath

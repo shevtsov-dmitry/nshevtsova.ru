@@ -1,17 +1,19 @@
 package ru.nshevtsova.estates.types;
 
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
-@AllArgsConstructor
+@Data
 @RequiredArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class EstateOutsideAttributes {
 
-    private short floor;
-    private short allFloors;
-    private short releaseDate; // год сдачи
+    private int floor;
+    private int allFloors;
+    private int releaseDate; // год сдачи
     private boolean isThereParking;
     private String windowViewDescription;
 }

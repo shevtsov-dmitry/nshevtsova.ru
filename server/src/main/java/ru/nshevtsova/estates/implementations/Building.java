@@ -4,24 +4,24 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import ru.nshevtsova.estates.types.Estate;
+import ru.nshevtsova.estates.types.EstateInsideAttributes;
+import ru.nshevtsova.estates.types.EstateOutsideAttributes;
 
-/**
- * Building
- */
+import java.util.List;
 
 @Entity
+@Data
 @NoArgsConstructor
 public class Building extends Estate {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private BalconyType balcony;
+    private @NonNull BalconyType balcony;
+    private @NonNull EstateInsideAttributes insideAttributes;
+    private @NonNull EstateOutsideAttributes outsideAttributes;
 
     @ToString
     @RequiredArgsConstructor

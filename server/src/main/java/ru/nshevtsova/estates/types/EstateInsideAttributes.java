@@ -7,10 +7,12 @@ import lombok.*;
 @NoArgsConstructor
 @RequiredArgsConstructor
 public class EstateInsideAttributes {
-    private @NonNull  int roomsAmount;
-    private @NonNull float totalSizeSquareMeters;
-    private float kitchenSizeSquareMeters;
+
+    private @NonNull int roomsAmount;
+    private @NonNull double totalSizeSquareMeters;
+    private double kitchenSizeSquareMeters;
     private @NonNull boolean finishing; // отделка
-    private float ceilHeight;
-    private short toiletsAmount;
+    private double ceilHeight;
+    private int toiletsAmount;
+
 }

@@ -2,6 +2,7 @@ dist
 node_modules
 *.Identifier
 .idea
+*.iml
 .settings
 
 server/target

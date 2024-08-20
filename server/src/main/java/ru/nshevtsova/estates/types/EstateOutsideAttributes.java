@@ -27,7 +27,6 @@ public class EstateOutsideAttributes {
 
     private @NonNull int roomsAmount;
     private @NonNull double totalSizeSquareMeters;
-
     private double kitchenSizeSquareMeters;
     private boolean finishing; // отделка
     private double ceilHeight;

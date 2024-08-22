@@ -6,12 +6,17 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 @RequiredArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @ToString
 public class EstateInsideAttributes {
@@ -20,14 +25,14 @@ public class EstateInsideAttributes {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private @NonNull int floor;
-    private @NonNull int allFloors;
-    private @NonNull int releaseDate; // год сдачи
-    private boolean isThereParking;
-    private String windowViewDescription;
+    private @NonNull int roomsAmount;
+    private @NonNull double totalSizeSquareMeters;
+    private double kitchenSizeSquareMeters;
+    private boolean hasParking; // отделка
+    private double ceilHeight;
+    private int toiletsAmount;
 
     @OneToOne
     @JoinColumn(name = "estate_id")
     private Estate estate;
-
 }

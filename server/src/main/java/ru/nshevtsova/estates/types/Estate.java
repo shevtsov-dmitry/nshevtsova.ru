@@ -8,19 +8,13 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import lombok.ToString;
 import ru.nshevtsova.estates.enums.EstateType;
 
-/**
- * Estate
- */
-@Data
 @Entity
 @NoArgsConstructor
-@ToString
+@Data
 public class Estate {
 
     @Id
@@ -31,10 +25,10 @@ public class Estate {
     private EstateType estateType;
 
     @OneToOne(mappedBy = "estate", cascade = CascadeType.ALL, orphanRemoval = true)
-    private EstateInsideAttributes insideAttributes;
+    private EstateOutsideAttributes outsideAttributes;
 
     @OneToOne(mappedBy = "estate", cascade = CascadeType.ALL, orphanRemoval = true)
-    private EstateOutsideAttributes outsideAttributes;
+    private EstateInsideAttributes insideAttributes;
 
     // Convenience methods to set bi-directional relationships
     public void setInsideAttributes(EstateInsideAttributes insideAttributes) {
@@ -46,5 +40,4 @@ public class Estate {
         this.outsideAttributes = outsideAttributes;
         outsideAttributes.setEstate(this);
     }
-
 }

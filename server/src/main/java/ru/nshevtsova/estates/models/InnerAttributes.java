@@ -28,7 +28,7 @@ public class InnerAttributes {
     private @NonNull int roomsAmount;
     private @NonNull double totalSizeSquareMeters;
     private double kitchenSizeSquareMeters;
-    private boolean hasParking; // отделка
+    private boolean hasFinishing; // отделка
     private double ceilHeight;
     private int toiletsAmount;
 

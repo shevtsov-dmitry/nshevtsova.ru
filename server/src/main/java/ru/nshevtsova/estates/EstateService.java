@@ -1,7 +1,5 @@
 package ru.nshevtsova.estates;
 
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,7 +16,6 @@ import ru.nshevtsova.estates.repos.InnerAttributesRepo;
 import ru.nshevtsova.estates.repos.OuterAttributesRepo;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -61,7 +58,7 @@ public class EstateService {
                 outAttr.setHasParking((boolean) map.get("hasParking"));
                 outAttr.setReleaseDate((int) map.get("releaseDate"));
             } else {
-                inAttr.setHasParking((boolean) map.get("hasFinishing"));
+                inAttr.setHasFinishing((boolean) map.get("hasFinishing"));
                 inAttr.setCeilHeight((double) map.get("ceilHeight"));
                 inAttr.setRoomsAmount((int) map.get("roomsAmount"));
                 inAttr.setTotalSizeSquareMeters((double) map.get("totalSizeSquareMeters"));
@@ -87,7 +84,9 @@ public class EstateService {
         List<Estate> recentEstates = estateRepo.findRecentlyAdded(requestedAmountRestriction);
         List<List<Object>> jsonList = new ArrayList<>(recentEstates.size());
         for (Estate estate : recentEstates) {
+
             Object estateJson = objectMapper.convertValue(estate, Object.class);
+            // FIXME exclude Estate object from inner and outer atributes jsons to optimize transferred memory
             Object inAttrJson = objectMapper.convertValue(innerAttributesRepo.getByEstateId(estate.getId()), Object.class);
             Object outAttrJson = objectMapper.convertValue(outerAttributesRepo.getByEstateId(estate.getId()), Object.class);
             jsonList.add(List.of(estateJson, inAttrJson, outAttrJson));

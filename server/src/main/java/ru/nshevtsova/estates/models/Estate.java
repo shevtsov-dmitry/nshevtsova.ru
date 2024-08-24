@@ -24,21 +24,6 @@ public class Estate {
 
     @CreatedDate
     @Column(updatable = false)
-    private LocalDateTime createdAt;
+    private final LocalDateTime createdAt = LocalDateTime.now();
 
-//    @OneToOne(mappedBy = "estate", cascade = CascadeType.ALL, orphanRemoval = true)
-//    private OuterAttributes outerAttributes;
-//
-//    @OneToOne(mappedBy = "estate", cascade = CascadeType.ALL, orphanRemoval = true)
-//    private InsideAttributes insideAttributes;
-//
-//    public void setInsideAttributes(InsideAttributes insideAttributes) {
-//        this.insideAttributes = insideAttributes;
-//        insideAttributes.setEstate(this);
-//    }
-//
-//    public void setOuterAttributes(OuterAttributes outerAttributes) {
-//        this.outerAttributes = outerAttributes;
-//        outerAttributes.setEstate(this);
-//    }
 }

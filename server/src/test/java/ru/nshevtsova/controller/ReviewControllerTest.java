@@ -5,14 +5,19 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Repeat;
 import org.springframework.test.web.servlet.MockMvc;
 
 import ru.nshevtsova.custom.CustomTestUtils;
+
+import java.util.Random;
+import java.util.random.RandomGenerator;
 
 /**
  * ReviewControllerTest
@@ -24,23 +29,23 @@ public class ReviewControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @Value("${CURRENT_SERVER_URL}")
+    @Value("${SERVER_URL}")
     private String CURRENT_SERVER_URL;
     private String ENDPOINT_URL;
 
     @BeforeEach
-    private void initialize() {
-        ENDPOINT_URL = CURRENT_SERVER_URL + "/v0/reviews";
+    void initialize() {
+        ENDPOINT_URL = CURRENT_SERVER_URL + "/reviews";
     }
 
     @Test
-    private void saveUserReview() throws Exception {
-        // String url = ENDPOINT_URL + "/add";
-        String url = ENDPOINT_URL + "/ad";
+    void saveUserReview() throws Exception {
+        String url = ENDPOINT_URL + "/add";
         JSONObject json = new JSONObject();
-        json.put("name", "");
-        json.put("surname", "");
-        json.put("stars", "");
+        String[] nameSurname = CustomTestUtils.generateNameSurname();
+        json.put("name", nameSurname[0]);
+        json.put("surname", nameSurname[1]);
+        json.put("stars", RandomGenerator.getDefault().nextInt(5));
         json.put("reviewText", CustomTestUtils.generateUserReview());
 
         mockMvc.perform(

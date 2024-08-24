@@ -1,4 +1,4 @@
-package ru.nshevtsova.estates.types;
+package ru.nshevtsova.estates.models;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -19,7 +19,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @Entity
 @ToString
-public class EstateInsideAttributes {
+public class InsideAttributes {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

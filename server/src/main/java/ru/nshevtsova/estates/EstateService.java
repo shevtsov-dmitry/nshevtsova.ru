@@ -7,18 +7,31 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ru.nshevtsova.estates.enums.EstateType;
-import ru.nshevtsova.estates.types.Estate;
-import ru.nshevtsova.estates.types.EstateOutsideAttributes;
-import ru.nshevtsova.estates.types.EstateInsideAttributes;
+import ru.nshevtsova.estates.models.Estate;
+import ru.nshevtsova.estates.models.OuterAttributes;
+import ru.nshevtsova.estates.models.InsideAttributes;
+import ru.nshevtsova.estates.repos.EstateRepo;
+import ru.nshevtsova.estates.repos.InnerAttributesRepo;
+import ru.nshevtsova.estates.repos.OuterAttributesRepo;
 
 @Service
 public class EstateService {
 
+    private EstateRepo estateRepo;
+    private InnerAttributesRepo innerAttributesRepo;
+    private OuterAttributesRepo outerAttributesRepo;
+
+    public EstateService(EstateRepo estateRepo, InnerAttributesRepo innerAttributesRepo, OuterAttributesRepo outerAttributesRepo) {
+        this.estateRepo = estateRepo;
+        this.innerAttributesRepo = innerAttributesRepo;
+        this.outerAttributesRepo = outerAttributesRepo;
+    }
+
     public Estate addNewEstate(List<LinkedHashMap> jsonMapList) {
 
         Estate estate = new Estate();
-        EstateInsideAttributes inAttr = new EstateInsideAttributes();
-        EstateOutsideAttributes outAttr = new EstateOutsideAttributes();
+        InsideAttributes inAttr = new InsideAttributes();
+        OuterAttributes outAttr = new OuterAttributes();
 
         // TODO check them all for null. Currently doesn't save even when json has one empty parameter
         for (var map : jsonMapList) {
@@ -45,7 +58,12 @@ public class EstateService {
         }
 
         estate.setInsideAttributes(inAttr);
-        estate.setOutsideAttributes(outAttr);
+        estate.setOuterAttributes(outAttr);
+
+        // TODO try catch here
+        estateRepo.save(estate);
+        innerAttributesRepo.save(inAttr);
+        outerAttributesRepo.save(outAttr);
 
         return estate;
     }

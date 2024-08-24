@@ -1,4 +1,4 @@
-package ru.nshevtsova.estates.types;
+package ru.nshevtsova.estates.models;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -6,7 +6,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -15,6 +14,7 @@ import ru.nshevtsova.estates.enums.EstateType;
 @Entity
 @NoArgsConstructor
 @Data
+@ToString
 public class Estate {
 
     @Id
@@ -25,19 +25,18 @@ public class Estate {
     private EstateType estateType;
 
     @OneToOne(mappedBy = "estate", cascade = CascadeType.ALL, orphanRemoval = true)
-    private EstateOutsideAttributes outsideAttributes;
+    private OuterAttributes outerAttributes;
 
     @OneToOne(mappedBy = "estate", cascade = CascadeType.ALL, orphanRemoval = true)
-    private EstateInsideAttributes insideAttributes;
+    private InsideAttributes insideAttributes;
 
-    // Convenience methods to set bi-directional relationships
-    public void setInsideAttributes(EstateInsideAttributes insideAttributes) {
+    public void setInsideAttributes(InsideAttributes insideAttributes) {
         this.insideAttributes = insideAttributes;
         insideAttributes.setEstate(this);
     }
 
-    public void setOutsideAttributes(EstateOutsideAttributes outsideAttributes) {
-        this.outsideAttributes = outsideAttributes;
-        outsideAttributes.setEstate(this);
+    public void setOuterAttributes(OuterAttributes outerAttributes) {
+        this.outerAttributes = outerAttributes;
+        outerAttributes.setEstate(this);
     }
 }

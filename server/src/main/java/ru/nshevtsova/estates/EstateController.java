@@ -6,7 +6,7 @@ import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import ru.nshevtsova.estates.types.Estate;
+import ru.nshevtsova.estates.models.Estate;
 
 import java.util.LinkedHashMap;
 import java.util.List;

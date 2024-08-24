@@ -1,5 +1,6 @@
 package ru.nshevtsova.estates;
 
+import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
@@ -81,20 +82,15 @@ public class EstateService {
         return estate;
     }
 
-    public List<List<String>> getRecentEstates(int amount) {
+    public List<List<Object>> getRecentEstates(int amount) {
         final Pageable requestedAmountRestriction = PageRequest.of(0, amount);
         List<Estate> recentEstates = estateRepo.findRecentlyAdded(requestedAmountRestriction);
-        List<List<String>> jsonList = new ArrayList<>(recentEstates.size());
+        List<List<Object>> jsonList = new ArrayList<>(recentEstates.size());
         for (Estate estate : recentEstates) {
-            try {
-                String estateJson = objectMapper.writeValueAsString(estate);
-                String inAttrJson = objectMapper.writeValueAsString(innerAttributesRepo.getByEstateId(estate.getId()));
-                String outAttrJson = objectMapper.writeValueAsString(outerAttributesRepo.getByEstateId(estate.getId()));
-                jsonList.add(List.of(estateJson, inAttrJson, outAttrJson));
-            } catch (JsonProcessingException e) {
-                LOG.error(e.getMessage());
-                return Collections.emptyList();
-            }
+            Object estateJson = objectMapper.convertValue(estate, Object.class);
+            Object inAttrJson = objectMapper.convertValue(innerAttributesRepo.getByEstateId(estate.getId()), Object.class);
+            Object outAttrJson = objectMapper.convertValue(outerAttributesRepo.getByEstateId(estate.getId()), Object.class);
+            jsonList.add(List.of(estateJson, inAttrJson, outAttrJson));
         }
         return jsonList;
     }

@@ -28,9 +28,9 @@ public class EstateController {
     }
 
     @GetMapping("/get/recent/{amount}")
-    public ResponseEntity<List<List<String>>> getRecentEstates(@PathVariable int amount) {
+    public ResponseEntity<List<List<Object>>> getRecentEstates(@PathVariable int amount) {
         var jsonList = service.getRecentEstates(amount);
-        return jsonList.isEmpty() ? ResponseEntity.internalServerError().build() : ResponseEntity.ok(jsonList);
+        return ResponseEntity.ok(jsonList);
     }
 
 

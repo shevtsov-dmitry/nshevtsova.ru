@@ -6,4 +6,5 @@ import ru.nshevtsova.estates.models.InsideAttributes;
 
 @Repository
 public interface InnerAttributesRepo  extends JpaRepository<InsideAttributes, Long> {
+    InsideAttributes getByEstateId(Long estateId);
 }

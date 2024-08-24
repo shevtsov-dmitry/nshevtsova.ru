@@ -38,7 +38,8 @@ public class ReviewControllerTest {
         ENDPOINT_URL = CURRENT_SERVER_URL + "/reviews";
     }
 
-    @Test
+//    @Test
+    @RepeatedTest(15)
     void saveUserReview() throws Exception {
         String url = ENDPOINT_URL + "/add";
         JSONObject json = new JSONObject();

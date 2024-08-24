@@ -17,9 +17,9 @@ import ru.nshevtsova.estates.repos.OuterAttributesRepo;
 @Service
 public class EstateService {
 
-    private EstateRepo estateRepo;
-    private InnerAttributesRepo innerAttributesRepo;
-    private OuterAttributesRepo outerAttributesRepo;
+    private final EstateRepo estateRepo;
+    private final InnerAttributesRepo innerAttributesRepo;
+    private final OuterAttributesRepo outerAttributesRepo;
 
     public EstateService(EstateRepo estateRepo, InnerAttributesRepo innerAttributesRepo, OuterAttributesRepo outerAttributesRepo) {
         this.estateRepo = estateRepo;
@@ -57,15 +57,22 @@ public class EstateService {
 
         }
 
-        estate.setInsideAttributes(inAttr);
-        estate.setOuterAttributes(outAttr);
-
         // TODO try catch here
-        estateRepo.save(estate);
+        final Estate savedEstate = estateRepo.save(estate);
+        inAttr.setEstate(savedEstate);
+        outAttr.setEstate(savedEstate);
+
         innerAttributesRepo.save(inAttr);
         outerAttributesRepo.save(outAttr);
 
         return estate;
     }
 
+    public List<Estate> getRecentEstates(int amount) {
+        return null;
+    }
+
+    public List<Estate> getAllEstates() {
+        return estateRepo.findAll();
+    }
 }

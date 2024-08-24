@@ -2,6 +2,7 @@ package ru.nshevtsova.controller;
 
 import org.assertj.core.api.Assertions;
 import org.json.JSONObject;
+import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -29,9 +30,9 @@ public class EstateControllerTest {
     private MockMvc mockMvc;
 
     Random rand = new Random();
-    String chars = IntStream.range(90, 120).mapToObj(num -> String.format("%c", num)).collect(Collectors.joining()).concat(" ");
+    String chars = "abcdefghijclmnopqrstuvwxyzабвгдеёжзийклмнопрстуфхцчшщъыйэюя.?!".concat(" ".repeat(5));
 
-    @Test
+    @RepeatedTest(15)
     void saveEstate() throws Exception {
         final var estate = new JSONObject();
         estate.put("price", rand.nextInt(900_000, 20_000_000));

@@ -6,4 +6,5 @@ import ru.nshevtsova.estates.models.OuterAttributes;
 
 @Repository
 public interface OuterAttributesRepo  extends JpaRepository<OuterAttributes, Long> {
+    OuterAttributes getByEstateId(Long estateId);
 }

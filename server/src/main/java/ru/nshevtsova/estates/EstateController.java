@@ -3,9 +3,7 @@ package ru.nshevtsova.estates;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import ru.nshevtsova.estates.models.Estate;
 
 import java.util.LinkedHashMap;
@@ -27,6 +25,16 @@ public class EstateController {
         var savedEstate = service.addNewEstate(estateData);
         Assert.notNull(savedEstate, "ERROR (NULL): couldn't save estate /estates/add");
         return ResponseEntity.ok(savedEstate);
+    }
+
+    @GetMapping("/get/recent/{amount}")
+    public ResponseEntity<List<Estate>> getRecentEstates(@PathVariable int amount) {
+        return ResponseEntity.ok(service.getRecentEstates(amount));
+    }
+
+    @GetMapping("/get/all")
+    public ResponseEntity<List<Estate>> getAllEstates() {
+        return ResponseEntity.ok(service.getAllEstates());
     }
 
 }

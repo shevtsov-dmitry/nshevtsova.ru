@@ -30,6 +30,6 @@ public class Review {
 
     @CreatedDate
     @Column(updatable = false)
-    private LocalDateTime createdAt;
+    private final LocalDateTime createdAt = LocalDateTime.now();
 
 }

@@ -19,7 +19,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @Entity
 @ToString
-public class InsideAttributes {
+public class InnerAttributes {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

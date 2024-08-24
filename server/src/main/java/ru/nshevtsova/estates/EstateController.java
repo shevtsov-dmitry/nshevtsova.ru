@@ -28,13 +28,10 @@ public class EstateController {
     }
 
     @GetMapping("/get/recent/{amount}")
-    public ResponseEntity<List<Estate>> getRecentEstates(@PathVariable int amount) {
-        return ResponseEntity.ok(service.getRecentEstates(amount));
+    public ResponseEntity<List<List<String>>> getRecentEstates(@PathVariable int amount) {
+        var jsonList = service.getRecentEstates(amount);
+        return jsonList.isEmpty() ? ResponseEntity.internalServerError().build() : ResponseEntity.ok(jsonList);
     }
 
-    @GetMapping("/get/all")
-    public ResponseEntity<List<Estate>> getAllEstates() {
-        return ResponseEntity.ok(service.getAllEstates());
-    }
 
 }

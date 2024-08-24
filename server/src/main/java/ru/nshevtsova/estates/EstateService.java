@@ -1,27 +1,40 @@
 package ru.nshevtsova.estates;
 
-import java.util.LinkedHashMap;
-import java.util.List;
-
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
 import ru.nshevtsova.estates.enums.EstateType;
 import ru.nshevtsova.estates.models.Estate;
+import ru.nshevtsova.estates.models.InnerAttributes;
 import ru.nshevtsova.estates.models.OuterAttributes;
-import ru.nshevtsova.estates.models.InsideAttributes;
 import ru.nshevtsova.estates.repos.EstateRepo;
 import ru.nshevtsova.estates.repos.InnerAttributesRepo;
 import ru.nshevtsova.estates.repos.OuterAttributesRepo;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.List;
+
 @Service
 public class EstateService {
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
     private final EstateRepo estateRepo;
     private final InnerAttributesRepo innerAttributesRepo;
     private final OuterAttributesRepo outerAttributesRepo;
+    private final Logger LOG = LoggerFactory.getLogger(EstateService.class);
 
-    public EstateService(EstateRepo estateRepo, InnerAttributesRepo innerAttributesRepo, OuterAttributesRepo outerAttributesRepo) {
+    public EstateService(EstateRepo estateRepo,
+                         InnerAttributesRepo innerAttributesRepo,
+                         OuterAttributesRepo outerAttributesRepo) {
         this.estateRepo = estateRepo;
         this.innerAttributesRepo = innerAttributesRepo;
         this.outerAttributesRepo = outerAttributesRepo;
@@ -30,7 +43,7 @@ public class EstateService {
     public Estate addNewEstate(List<LinkedHashMap> jsonMapList) {
 
         Estate estate = new Estate();
-        InsideAttributes inAttr = new InsideAttributes();
+        InnerAttributes inAttr = new InnerAttributes();
         OuterAttributes outAttr = new OuterAttributes();
 
         // TODO check them all for null. Currently doesn't save even when json has one empty parameter
@@ -68,11 +81,22 @@ public class EstateService {
         return estate;
     }
 
-    public List<Estate> getRecentEstates(int amount) {
-        return null;
+    public List<List<String>> getRecentEstates(int amount) {
+        final Pageable requestedAmountRestriction = PageRequest.of(0, amount);
+        List<Estate> recentEstates = estateRepo.findRecentlyAdded(requestedAmountRestriction);
+        List<List<String>> jsonList = new ArrayList<>(recentEstates.size());
+        for (Estate estate : recentEstates) {
+            try {
+                String estateJson = objectMapper.writeValueAsString(estate);
+                String inAttrJson = objectMapper.writeValueAsString(innerAttributesRepo.getByEstateId(estate.getId()));
+                String outAttrJson = objectMapper.writeValueAsString(outerAttributesRepo.getByEstateId(estate.getId()));
+                jsonList.add(List.of(estateJson, inAttrJson, outAttrJson));
+            } catch (JsonProcessingException e) {
+                LOG.error(e.getMessage());
+                return Collections.emptyList();
+            }
+        }
+        return jsonList;
     }
 
-    public List<Estate> getAllEstates() {
-        return estateRepo.findAll();
-    }
 }

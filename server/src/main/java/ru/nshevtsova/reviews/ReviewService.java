@@ -21,7 +21,7 @@ public class ReviewService {
         return repo.findRecentlyAdded(requestedAmountRestriction);
     }
 
-    public Review addReview(Review review) throws Exception {
+    public Review addReview(Review review) {
         return repo.save(review);
     }
 

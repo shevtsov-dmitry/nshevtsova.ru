@@ -2,9 +2,9 @@ package ru.nshevtsova.estates.repos;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import ru.nshevtsova.estates.models.InsideAttributes;
+import ru.nshevtsova.estates.models.InnerAttributes;
 
 @Repository
-public interface InnerAttributesRepo  extends JpaRepository<InsideAttributes, Long> {
-    InsideAttributes getByEstateId(Long estateId);
+public interface InnerAttributesRepo  extends JpaRepository<InnerAttributes, Long> {
+    InnerAttributes getByEstateId(Long estateId);
 }

@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 import ru.nshevtsova.estates.models.Estate;
+import ru.nshevtsova.estates.models.EstatesDataHolder;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -28,7 +29,7 @@ public class EstateController {
     }
 
     @GetMapping("/get/recent/{amount}")
-    public ResponseEntity<List<List<Object>>> getRecentEstates(@PathVariable int amount) {
+    public ResponseEntity<List<EstatesDataHolder>> getRecentEstates(@PathVariable int amount) {
         var jsonList = service.getRecentEstates(amount);
         return ResponseEntity.ok(jsonList);
     }

@@ -1,14 +1,13 @@
 package ru.nshevtsova.estates;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import ru.nshevtsova.estates.enums.EstateType;
 import ru.nshevtsova.estates.models.Estate;
+import ru.nshevtsova.estates.models.EstatesDataHolder;
 import ru.nshevtsova.estates.models.InnerAttributes;
 import ru.nshevtsova.estates.models.OuterAttributes;
 import ru.nshevtsova.estates.repos.EstateRepo;
@@ -22,13 +21,10 @@ import java.util.List;
 @Service
 public class EstateService {
 
-    @Autowired
-    private ObjectMapper objectMapper;
-
     private final EstateRepo estateRepo;
     private final InnerAttributesRepo innerAttributesRepo;
     private final OuterAttributesRepo outerAttributesRepo;
-    private final Logger LOG = LoggerFactory.getLogger(EstateService.class);
+//    private final Logger LOG = LoggerFactory.getLogger(EstateService.class);
 
     public EstateService(EstateRepo estateRepo,
                          InnerAttributesRepo innerAttributesRepo,
@@ -45,6 +41,7 @@ public class EstateService {
         OuterAttributes outAttr = new OuterAttributes();
 
         // TODO check them all for null. Currently doesn't save even when json has one empty parameter
+        // FIXME remake on record mapper
         for (var map : jsonMapList) {
             if (map.containsKey("price")) {
                 estate.setPrice((int) map.get("price"));
@@ -79,19 +76,17 @@ public class EstateService {
         return estate;
     }
 
-    public List<List<Object>> getRecentEstates(int amount) {
+    public List<EstatesDataHolder> getRecentEstates(int amount) {
         final Pageable requestedAmountRestriction = PageRequest.of(0, amount);
         List<Estate> recentEstates = estateRepo.findRecentlyAdded(requestedAmountRestriction);
-        List<List<Object>> jsonList = new ArrayList<>(recentEstates.size());
+        List<EstatesDataHolder> dataHolderList = new ArrayList<>(recentEstates.size());
         for (Estate estate : recentEstates) {
-
-            Object estateJson = objectMapper.convertValue(estate, Object.class);
             // FIXME exclude Estate object from inner and outer atributes jsons to optimize transferred memory
-            Object inAttrJson = objectMapper.convertValue(innerAttributesRepo.getByEstateId(estate.getId()), Object.class);
-            Object outAttrJson = objectMapper.convertValue(outerAttributesRepo.getByEstateId(estate.getId()), Object.class);
-            jsonList.add(List.of(estateJson, inAttrJson, outAttrJson));
+            InnerAttributes inAttr = innerAttributesRepo.getByEstateId(estate.getId());
+            OuterAttributes outAttr = outerAttributesRepo.getByEstateId(estate.getId());
+            dataHolderList.add(new EstatesDataHolder(estate, inAttr, outAttr));
         }
-        return jsonList;
+        return dataHolderList;
     }
 
 }

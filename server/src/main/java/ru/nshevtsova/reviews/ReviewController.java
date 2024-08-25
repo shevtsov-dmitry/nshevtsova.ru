@@ -22,7 +22,7 @@ public class ReviewController {
     @Autowired
     private ReviewService service;
 
-    @GetMapping("/list/recent/{amount}")
+    @GetMapping("/get/recent/{amount}")
     public ResponseEntity<List<Review>> listRecent(@PathVariable int amount) {
         List<Review> recentReviews = service.listRecent(amount);
         return ResponseEntity.ok(recentReviews);

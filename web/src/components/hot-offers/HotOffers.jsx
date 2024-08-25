@@ -1,17 +1,44 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 
 export default function HotOffers() {
-    const [estatesList, setEstatesList] = useState([
-        {
+    const GLOBAL_VALUES = useSelector((state) => state.globalStringValues);
+
+    const [estatesList, setEstatesList] = useState({
+        estate: {
             imageBase64: '',
-            price: 2490000,
-            roomsAmount: 2,
-            floor: 5,
-            allFlors: 16,
-            sizeSquareMeters: 39,
+            price: 11248458,
+            estateType: 'APARTMENT',
+            createdAt: '2024-08-24T14:33:24',
             address: 'Борисоглебск, Третьяковская ул., 73'
+        },
+        innerAttributes: {
+            roomsAmount: 2,
+            totalSizeSquareMeters: 70.05079696151134,
+            kitchenSizeSquareMeters: 22.145527081439372,
+            hasFinishing: false,
+            ceilHeight: 2.0427580314220233,
+            toiletsAmount: 3
+        },
+        outerAttributes: {
+            floor: 9,
+            allFloors: 9,
+            releaseDate: 1958,
+            hasParking: true,
+            windowViewDescription: 'Квартира с видом на парк и реку.'
         }
-    ]);
+    });
+
+    useEffect(() => {
+        async function fetchEstatesList() {
+            const url = GLOBAL_VALUES.SERVER_URL + '/estates/get/recent/' + 10;
+            const res = await fetch(url);
+            const data = await res.json();
+            setEstatesList(data);
+        }
+
+        fetchEstatesList();
+    }, []);
 
     function Estate({ json }) {
         return (
@@ -25,7 +52,7 @@ export default function HotOffers() {
                     {json.roomsAmount} комн. {json.sizeSquareMeters} м кв.{' '}
                     {json.floor}/{json.allFlors} этаж
                 </p>
-            <p className='text-gray-700'>{json.address}</p>
+                <p className="text-gray-700">{json.address}</p>
             </div>
         );
     }

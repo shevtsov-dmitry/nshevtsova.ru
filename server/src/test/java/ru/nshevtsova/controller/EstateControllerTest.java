@@ -1,19 +1,15 @@
 package ru.nshevtsova.controller;
 
-import org.assertj.core.api.Assertions;
 import org.json.JSONObject;
 import org.junit.jupiter.api.RepeatedTest;
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.List;
 import java.util.Random;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -29,8 +25,10 @@ public class EstateControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    Random rand = new Random();
-    String chars = "abcdefghijclmnopqrstuvwxyzабвгдеёжзийклмнопрстуфхцчшщъыйэюя.?!".concat(" ".repeat(5));
+    @Value("${SERVER_URL}")
+    private String ENDPOINT_URL;
+    private final Random rand = new Random();
+    private final String chars = "abcdefghijclmnopqrstuvwxyzабвгдеёжзийклмнопрстуфхцчшщъыйэюя.?!".concat(" ".repeat(5));
 
     @RepeatedTest(15)
     void saveEstate() throws Exception {
@@ -54,9 +52,12 @@ public class EstateControllerTest {
         outerAttributes.put("hasParking", rand.nextDouble() > 0.5);
         outerAttributes.put("windowViewDescription", randomizeString() + randomizeString());
 
-        final String url = "http://localhost:8080" + "/estates/add";
-        final List<JSONObject> requestJsonData = List.of(estate, innerAttributes, outerAttributes);
-        System.out.println(requestJsonData);
+        final var requestJsonData = new JSONObject();
+        requestJsonData.put("estate", estate);
+        requestJsonData.put("innerAttributes", innerAttributes);
+        requestJsonData.put("outerAttributes", outerAttributes);
+
+        final String url = ENDPOINT_URL + "/estates/add";
         mockMvc.perform(post(url)
                         .content(String.valueOf(requestJsonData))
                         .contentType("application/json"))

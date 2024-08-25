@@ -47,22 +47,29 @@ export default function HotOffers() {
     function Estate({ estate, innerAttributes, outerAttributes }) {
         return (
             <div className="flex w-full justify-center">
-                <div className="h-full w-5/6 rounded-3xl bg-purple-400">
+                <div
+                    className="h-full w-5/6 rounded-3xl"
+                    style={{
+                        boxShadow:
+                            'rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px'
+                    }}
+                >
                     <img
-                        className="h-[300px] w-full rounded-t-3xl bg-purple-200 p-5"
+                        className="h-[300px] w-full rounded-t-3xl"
                         alt="фото квартиры"
-                        // src={`data:image/png;base64,${estate.imageBase64}`}
                         src={`data:image/png;base64,${noImgIconBase64}`}
                     />
-                    <div className="p-2">
-                        <p className="text-2xl">{estate.price} ₽</p>
-                        <p className="">
+                    <div className="p-4">
+                        <p className="text-2xl font-semibold text-black">
+                            {estate.price} ₽
+                        </p>
+                        <p className="text-lg text-gray-700">
                             {innerAttributes.roomsAmount} комн.{' '}
                             {innerAttributes.totalSizeSquareMeters.toFixed(1)} м
                             кв. {outerAttributes.floor}/
                             {outerAttributes.allFloors} этаж
                         </p>
-                        <p className="overflow-hidden text-gray-700">
+                        <p className="overflow-hidden text-base text-gray-500">
                             {estate.address}
                         </p>
                     </div>
@@ -72,7 +79,7 @@ export default function HotOffers() {
     }
 
     return (
-        <div className="h-auto w-full bg-neutral-200">
+        <div className="h-auto w-full bg-[#E9E7E7]">
             <h1 className="py-[2%] pl-[5%] font-ptsans-bold text-4xl">
                 ГОРЯЧИЕ ПРЕДЛОЖЕНИЯ
             </h1>

@@ -13,8 +13,8 @@ function App() {
             <Navbar />
             <Preview />
             <OfferedServices />
-            <HotOffers/>
             <Advantages />
+            <HotOffers/>
             <AboutMe/>
             <Reviews />
             <Footer />

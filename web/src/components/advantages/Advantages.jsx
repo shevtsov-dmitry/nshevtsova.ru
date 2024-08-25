@@ -8,6 +8,7 @@ export default function Advantages() {
           background: "rgb(255,255,255) linear-gradient(180deg, rgba(255,255,255,0.4191877434567577) 15%, rgba(219,216,216,0.6236695361738445) 73%)",
         }}
         >
+            {/* FIXME fix font issues*/}
             <h1 className=" font-ptsans-bold text-4xl">ВОЗЬМУ ВСЮ РАБОТУ НА СЕБЯ</h1>
             <p className="text-2xl">
                 Моя задача - сохранить ваше время и деньги и уберечь от стресса
@@ -17,6 +18,7 @@ export default function Advantages() {
                 на себя. <br/> А вы каждую неделю будете получать подробный отчет о
                 результатах.
             </p>
+            {/*TODO make it grid to support smaller devices*/}
             <ul className="flex text-[1rem]">
                 <li className="advantage-icon-holder">
                     <img src="images/advantages/benefits.png" alt="" />

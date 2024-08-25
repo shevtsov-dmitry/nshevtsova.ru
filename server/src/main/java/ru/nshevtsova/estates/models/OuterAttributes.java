@@ -1,5 +1,6 @@
 package ru.nshevtsova.estates.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -26,6 +27,7 @@ public class OuterAttributes {
     private boolean hasParking;
     private String windowViewDescription;
 
+    @JsonIgnore
     @OneToOne
     @JoinColumn(name = "estate_id")
     private Estate estate;

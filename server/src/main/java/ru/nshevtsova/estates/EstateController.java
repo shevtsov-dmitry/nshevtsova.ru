@@ -21,12 +21,9 @@ public class EstateController {
     }
 
     @PostMapping("/add")
-    // TODO specify JSONObject type
-    public ResponseEntity<Estate> addNewEstate(@RequestBody EstatesDataHolder estateData) {
-        System.out.println(estateData);
-        System.out.println(estateData);
+    public ResponseEntity<EstatesDataHolder> addNewEstate(@RequestBody EstatesDataHolder estateData) {
         var savedEstate = service.addNewEstate(estateData);
-        Assert.notNull(savedEstate, "ERROR (NULL): couldn't save estate /estates/add");
+        Assert.notNull(savedEstate, "Couldn't save estate. /estates/add");
         return ResponseEntity.ok(savedEstate);
     }
 

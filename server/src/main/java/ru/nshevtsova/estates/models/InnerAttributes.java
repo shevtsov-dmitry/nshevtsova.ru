@@ -1,5 +1,6 @@
 package ru.nshevtsova.estates.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -32,6 +33,7 @@ public class InnerAttributes {
     private double ceilHeight;
     private int toiletsAmount;
 
+    @JsonIgnore
     @OneToOne
     @JoinColumn(name = "estate_id")
     private Estate estate;

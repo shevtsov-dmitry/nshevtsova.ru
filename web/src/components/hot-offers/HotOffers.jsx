@@ -36,7 +36,6 @@ export default function HotOffers() {
             const url = GLOBAL_VALUES.serverUrl + '/estates/get/recent/' + 10;
             const res = await fetch(url);
             const data = await res.json();
-            console.log(data);
             setEstatesList(data);
         }
 
@@ -45,29 +44,33 @@ export default function HotOffers() {
 
     function Estate({ estate, innerAttributes, outerAttributes }) {
         return (
-            <div className="h-[400px] w-[300px] rounded-3xl bg-purple-400">
+          <div className='w-full flex justify-center'>
+            <div className="h-full w-5/6 rounded-3xl bg-purple-400">
                 <img
                     className="h-[300px] rounded-t-3xl bg-purple-200 p-5"
-                    alt="картинка квартиры"
+                    alt="фото квартиры"
                 />
-                <p className="text-2xl">{estate.price} ₽</p>
-                <p className="">
-                    {innerAttributes.roomsAmount} комн.{' '}
-                    {innerAttributes.totalSizeSquareMeters.toFixed(1)} м кв.{' '}
-                    {outerAttributes.floor}/{outerAttributes.allFloors} этаж
-                </p>
-                <p className="text-gray-700">{estate.address}</p>
+                  <div className='p-2'>
+                    <p className="text-2xl">{estate.price} ₽</p>
+                    <p className="">
+                        {innerAttributes.roomsAmount} комн.{' '}
+                        {innerAttributes.totalSizeSquareMeters.toFixed(1)} м кв.{' '}
+                        {outerAttributes.floor}/{outerAttributes.allFloors} этаж
+                    </p>
+                    <p className="text-gray-700 overflow-hidden">{estate.address}</p>
+                </div>
             </div>
+          </div>
         );
     }
 
     return (
-        <div className="h-[700px] w-full bg-neutral-200">
+        <div className="h-auto w-full bg-neutral-200">
             <h1 className="py-[2%] pl-[5%] font-ptsans-bold text-4xl">
                 ГОРЯЧИЕ ПРЕДЛОЖЕНИЯ
             </h1>
-            <div className="ml-[5%] flex gap-5">
-                {estatesList.map((json, idx) => (
+            <div className="mx-[5%] pb-[2%] grid grid-cols-4 gap-8">
+                              {estatesList.map((json, idx) => (
                     <Estate
                         key={idx}
                         estate={json.estate}
@@ -75,6 +78,8 @@ export default function HotOffers() {
                         outerAttributes={json.outerAttributes}
                     />
                 ))}
+
+
             </div>
         </div>
     );

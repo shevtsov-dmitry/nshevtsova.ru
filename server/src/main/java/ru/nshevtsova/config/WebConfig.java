@@ -20,7 +20,7 @@ public class WebConfig implements WebMvcConfigurer {
                 .allowedOrigins(CLIENT_URL)
                 .allowedMethods("GET", "POST");
 
-        registry.addMapping("/estates/**")
+        registry.addMapping("/images/estates/**")
                 .allowedOrigins(CLIENT_URL)
                 .allowedMethods("GET", "POST");
     }

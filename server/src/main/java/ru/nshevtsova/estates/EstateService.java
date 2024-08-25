@@ -1,10 +1,12 @@
 package ru.nshevtsova.estates;
 
+import org.aspectj.apache.bcel.util.ClassPath;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 import ru.nshevtsova.estates.models.Estate;
 import ru.nshevtsova.estates.models.EstatesDataHolder;
 import ru.nshevtsova.estates.models.InnerAttributes;
@@ -13,8 +15,13 @@ import ru.nshevtsova.estates.repos.EstateRepo;
 import ru.nshevtsova.estates.repos.InnerAttributesRepo;
 import ru.nshevtsova.estates.repos.OuterAttributesRepo;
 
+import java.io.IOException;
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 @Service
@@ -33,19 +40,23 @@ public class EstateService {
         this.outerAttributesRepo = outerAttributesRepo;
     }
 
-    public EstatesDataHolder addNewEstate(EstatesDataHolder dataHolder) {
-        final Estate estate = dataHolder.estate();
-        final InnerAttributes innerAttributes = dataHolder.innerAttributes();
-        innerAttributes.setEstate(estate);
-        final OuterAttributes outerAttributes = dataHolder.outerAttributes();
-        outerAttributes.setEstate(estate);
+    public Long addNewEstate(EstatesDataHolder dataHolder) {
+        var estate = estateRepo.save(dataHolder.estate());
+        Assert.notNull(estate, "couldn't save estate.  estates/add");
 
-        return new EstatesDataHolder(
-                estateRepo.save(estate),
-                innerAttributesRepo.save(innerAttributes),
-                outerAttributesRepo.save(outerAttributes)
-        );
+        var innerAttributes = dataHolder.innerAttributes();
+        innerAttributes.setEstate(estate);
+        innerAttributes = innerAttributesRepo.save(innerAttributes);
+        Assert.notNull(innerAttributes, "couldn't save outer attributes. estates/add");
+
+        var outerAttributes = dataHolder.outerAttributes();
+        outerAttributes.setEstate(estate);
+        outerAttributes = outerAttributesRepo.save(outerAttributes);
+        Assert.notNull(outerAttributes, "couldn't save outer attributes. estates/add");
+
+        return estate.getId();
     }
+
 
     public List<EstatesDataHolder> getRecentEstates(int amount) {
         final Pageable requestedAmountRestriction = PageRequest.of(0, amount);

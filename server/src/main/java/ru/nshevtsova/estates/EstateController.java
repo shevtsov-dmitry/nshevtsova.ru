@@ -1,16 +1,14 @@
 package ru.nshevtsova.estates;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
-import ru.nshevtsova.estates.models.Estate;
+import org.springframework.web.multipart.MultipartFile;
 import ru.nshevtsova.estates.models.EstatesDataHolder;
 
-import java.util.LinkedHashMap;
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping("/estates")
 public class EstateController {
 
@@ -21,11 +19,18 @@ public class EstateController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<EstatesDataHolder> addNewEstate(@RequestBody EstatesDataHolder estateData) {
+    public ResponseEntity<Long> addNewEstate(@RequestBody EstatesDataHolder estateData) {
+        System.out.println(estateData);
         var savedEstate = service.addNewEstate(estateData);
         Assert.notNull(savedEstate, "Couldn't save estate. /estates/add");
         return ResponseEntity.ok(savedEstate);
     }
+
+    // TODO make images list upload/download
+//    @PostMapping
+//    public ResponseEntity<Long> saveFiles(@RequestParam("file") MultipartFile file) {
+//
+//    }
 
     @GetMapping("/get/recent/{amount}")
     public ResponseEntity<List<EstatesDataHolder>> getRecentEstates(@PathVariable int amount) {

@@ -1,42 +1,80 @@
 export default function Advantages() {
     return (
-        <div className="h-fit w-full flex flex-col text-black gap-5 pt-[2%] px-[5%]"
-        // style={ {
-        //     background: "rgb(210,210,210) radial-gradient(circle, rgba(210,210,210,0.8253502084427521) 0%, rgba(207,216,226,0.4107843821122199) 100%)",
-        //   } }
-        style={{
-          background: "rgb(255,255,255) linear-gradient(180deg, rgba(255,255,255,0.4191877434567577) 15%, rgba(219,216,216,0.6236695361738445) 73%)",
-        }}
+        <div
+            className="flex h-fit w-full flex-col gap-5 px-[5%] text-black"
+            style={{
+                background:
+                    'rgb(255,255,255) linear-gradient(180deg, rgba(255,255,255,0.4191877434567577) 15%, rgba(219,216,216,0.6236695361738445) 73%)'
+            }}
         >
-            {/* FIXME fix font issues*/}
-            <h1 className=" font-ptsans-bold text-4xl">ВОЗЬМУ ВСЮ РАБОТУ НА СЕБЯ</h1>
-            <p className="text-2xl">
-                Моя задача - сохранить ваше время и деньги и уберечь от стресса
-                в таком нелегком процессе, как продажа квартиры. <br/> Сбор
-                необходимых документов, уборка в квартире, размещение
-                объявлений, показы и заключение сделки — все эти этапы я возьму
-                на себя. <br/> А вы каждую неделю будете получать подробный отчет о
-                результатах.
-            </p>
-            {/*TODO make it grid to support smaller devices*/}
-            <ul className="flex text-[1rem]">
-                <li className="advantage-icon-holder">
-                    <img src="images/advantages/benefits.png" alt="" />
-                    <p className="font-medium">Решение о цене недвижимости всегда за клиентом</p>
-                </li>
-                <li className="advantage-icon-holder">
-                    <img src="images/advantages/pack-house.png" alt="" />
-                    <p className="font-medium">Грамотная упаковка объекта для продажи</p>
-                </li>
-                <li className="advantage-icon-holder">
-                    <img src="images/advantages/evaluate.png" alt="" />
-                    <p className="font-medium">Точная и качественная оценка квартиры</p>
-                </li>
-                <li className="advantage-icon-holder">
-                    <img src="images/advantages/adds.png" alt="" />
-                    <p className="font-medium">Эффективная реклама и размещение объявлений</p>
-                </li>
-            </ul>
+            <div className="flex gap-3">
+                <div className="flex h-auto flex-col gap-x-10 max-mobile:gap-5">
+                    <h1 className="pb-[2%] font-ptsans-bold text-4xl">
+                        ВОЗЬМУ ВСЮ РАБОТУ НА СЕБЯ
+                    </h1>
+                    <p className="text-[1.3rem] max-laptop:text-[1.15rem]">
+                        Моя задача - сохранить ваше время и деньги и уберечь от
+                        стресса в таком нелегком процессе, как продажа квартиры.{' '}
+                        <br /> Сбор необходимых документов, уборка в квартире,
+                        размещение объявлений, показы и заключение сделки — все
+                        эти этапы я возьму на себя. <br /> А вы каждую неделю
+                        будете получать подробный отчет о результатах.
+                    </p>
+                    <div className="flex h-full w-full items-center justify-center">
+                        <ul className="grid grid-cols-2 gap-y-10 text-[1.2rem] max-laptop:grid-cols-1 max-laptop:gap-y-4">
+                            <li className="advantage-icon-holder">
+                                <img
+                                    src="images/advantages/benefits.png"
+                                    alt=""
+                                    className="advantage-icon"
+                                />
+                                <p className="advantage-icon-label">
+                                    Решение о цене недвижимости всегда за
+                                    клиентом
+                                </p>
+                            </li>
+                            <li className="advantage-icon-holder">
+                                <img
+                                    src="images/advantages/pack-house.png"
+                                    alt=""
+                                    className="advantage-icon"
+                                />
+                                <p className="advantage-icon-label">
+                                    Грамотная упаковка объекта для продажи
+                                </p>
+                            </li>
+                            <li className="advantage-icon-holder">
+                                <img
+                                    src="images/advantages/evaluate.png"
+                                    alt=""
+                                    className="advantage-icon"
+                                />
+                                <p className="advantage-icon-label">
+                                    Точная и качественная оценка квартиры
+                                </p>
+                            </li>
+                            <li className="advantage-icon-holder">
+                                <img
+                                    alt=""
+                                    className="advantage-icon"
+                                    src="images/advantages/adds.png"
+                                />
+
+                                <p className="advantage-icon-label">
+                                    Эффективная реклама и размещение объявлений
+                                </p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div className="flex w-fit items-center justify-center max-laptop:w-full max-mobile:hidden">
+                    <img
+                        src="images/advantages/smile-near-green-flower.jpg"
+                        alt="Фотография Натальи"
+                        className="h-fit"
+                    />
+                </div>
+            </div>
         </div>
     );
 }

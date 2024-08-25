@@ -64,7 +64,7 @@ export default function Reviews() {
         async function fetchUserReviews() {
             const url =
                 GLOBAL_VALUES.serverUrl +
-                '/reviews/list/recent/' +
+                '/reviews/get/recent/' +
                 maxReviewsFetched;
             const req = await fetch(url);
             const res = await req.json();

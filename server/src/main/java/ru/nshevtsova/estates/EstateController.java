@@ -29,7 +29,6 @@ public class EstateController {
     // TODO make images list upload/download
 //    @PostMapping
 //    public ResponseEntity<Long> saveFiles(@RequestParam("file") MultipartFile file) {
-//
 //    }
 
     @GetMapping("/get/recent/{amount}")
@@ -37,6 +36,4 @@ public class EstateController {
         var jsonList = service.getRecentEstates(amount);
         return ResponseEntity.ok(jsonList);
     }
-
-
 }

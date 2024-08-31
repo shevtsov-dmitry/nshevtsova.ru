@@ -4,6 +4,8 @@ import { useSelector } from 'react-redux';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 
 export default function Reviews() {
+    const formHolderRef = useRef();
+
     const defaultUserData = {
         name: 'имя',
         surnname: 'фамилия',
@@ -163,6 +165,113 @@ export default function Reviews() {
         );
     }
 
+    function SaveReviewForm() {
+        const [name, setName] = useState('');
+        const [surname, setSurname] = useState('');
+        const [stars, setStars] = useState(0);
+        const [reviewText, setReviewText] = useState('');
+
+        const handleSubmit = async (e) => {
+            e.preventDefault();
+            const reviewData = { name, surname, stars, reviewText };
+            await fetch('reviews/add', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(reviewData)
+            });
+        };
+
+        useEffect(() => {
+            if (formHolderRef.current) {
+                formHolderRef.current.style.display = 'none';
+            }
+        }, []);
+
+        return (
+            <div className={'absolute z-50 mt-[8%] w-full justify-center'}>
+                <div
+                    className="z-50 mx-auto w-1/4 p-4 max-laptop:w-1/3 max-mobile:w-3/4"
+                    ref={formHolderRef}
+                >
+                    <form
+                        onSubmit={handleSubmit}
+                        className="mb-4 rounded-lg bg-white px-10 pb-8 pt-6"
+                        style={{
+                            boxShadow: "rgba(0, 0, 0, 0.56) 0px 22px 70px 4px"
+                        }}
+                    >
+                        <div
+                            id={'close-sign-holder'}
+                            className={'mt-[-1rem] flex justify-end'}
+                        >
+                            <div
+                                id="form-close-sign"
+                                className={
+                                    'select-none text-right font-mono text-3xl font-bold hover:cursor-pointer'
+                                }
+                                onClick={() => {
+                                    // setIsFormActive(false)
+                                    formHolderRef.current.style.display =
+                                        'none';
+                                }}
+                            >
+                                X
+                            </div>
+                        </div>
+                        <div className="mb-4">
+                            <label className="mb-2 block text-sm font-bold text-gray-700">
+                                Имя
+                            </label>
+                            <input
+                                type="text"
+                                value={name}
+                                onChange={(e) => setName(e.target.value)}
+                                className="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none"
+                            />
+                        </div>
+                        <div className="mb-4">
+                            <label className="mb-2 block text-sm font-bold text-gray-700">
+                                Фамилия
+                            </label>
+                            <input
+                                type="text"
+                                value={surname}
+                                onChange={(e) => setSurname(e.target.value)}
+                                className="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none"
+                            />
+                        </div>
+                        <div className="mb-4">
+                            <label className="mb-2 block text-sm font-bold text-gray-700">
+                                Оценка
+                            </label>
+                            <StarRating stars={0} isDefaultChecked={false} />
+                        </div>
+                        <div className="mb-4">
+                            <label className="mb-2 block text-sm font-bold text-gray-700">
+                                Отзыв
+                            </label>
+                            <textarea
+                                value={reviewText}
+                                onChange={(e) => setReviewText(e.target.value)}
+                                className="focus:shadow-outline min-h-[100px] w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none"
+                            ></textarea>
+                        </div>
+                        <div className="flex items-center justify-center">
+                            <button
+                                type="submit"
+                                className="focus:shadow-outline rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700 focus:outline-none"
+                            >
+                                Оставить отзыв
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        );
+    }
+
     return (
         <div
             className={`flex h-full flex-col bg-[url('images/reviews/foggy-city.jpg')] bg-cover bg-no-repeat py-[2%]`}
@@ -173,6 +282,7 @@ export default function Reviews() {
                     помощью
                 </h1>
             </div>
+
             <div className="flex-2 flex h-full w-full flex-col items-center justify-center">
                 <div
                     // FIXME add antispam restriction for horizontal scrolling to prevent review position shift
@@ -192,10 +302,16 @@ export default function Reviews() {
                     {/*     className={`w-1/3 flex-shrink-0`} */}
                     {/* /> */}
                 </div>
+
                 <SwitchArrows />
             </div>
+
+            <SaveReviewForm />
             <div className="flex w-full flex-1 justify-center">
                 <button
+                    onClick={() => {
+                        formHolderRef.current.style.display = 'block';
+                    }}
                     className="w-fit select-none rounded-lg bg-white px-5 pb-4 pt-3 font-ptsans-bold text-3xl transition-all hover:scale-105"
                     style={{
                         boxShadow:

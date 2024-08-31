@@ -170,18 +170,33 @@ export default function Reviews() {
         const [surname, setSurname] = useState('');
         const [stars, setStars] = useState(0);
         const [reviewText, setReviewText] = useState('');
+        const [operationStatusMessage, setOperationStatusMessage] = useState("");
+        const [isReviewSent, setIsReviewSent] = useState(false);
 
-        const handleSubmit = async (e) => {
+        async function handleFormSubmit(e) {
+            if (isReviewSent) {
+                return
+            }
+            // setIsReviewSent(true)
             e.preventDefault();
             const reviewData = { name, surname, stars, reviewText };
-            await fetch('reviews/add', {
+            const res = await fetch(GLOBAL_VALUES.serverUrl + '/reviews/add', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(reviewData)
             });
-        };
+            visualizeResponse(res.status)
+
+            function visualizeResponse(status) {
+                if (status === 200) {
+                    setOperationStatusMessage("Благодарим за оставленный отзыв! ✅")
+                } else if (status) {
+                    setOperationStatusMessage("Ошибка при добавлении нового отзыва. ❌")
+                }
+            }
+        }
 
         useEffect(() => {
             if (formHolderRef.current) {
@@ -196,10 +211,10 @@ export default function Reviews() {
                     ref={formHolderRef}
                 >
                     <form
-                        onSubmit={handleSubmit}
+                        onSubmit={handleFormSubmit}
                         className="mb-4 rounded-lg bg-white px-10 pb-8 pt-6"
                         style={{
-                            boxShadow: "rgba(0, 0, 0, 0.56) 0px 22px 70px 4px"
+                            boxShadow: 'rgba(0, 0, 0, 0.56) 0px 22px 70px 4px'
                         }}
                     >
                         <div
@@ -265,6 +280,7 @@ export default function Reviews() {
                             >
                                 Оставить отзыв
                             </button>
+                            <div className={"absolute mt-[70px]"}>{operationStatusMessage}</div>
                         </div>
                     </form>
                 </div>
@@ -307,6 +323,7 @@ export default function Reviews() {
             </div>
 
             <SaveReviewForm />
+
             <div className="flex w-full flex-1 justify-center">
                 <button
                     onClick={() => {

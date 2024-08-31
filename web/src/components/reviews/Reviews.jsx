@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import StarRating from '../common/StarRating';
 import { useSelector } from 'react-redux';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
@@ -170,16 +170,20 @@ export default function Reviews() {
         const [surname, setSurname] = useState('');
         const [stars, setStars] = useState(0);
         const [reviewText, setReviewText] = useState('');
-        const [operationStatusMessage, setOperationStatusMessage] = useState("");
-        const [isReviewSent, setIsReviewSent] = useState(false);
+        const [operationStatusMessage, setOperationStatusMessage] =
+            useState('');
+        const [isReviewSuccessfullySent, setIsReviewSuccessfullySent] =
+            useState(false);
+        const [userPic, setUserPic] = useState('');
 
         async function handleFormSubmit(e) {
-            if (isReviewSent) {
-                return
-            }
-            // setIsReviewSent(true)
+            // if (isReviewSuccessfullySent) {
+            //     return;
+            // }
+            // setIsReviewSuccessfullySent(true);
             e.preventDefault();
             const reviewData = { name, surname, stars, reviewText };
+
             const res = await fetch(GLOBAL_VALUES.serverUrl + '/reviews/add', {
                 method: 'POST',
                 headers: {
@@ -187,17 +191,41 @@ export default function Reviews() {
                 },
                 body: JSON.stringify(reviewData)
             });
-            visualizeResponse(res.status)
+
+            const savedReview = await res.json()
+
+            const picSaveRes = await saveUserPic(savedReview.id)
+            const savedPicMessage = await picSaveRes.text()
+            console.log(savedPicMessage);
+
+            visualizeResponse(res.status);
 
             function visualizeResponse(status) {
                 if (status === 200) {
-                    setOperationStatusMessage("Благодарим за оставленный отзыв! ✅")
+                    setOperationStatusMessage(
+                        'Благодарим за оставленный отзыв! ✅'
+                    );
                 } else if (status) {
-                    setOperationStatusMessage("Ошибка при добавлении нового отзыва. ❌")
+                    setOperationStatusMessage(
+                        'Ошибка при добавлении нового отзыва. ❌'
+                    );
                 }
             }
         }
 
+        async function saveUserPic(reviewId) {
+            const formData = new FormData();
+            formData.append('reviewId', reviewId);
+            formData.append('userPic', userPic);
+
+            return await fetch(
+                GLOBAL_VALUES.serverUrl + '/reviews/save/userPic',
+                {
+                    method: 'POST',
+                    body: formData
+                }
+            );
+        }
         useEffect(() => {
             if (formHolderRef.current) {
                 formHolderRef.current.style.display = 'none';
@@ -273,6 +301,17 @@ export default function Reviews() {
                                 className="focus:shadow-outline min-h-[100px] w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none"
                             ></textarea>
                         </div>
+                        <div className="mb-4">
+                            <label className="mb-2 block text-sm font-bold text-gray-700">
+                                Ваша фотография (к пожеланию)
+                            </label>
+                            <input
+                                type="file"
+                                accept="image/*"
+                                onChange={(e) => setUserPic(e.target.files[0])}
+                                className="w-full appearance-none rounded px-3 py-2 leading-tight text-gray-700 hover:cursor-pointer"
+                            />
+                        </div>
                         <div className="flex items-center justify-center">
                             <button
                                 type="submit"
@@ -280,7 +319,9 @@ export default function Reviews() {
                             >
                                 Оставить отзыв
                             </button>
-                            <div className={"absolute mt-[70px]"}>{operationStatusMessage}</div>
+                            <div className={'absolute mt-[70px]'}>
+                                {operationStatusMessage}
+                            </div>
                         </div>
                     </form>
                 </div>

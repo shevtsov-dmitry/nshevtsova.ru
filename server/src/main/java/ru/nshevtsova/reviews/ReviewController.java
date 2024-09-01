@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.nio.file.NoSuchFileException;
 import java.util.List;
 
 /**
@@ -34,7 +35,9 @@ public class ReviewController {
     public ResponseEntity<String> saveUserPic(@RequestParam Long reviewId, @RequestParam MultipartFile userPic) {
         try {
             service.saveUserPic(reviewId, userPic);
-            return ResponseEntity.ok("");
+            return ResponseEntity.ok("Picture saved.");
+        } catch (NoSuchFileException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         } catch (IOException e) {
             return new ResponseEntity(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }

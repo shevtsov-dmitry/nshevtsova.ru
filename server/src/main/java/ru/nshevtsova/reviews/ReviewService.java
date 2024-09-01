@@ -2,16 +2,14 @@ package ru.nshevtsova.reviews;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
 import java.nio.file.Files;
-import java.nio.file.Path;
+import java.nio.file.NoSuchFileException;
+import java.nio.file.Paths;
 import java.util.List;
 
-import org.apache.tomcat.util.http.parser.Priority;
-import org.aspectj.weaver.bcel.ClassPathManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -28,6 +26,7 @@ public class ReviewService {
 
     @Value("${HOME}")
     private String HOME_FOLDER;
+    private static final String IMAGES_PATH = "/Pictures/realtor/images";
 
     public List<Review> listRecent(int amount) {
         final Pageable requestedAmountRestriction = PageRequest.of(0, amount);
@@ -39,7 +38,7 @@ public class ReviewService {
     }
 
     public void saveUserPic(Long reviewId, MultipartFile userPic) throws IOException {
-        File saveDir = new File(HOME_FOLDER + "/Pictures/realtor/images");
+        File saveDir = new File(HOME_FOLDER + IMAGES_PATH);
         if (!saveDir.exists()) {
             saveDir.mkdirs();
         }
@@ -57,6 +56,10 @@ public class ReviewService {
                         fileExtension));
 
         userPic.transferTo(file);
+    }
+
+    public void deleteUserPic() throws IOException {
+        Files.delete(Paths.get(HOME_FOLDER + IMAGES_PATH));
     }
 
 }

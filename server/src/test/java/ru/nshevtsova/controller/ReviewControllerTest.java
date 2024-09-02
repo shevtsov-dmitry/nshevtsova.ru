@@ -3,13 +3,18 @@ package ru.nshevtsova.controller;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.io.File;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Map;
 import java.util.random.RandomGenerator;
 
 import org.assertj.core.api.Assertions;
+import org.hamcrest.Matchers;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MethodOrderer;
@@ -18,12 +23,22 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.json.JsonParserFactory;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.util.ResourceUtils;
+import org.springframework.web.multipart.MultipartFile;
 
-import ru.nshevtsova.custom.CustomTestUtils;
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+
+import ru.nshevtsova.custom.records.NameSurname;
+import ru.nshevtsova.custom.utils.CustomTestUtils;
 
 /**
  * ReviewControllerTest
@@ -45,19 +60,20 @@ public class ReviewControllerTest {
         ENDPOINT_URL = CURRENT_SERVER_URL + "/reviews";
     }
 
-    private Long savedUserId = 0L;
+    private static Long savedUserId = 0L;
 
     @Test
     // @RepeatedTest(15)
     @Order(1)
     void saveUserReview() throws Exception {
+        Assertions.assertThat(1 == 2);
         String url = ENDPOINT_URL + "/add";
         JSONObject json = new JSONObject();
-        String[] nameSurname = CustomTestUtils.generateNameSurname();
-        json.put("name", nameSurname[0]);
-        json.put("surname", nameSurname[1]);
+        NameSurname nameSurname = CustomTestUtils.generateNameSurname();
+        json.put("name", nameSurname.name());
+        json.put("surname", nameSurname.surname());
         json.put("stars", RandomGenerator.getDefault().nextInt(5));
-        json.put("reviewText", CustomTestUtils.generateUserReview());
+        json.put("reviewText", CustomTestUtils.generateUserReview().substring(0, 255));
 
         mockMvc.perform(
                 post(url)
@@ -65,26 +81,35 @@ public class ReviewControllerTest {
                         .contentType("application/json"))
                 .andExpect(status().isOk())
                 .andDo(result -> {
-                    savedUserId = Long.parseLong(result.getResponse().getContentAsString());
+                    String recievedJson = result.getResponse().getContentAsString();
+                    Map<String, Object> map = JsonParserFactory.getJsonParser().parseMap(recievedJson);
+                    savedUserId = Long.parseLong(map.get("id").toString());
                 });
-
     }
 
     @Order(2)
     @Test
     void saveUserPic() throws Exception {
         Assertions.assertThat(savedUserId != 0L);
+        File imageFile = new File("src/test/java/ru/nshevtsova/resources/images/test-image.png");
+        Assertions.assertThat(imageFile.exists());
+        byte[] imageBytes = Files.readAllBytes(imageFile.toPath());
 
-        // Load image from current working directory
-        byte[] imageBytes = Files.readAllBytes(Paths.get("test-image.png"));
+        final MockMultipartFile file = new MockMultipartFile("userPic", imageFile.getName(), "multipart/form-data",
+                imageBytes);
+        final String url = ENDPOINT_URL + "/user-pics/save";
+        String filename = imageFile.getName();
 
-        final MockMultipartFile file = new MockMultipartFile("userPic", imageBytes);
-        final String url = ENDPOINT_URL + "/userPics/save";
         mockMvc.perform(
                 multipart(url)
                         .file(file)
-                        .queryParam("reviewId", savedUserId.toString()))
-                .andExpect(status().isOk());
+                        .queryParam("reviewId", savedUserId.toString())
+                        .header("Content-Type", "multipart/form-data")
+                        .header("Content-Length", file.getSize()))
+                .andExpect(status().isOk())
+                .andExpect(content().string(Matchers.startsWith(savedUserId.toString())))
+                .andExpect(content().string(
+                        Matchers.endsWith(filename.substring(filename.lastIndexOf(".") + 1))));
     }
 
     @Order(3)
@@ -92,7 +117,7 @@ public class ReviewControllerTest {
     void deleteSavedUserPic() throws Exception {
         Assertions.assertThat(savedUserId != 0);
 
-        final String url = ENDPOINT_URL + "/userPics/delete?id=" + savedUserId;
+        final String url = ENDPOINT_URL + "/user-pics/delete?id=" + savedUserId;
         mockMvc.perform(delete(url))
                 .andExpect(status().isOk());
     }
@@ -100,7 +125,7 @@ public class ReviewControllerTest {
     @Test
     public void deleteNonExistentUserPic() throws Exception {
         final int notPossibleId = -1;
-        final String url = ENDPOINT_URL + "/userPics/delete" + notPossibleId;
+        final String url = ENDPOINT_URL + "/user-pics/delete" + notPossibleId;
         mockMvc.perform(delete(url))
                 .andExpect(status().isNotFound());
     }

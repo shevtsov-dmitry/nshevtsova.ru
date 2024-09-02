@@ -165,8 +165,6 @@ export default function Reviews() {
         );
     }
 
-
-
     function SaveReviewForm() {
         const [name, setName] = useState('');
         const [surname, setSurname] = useState('');
@@ -175,8 +173,8 @@ export default function Reviews() {
             useState('');
         const [userPic, setUserPic] = useState('');
         const stars = useSelector(state => state.review).stars
-
         const [isReviewSuccessfullySent, setIsReviewSuccessfullySent] = useState(false);
+
 
         useEffect(() => {
             if (!isReviewSuccessfullySent) {
@@ -187,35 +185,16 @@ export default function Reviews() {
 
         async function handleFormSubmit(e) {
             // TODO forbid abillity spam multiple reviews
-            if (isReviewSuccessfullySent) {
-                return;
-            }
-
+            // if (isReviewSuccessfullySent) {
+            //     return;
+            //
+            // }
+            // setIsReviewSuccessfullySent(true);
             e.preventDefault();
             const reviewData = { name, surname, stars, reviewText };
 
-            if (name.length < 2) {
-                setOperationStatusMessage("Пожалуйста, укажите своё имя ❌")
-                return
-            } else if (name.length > 50) {
-                setOperationStatusMessage("Слишком длинное имя ❌")
-                return
-            } else if (surname.length < 2) {
-                setOperationStatusMessage("Пожалуйста, укажите свою фамилию ❌")
-                return
-            } else if (surname.length > 70) {
-                setOperationStatusMessage("Слишком длинная фамилия ❌")
-                return
-            } else if (stars === 0) {
-                setOperationStatusMessage("Пожалуйста, оставьте оценку ⭐")
-                return
-            } else if (reviewText.length < 10) {
-                setOperationStatusMessage("Пожалуйста, напишите отзыв (от 3-ёх слов) ❌")
-                return
-            } else if (reviewText.length > 10000) {
-                setOperationStatusMessage("Лимит символов отзыва привышен (10 000) ❌")
-                return
-            }
+            // TODO make field validation
+            // TODO fix max size of review ( currently 255 characters)
 
             const userReviewRes = await fetch(GLOBAL_VALUES.serverUrl + '/reviews/add', {
                 method: 'POST',
@@ -228,11 +207,8 @@ export default function Reviews() {
             const savedReview = await userReviewRes.json()
             const picSaveRes = userPic !== "" && await saveUserPic(savedReview.id)
 
-            const didSaveReview = userReviewRes.status === 200
-            const didSaveImageOrDecideNotTo = userPic === "" || picSaveRes.status === 200
-            setIsReviewSuccessfullySent(didSaveReview && didSaveImageOrDecideNotTo)
-
-            visualizeResponse(isReviewSuccessfullySent);
+            const didUserSavePic = userPic === "" || picSaveRes.status === 200
+            visualizeResponse(userReviewRes.status === 200 && didUserSavePic);
 
             function visualizeResponse(statusIsOk) {
                 if (statusIsOk) {
@@ -350,6 +326,7 @@ export default function Reviews() {
                             <button
                                 type="submit"
                                 className="focus:shadow-outline rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700 focus:outline-none"
+                                onClick={() => setIsReviewSuccessfullySent(true)}
                             >
                                 Оставить отзыв
                             </button>

@@ -26,6 +26,7 @@ public class Review {
     private String name;
     private String surname;
     private int stars;
+    @Column(length = 10_000)
     private String reviewText;
 
     @CreatedDate

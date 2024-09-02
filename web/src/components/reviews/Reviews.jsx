@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import StarRating from '../common/StarRating';
 import { useSelector } from 'react-redux';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
@@ -168,18 +168,19 @@ export default function Reviews() {
     function SaveReviewForm() {
         const [name, setName] = useState('');
         const [surname, setSurname] = useState('');
-        const [stars, setStars] = useState(0);
         const [reviewText, setReviewText] = useState('');
         const [operationStatusMessage, setOperationStatusMessage] =
             useState('');
+        const [userPic, setUserPic] = useState('');
+        const stars = useSelector(state => state.review).stars
         const [isReviewSuccessfullySent, setIsReviewSuccessfullySent] =
             useState(false);
-        const [userPic, setUserPic] = useState('');
 
         async function handleFormSubmit(e) {
             // TODO forbid abillity spam multiple reviews
             // if (isReviewSuccessfullySent) {
             //     return;
+            //
             // }
             // setIsReviewSuccessfullySent(true);
             e.preventDefault();

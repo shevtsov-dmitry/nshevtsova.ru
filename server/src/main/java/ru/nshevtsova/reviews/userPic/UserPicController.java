@@ -16,7 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
  * UserPic
  */
 @RestController
-@RequestMapping("/reviews/userPics")
+@RequestMapping("/reviews/user-pics")
 public class UserPicController {
 
     @Autowired
@@ -25,8 +25,8 @@ public class UserPicController {
     @PostMapping("/save")
     public ResponseEntity<String> save(@RequestParam Long reviewId, @RequestParam MultipartFile userPic) {
         try {
-            service.saveUserPic(new UserPic(reviewId, userPic));
-            return ResponseEntity.ok("");
+            String filename = service.saveUserPic(new UserPic(reviewId, userPic));
+            return ResponseEntity.ok(filename);
         } catch (IOException e) {
             return new ResponseEntity(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }

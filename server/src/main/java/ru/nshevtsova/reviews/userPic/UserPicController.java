@@ -1,12 +1,17 @@
 package ru.nshevtsova.reviews.userPic;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,6 +35,12 @@ public class UserPicController {
         } catch (IOException e) {
             return new ResponseEntity(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    @PostMapping(value = "/get/by-ids", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Map<Long, byte[]>> getImagesMatchedId(@RequestBody List<Long> ids) {
+        Map<Long, byte[]> matchedImages = service.getImagesMatchedId(ids);
+        return matchedImages.size() != 0 ? ResponseEntity.ok(matchedImages) : ResponseEntity.notFound().build();
     }
 
     @DeleteMapping("/delete")

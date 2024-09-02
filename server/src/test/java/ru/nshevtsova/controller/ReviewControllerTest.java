@@ -1,6 +1,7 @@
 package ru.nshevtsova.controller;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -8,8 +9,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.io.File;
 import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Map;
 import java.util.random.RandomGenerator;
 
@@ -26,16 +25,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.json.JsonParserFactory;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.util.ResourceUtils;
-import org.springframework.web.multipart.MultipartFile;
-
-import com.fasterxml.jackson.core.JsonFactory;
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import ru.nshevtsova.custom.records.NameSurname;
 import ru.nshevtsova.custom.utils.CustomTestUtils;
@@ -61,6 +52,8 @@ public class ReviewControllerTest {
     }
 
     private static Long savedUserId = 0L;
+
+    private static final File testImageFile = new File("src/test/java/ru/nshevtsova/resources/images/test-image.png");
 
     @Test
     // @RepeatedTest(15)
@@ -91,14 +84,13 @@ public class ReviewControllerTest {
     @Test
     void saveUserPic() throws Exception {
         Assertions.assertThat(savedUserId != 0L);
-        File imageFile = new File("src/test/java/ru/nshevtsova/resources/images/test-image.png");
-        Assertions.assertThat(imageFile.exists());
-        byte[] imageBytes = Files.readAllBytes(imageFile.toPath());
+        Assertions.assertThat(testImageFile.exists());
+        byte[] imageBytes = Files.readAllBytes(testImageFile.toPath());
 
-        final MockMultipartFile file = new MockMultipartFile("userPic", imageFile.getName(), "multipart/form-data",
+        final MockMultipartFile file = new MockMultipartFile("userPic", testImageFile.getName(), "multipart/form-data",
                 imageBytes);
         final String url = ENDPOINT_URL + "/user-pics/save";
-        String filename = imageFile.getName();
+        String filename = testImageFile.getName();
 
         mockMvc.perform(
                 multipart(url)
@@ -113,6 +105,20 @@ public class ReviewControllerTest {
     }
 
     @Order(3)
+    @Test
+    void getSavedImage() throws Exception {
+        byte[] imageBytes = Files.readAllBytes(testImageFile.toPath());
+
+        final String url = ENDPOINT_URL + "/user-pics/get/by-ids";
+        mockMvc.perform(get(url))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("application/json"))
+                .andExpect(result -> {
+                    result.getResponse().getContentAsString();
+                });
+    }
+
+    @Order(4)
     @Test
     void deleteSavedUserPic() throws Exception {
         Assertions.assertThat(savedUserId != 0);

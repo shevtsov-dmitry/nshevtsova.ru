@@ -19,6 +19,8 @@ export default function Reviews() {
         defaultUserData
     ]);
 
+    const [idImageMap, setIdImageMap] = useState({})
+
     const [midIdx, setMidIdx] = useState(1);
     const [maxReviewsFetched, setMaxReviewsFetched] = useState(15);
 
@@ -63,6 +65,9 @@ export default function Reviews() {
     }
 
     useEffect(() => {
+
+        fetchUserReviews();
+
         async function fetchUserReviews() {
             const url =
                 GLOBAL_VALUES.serverUrl +
@@ -71,18 +76,42 @@ export default function Reviews() {
             const req = await fetch(url);
             const res = await req.json();
             setReviewsJsonArray(res);
+
+            fetchUserPictures(res);
         }
 
-        fetchUserReviews();
+        async function fetchUserPictures(jsonArray) {
+            // TODO refactor into one fetch
+            const ids = []
+            jsonArray.forEach(json => {
+                ids.push(json["id"])
+            });
+            const imagesResponce = await fetch(GLOBAL_VALUES.serverUrl + "/reviews/user-pics/get/by-ids", {
+                method: "POST",
+                body: JSON.stringify(ids),
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+            const fetchedImagesMap = await imagesResponce.json()
+            setIdImageMap(fetchedImagesMap)
+
+        }
+
     }, [maxReviewsFetched]);
 
     function ReviewDiv({ positionIdx, json }) {
         const [isShowMore, setIsShowMore] = useState(false);
+        const [userPic, setUserPic] = useState(null)
         const reviewDivRef = useRef();
 
         const isLeft = positionIdx === positions.LEFT;
         const isMid = positionIdx === positions.MID;
         const isRight = positionIdx === positions.RIGHT;
+
+        useEffect(() => {
+            setUserPic("data:image/jpeg;base64," + idImageMap[json["id"]])
+        }, [])
 
         useEffect(() => {
             if (isMid) {
@@ -117,7 +146,7 @@ export default function Reviews() {
                     <div className="flex items-center gap-2 pb-[2%]">
                         <img
                             id="usr-pic"
-                            src={`images/reviews/default-user-pic.png`}
+                            src={`${userPic !== null ? userPic : "images/reviews/default-user-pic.png"}`}
                             className="w-[12%]"
                         />
                         <div>

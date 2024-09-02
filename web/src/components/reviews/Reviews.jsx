@@ -177,14 +177,16 @@ export default function Reviews() {
         const [userPic, setUserPic] = useState('');
 
         async function handleFormSubmit(e) {
+            // TODO forbid abillity spam multiple reviews
             // if (isReviewSuccessfullySent) {
             //     return;
             // }
             // setIsReviewSuccessfullySent(true);
             e.preventDefault();
             const reviewData = { name, surname, stars, reviewText };
+            console.log(reviewData)
 
-            const res = await fetch(GLOBAL_VALUES.serverUrl + '/reviews/add', {
+            const userReviewRes = await fetch(GLOBAL_VALUES.serverUrl + '/reviews/add', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -192,20 +194,18 @@ export default function Reviews() {
                 body: JSON.stringify(reviewData)
             });
 
-            const savedReview = await res.json()
+            const savedReview = await userReviewRes.json()
+            const picSaveRes = userPic !== "" && await saveUserPic(savedReview.id)
 
-            const picSaveRes = await saveUserPic(savedReview.id)
-            const savedPicMessage = await picSaveRes.text()
-            console.log(savedPicMessage);
+            const didUserSavePic = userPic === "" || picSaveRes.status === 200
+            visualizeResponse(userReviewRes.status === 200 && didUserSavePic);
 
-            visualizeResponse(res.status);
-
-            function visualizeResponse(status) {
-                if (status === 200) {
+            function visualizeResponse(statusIsOk) {
+                if (statusIsOk) {
                     setOperationStatusMessage(
                         'Благодарим за оставленный отзыв! ✅'
                     );
-                } else if (status) {
+                } else {
                     setOperationStatusMessage(
                         'Ошибка при добавлении нового отзыва. ❌'
                     );
@@ -219,7 +219,7 @@ export default function Reviews() {
             formData.append('userPic', userPic);
 
             return await fetch(
-                GLOBAL_VALUES.serverUrl + '/reviews/save/userPic',
+                GLOBAL_VALUES.serverUrl + '/reviews/user-pics/save',
                 {
                     method: 'POST',
                     body: formData

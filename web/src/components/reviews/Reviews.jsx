@@ -1,7 +1,9 @@
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import StarRating from '../common/StarRating';
 import { useSelector } from 'react-redux';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
+import Cropper from "react-cropper";
+import "cropperjs/dist/cropper.css";
 
 export default function Reviews() {
     const formHolderRef = useRef();
@@ -202,7 +204,7 @@ export default function Reviews() {
         const [reviewText, setReviewText] = useState('');
         const [operationStatusMessage, setOperationStatusMessage] =
             useState('');
-        const [userPic, setUserPic] = useState('');
+        const [userPicFile, setUserPic] = useState('');
         const stars = useSelector(state => state.review).stars
 
         const [isReviewSuccessfullySent, setIsReviewSuccessfullySent] = useState(false);
@@ -255,10 +257,10 @@ export default function Reviews() {
             });
 
             const savedReview = await userReviewRes.json()
-            const picSaveRes = userPic !== "" && await saveUserPic(savedReview.id)
+            const picSaveRes = userPicFile !== "" && await saveUserPic(savedReview.id)
 
             const didSaveReview = userReviewRes.status === 200
-            const didSaveImageOrDecideNotTo = userPic === "" || picSaveRes.status === 200
+            const didSaveImageOrDecideNotTo = userPicFile === "" || picSaveRes.status === 200
             setIsReviewSuccessfullySent(didSaveReview && didSaveImageOrDecideNotTo)
 
             visualizeResponse(isReviewSuccessfullySent);
@@ -274,12 +276,14 @@ export default function Reviews() {
                     );
                 }
             }
+
+
         }
 
         async function saveUserPic(reviewId) {
             const formData = new FormData();
             formData.append('reviewId', reviewId);
-            formData.append('userPic', userPic);
+            formData.append('userPic', userPicFile);
 
             return await fetch(
                 GLOBAL_VALUES.serverUrl + '/reviews/user-pics/save',
@@ -293,7 +297,40 @@ export default function Reviews() {
             if (formHolderRef.current) {
                 formHolderRef.current.style.display = 'none';
             }
+
         }, []);
+
+        function UserPicCropper() {
+            const cropperRef = useRef(null);
+            const [userPickedImage, setUserPickedImage] = useState()
+
+            function onCrop() {
+                if (!cropperRef.current) {
+                    return
+                }
+                const cropper = cropperRef.current.cropper;
+                console.log(cropper.getCroppedCanvas().toDataURL());
+            }
+            useEffect(() => {
+                const reader = new FileReader();
+                reader.readAsDataURL(userPicFile)
+                reader.onload = () => {
+                    setUserPickedImage(reader.result)
+                }
+            }, [])
+
+            return (
+                <Cropper
+                    src={userPickedImage}
+                    style={{ height: 400, width: "100%" }}
+                    initialAspectRatio={4 / 3}
+                    guides={false}
+                    cropend={onCrop}
+                    ref={cropperRef}
+                />
+            );
+        }
+
 
         return (
             <div className={'absolute z-50 mt-[8%] w-full justify-center'}>
@@ -375,6 +412,7 @@ export default function Reviews() {
                                 className="w-full appearance-none rounded px-3 py-2 leading-tight text-gray-700 hover:cursor-pointer"
                             />
                         </div>
+                        {userPicFile.length !== 0 && <UserPicCropper />}
                         <div className="flex items-center justify-center">
                             <button
                                 type="submit"
@@ -444,4 +482,6 @@ export default function Reviews() {
             </div>
         </div>
     );
+
+
 }

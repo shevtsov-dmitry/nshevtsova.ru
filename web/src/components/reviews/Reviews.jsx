@@ -150,8 +150,10 @@ export default function Reviews() {
                             id="usr-pic"
                             src={`${userPic !== null ? userPic : "images/reviews/default-user-pic.png"}`}
                             className="w-[12%]"
+                            style={{ borderRadius: '50%' }}
                         />
                         <div>
+
                             <h3 id="user-name">
                                 {json.name} {json.surname}
                             </h3>
@@ -208,8 +210,6 @@ export default function Reviews() {
         const stars = useSelector(state => state.review).stars
 
         const [isReviewSuccessfullySent, setIsReviewSuccessfullySent] = useState(false);
-
-
 
         useEffect(() => {
             if (!isReviewSuccessfullySent) {
@@ -306,7 +306,7 @@ export default function Reviews() {
         const [isCropped, setIsCropped] = useState(false)
 
         function UserPicCropper() {
-            const [userPicCropped, setUserPicCropped] = useState("");
+            const [userPicCropped, setUserPicCropped] = useState(null);
             const [userPicBase64, setUserPicBase64] = useState("")
             const [crop, setCrop] = useState({ x: 0, y: 0 })
             const [zoom, setZoom] = useState(1)
@@ -360,7 +360,12 @@ export default function Reviews() {
             return (
                 <div className=''>
                     <div className={`relative ${isCropped ? "h-auto" : "h-[300px]"} max-mobile:h-[200px] w-full`}>
-                        {isCropped ? <img src={userPicBase64} alt='превью обрезанной фотографии' /> : <Cropper
+                        {isCropped ? <img
+                            src={userPicBase64}
+                            className='mx-auto mb-5'
+                            alt='превью обрезанной фотографии'
+                            style={{ borderRadius: '50%' }}
+                        /> : <Cropper
                             image={userPicBase64}
                             crop={crop}
                             zoom={zoom}

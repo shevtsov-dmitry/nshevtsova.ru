@@ -3,6 +3,7 @@ import StarRating from '../common/StarRating';
 import { useSelector } from 'react-redux';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 import Cropper from 'react-easy-crop';
+import getCroppedImg from '../../utils/ImageCroppers';
 
 export default function Reviews() {
     const formHolderRef = useRef();
@@ -208,6 +209,8 @@ export default function Reviews() {
 
         const [isReviewSuccessfullySent, setIsReviewSuccessfullySent] = useState(false);
 
+
+
         useEffect(() => {
             if (!isReviewSuccessfullySent) {
                 return
@@ -303,23 +306,21 @@ export default function Reviews() {
         const [isCropped, setIsCropped] = useState(false)
 
         function UserPicCropper() {
-            const [userPickedImage, setUserPickedImage] = useState(null)
-            const cropperRef = useRef(null);
-
+            const [userPicCropped, setUserPicCropped] = useState("");
+            const [userPicBase64, setUserPicBase64] = useState("")
             const [crop, setCrop] = useState({ x: 0, y: 0 })
             const [zoom, setZoom] = useState(1)
+            const [croppedAreaPixels, setCroppedAreaPixels] = useState(null)
 
-            const onCropChange = (crop) => {
-                setCrop(crop)
-            }
 
-            const onCropComplete = (croppedArea, croppedAreaPixels) => {
-                console.log(croppedAreaPixels.width / croppedAreaPixels.height)
-            }
+            useEffect(() => {
+                async function readFile() {
+                    const base64Image = await toBase64(userPicFile);
+                    setUserPicBase64(base64Image);
+                }
 
-            const onZoomChange = (zoom) => {
-                setZoom(zoom)
-            }
+                readFile();
+            }, [])
 
             const toBase64 = file => new Promise((resolve, reject) => {
                 const reader = new FileReader();
@@ -328,91 +329,76 @@ export default function Reviews() {
                 // reader.onerror = reject;
             });
 
+            const onCropComplete = (croppedArea, croppedAreaPixels) => {
+                setCroppedAreaPixels(croppedAreaPixels)
+            }
+
+            const onZoomChange = (event) => {
+                setZoom(event.target.value);
+            }
+
             useEffect(() => {
-                async function readFile() {
-                    const base64Image = await toBase64(userPicFile);
-                    console.log(base64Image)
-                    setUserPickedImage(base64Image);
+                async function proccessImageCrop() {
+                    if (isCropped) {
+                        return
+                    }
+
+                    const blobImage = await getCroppedImg(
+                        userPicBase64,
+                        userPicFile.type,
+                        croppedAreaPixels,
+                    )
+
+                    const file = new File([blobImage], userPicFile.name, { type: userPicFile.type })
+
+                    setUserPicCropped(file)
                 }
+                proccessImageCrop()
 
-                readFile();
-            }, [])
-
+            }, [croppedAreaPixels])
 
             return (
-                <div>
-                    <div className="crop-container">
-                        <Cropper
-                            image={userPickedImage}
+                <div className=''>
+                    <div className={`relative ${isCropped ? "h-auto" : "h-[300px]"} max-mobile:h-[200px] w-full`}>
+                        {isCropped ? <img src={userPicBase64} alt='превью обрезанной фотографии' /> : <Cropper
+                            image={userPicBase64}
                             crop={crop}
                             zoom={zoom}
                             aspect={1}
                             cropShape="round"
                             showGrid={false}
-                            onCropChange={onCropChange}
+                            onCropChange={setCrop}
                             onCropComplete={onCropComplete}
-                            onZoomChange={onZoomChange}
-                        />
+                            onZoomChange={setZoom}
+                        />}
                     </div>
-                    {/* <div className="controls"> */}
-                    {/*     <input className={"bg-pink-400"} */}
-                    {/*         type="range" */}
-                    {/*         value={zoom} */}
-                    {/*         min={1} max={3} step={0.1} */}
-                    {/*         aria-labelledby='Увеличение' */}
-                    {/*         onChange={onZoomChange(zoom)} /> */}
-                    {/* </div> */}
-
+                    {!isCropped && <div>
+                        <div className="w-full flex justify-center">
+                            <input className={"bg-pink-400"}
+                                type="range"
+                                value={zoom}
+                                min={1} max={3} step={0.1}
+                                aria-labelledby='Увеличение'
+                                onChange={onZoomChange} />
+                        </div>
+                        <div className='w-full flex justify-center'>
+                            <button
+                                className="my-5 form-button"
+                                onClick={(e) => {
+                                    e.preventDefault()
+                                    setIsCropped(true)
+                                    setUserPicFile(userPicCropped)
+                                }}>
+                                Обрезать фото
+                            </button>
+                        </div>
+                    </div>}
                     {/* <button className='font-bold font-sans text-2xl bg-white p-2 text-blue-400'> */}
                     {/*     OK */}
                     {/* </button> */}
                 </div>
             )
 
-
-            async function onCrop() {
-                if (!cropperRef.current) {
-                    return
-                }
-
-                const cropper = cropperRef.current.cropper;
-                const reactBase64Image = cropper.getCroppedCanvas().toDataURL()
-                let startIndex = 0
-
-                for (let i = 0; i < reactBase64Image.length; i++) {
-                    if (reactBase64Image[i] === ",") {
-                        startIndex = i + 1;
-                        break;
-                    }
-                }
-
-                // const base64String = reactBase64Image.substring(startIndex, reactBase64Image.length - 1)
-                const base64String = reactBase64Image.substring(startIndex, reactBase64Image.length - 1)
-                console.log(reactBase64Image.substring(0, startIndex + 5));
-
-                const blob = new Blob([base64ToUint8Array(base64String)], { type: userPicFile.type });
-                const file = new File([blob], userPicFile.name, { type: userPicFile.type })
-
-                const formData = new FormData();
-                formData.append('file', file);
-
-                const res = await fetch("http://localhost:8000/save/multipart", {
-                    method: "POST",
-                    body: formData
-                })
-
-                console.log(res.status)
-
-                function base64ToUint8Array(base64String) {
-                    const binaryString = atob(base64String);
-                    const len = binaryString.length;
-                    const bytes = new Uint8Array(len);
-                    for (let i = 0; i < len; i++) {
-                        bytes[i] = binaryString.charCodeAt(i);
-                    }
-                    return bytes;
-                }
-            }
         }
 
 
@@ -424,7 +410,7 @@ export default function Reviews() {
                 >
                     <form
                         onSubmit={handleFormSubmit}
-                        className="mb-4 rounded-lg bg-white px-10 pb-8 pt-6"
+                        className="mb-4 rounded-lg bg-white px-10 max-mobile:px-4 pb-8 pt-6"
                         style={{
                             boxShadow: 'rgba(0, 0, 0, 0.56) 0px 22px 70px 4px'
                         }}
@@ -496,22 +482,8 @@ export default function Reviews() {
                                 className="w-full appearance-none rounded px-3 py-2 leading-tight text-gray-700 hover:cursor-pointer"
                             />
                         </div>
-                        {isCropped && <img src={userPickedImage} />}
-                        {!isCropped && userPicFile.length !== 0 && <UserPicCropper />}
-                        {!isCropped && userPicFile.length !== 0 &&
-                            (<div className='w-full flex justify-center'>
-                                <button
-                                    className="my-5 form-button"
-                                    onClick={(e) => {
-                                        setIsCropped(true)
-                                        e.preventDefault()
-                                        e.currentTarget.style.backgroundColor = "green"
-                                        e.currentTarget.textContent = "Фото обрезано"
-
-                                    }}>
-                                    Обрезать фото
-                                </button>
-                            </div>)}
+                        {/* {isCropped && <img src={userPickedImage} />} */}
+                        {userPicFile.length !== 0 && <UserPicCropper />}
                         <div className="flex items-center justify-center">
                             <button
                                 type="submit"

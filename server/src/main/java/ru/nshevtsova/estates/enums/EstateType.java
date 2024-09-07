@@ -7,7 +7,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 public enum EstateType {
-    APARTMENT("APPARTMENT"),
+    APARTMENT("APARTMENT"),
     HOUSE("HOUSE"),
     ;
 

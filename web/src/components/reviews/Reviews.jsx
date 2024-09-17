@@ -9,7 +9,7 @@ export default function Reviews() {
 
     const defaultUserData = {
         name: 'имя',
-        surnname: 'фамилия',
+        surname: 'фамилия',
         reviewText: 'пример текста отзыва',
         stars: 5
     };
@@ -20,7 +20,7 @@ export default function Reviews() {
         defaultUserData
     ]);
 
-    const [idImageMap, setIdImageMap] = useState({})
+    const [idImageMap, setIdImageMap] = useState({});
     const [midIdx, setMidIdx] = useState(1);
     const maxReviewsFetched = 15;
 
@@ -85,19 +85,19 @@ export default function Reviews() {
 
         async function fetchUserPictures(jsonArray) {
             // TODO refactor into one fetch
-            const ids = []
+            const ids = [];
             jsonArray.forEach(json => {
-                ids.push(json["id"])
+                ids.push(json['id']);
             });
-            const imagesResponce = await fetch(GLOBAL_VALUES.serverUrl + "/reviews/user-pics/get/by-ids", {
-                method: "POST",
+            const imagesResponce = await fetch(GLOBAL_VALUES.serverUrl + '/reviews/user-pics/get/by-ids', {
+                method: 'POST',
                 body: JSON.stringify(ids),
                 headers: {
-                    "Content-Type": "application/json"
+                    'Content-Type': 'application/json'
                 }
-            })
-            const fetchedImagesMap = await imagesResponce.json()
-            setIdImageMap(fetchedImagesMap)
+            });
+            const fetchedImagesMap = await imagesResponce.json();
+            setIdImageMap(fetchedImagesMap);
 
         }
 
@@ -105,31 +105,26 @@ export default function Reviews() {
 
     function ReviewDiv({ positionIdx, json }) {
         const [isShowMore, setIsShowMore] = useState(false);
-        const [userPic, setUserPic] = useState(null)
         const reviewDivRef = useRef();
 
         const isLeft = positionIdx === positions.LEFT;
         const isMid = positionIdx === positions.MID;
         const isRight = positionIdx === positions.RIGHT;
 
-        useEffect(() => {
-            setUserPic("data:image/jpeg;base64," + idImageMap[json["id"]])
-        }, [])
-
-        useEffect(() => {
+     /*   useEffect(() => {
             if (isMid) {
                 reviewDivRef.current.style.transform = 'scale(1.25)';
                 reviewDivRef.current.classList.add('animate-scale-up');
             }
             if (isScrollRight) {
                 isLeft &&
-                    reviewDivRef.current.classList.add('animate-scale-down');
+                reviewDivRef.current.classList.add('animate-scale-down');
             }
             if (!isScrollRight) {
                 isRight &&
-                    reviewDivRef.current.classList.add('animate-scale-down');
+                reviewDivRef.current.classList.add('animate-scale-down');
             }
-        }, [midIdx]);
+        }, [midIdx]);*/
 
         return (
             <div className="mx-[3.1665%] w-[27%] flex-shrink-0">
@@ -143,13 +138,16 @@ export default function Reviews() {
                         ` ${isShowMore && isRight && 'z-50 h-auto'} `
                     }
                     style={{
-                        boxShadow: 'rgba(0, 0, 0, 0.35) 0px 5px 15px'
+                        boxShadow: 'rgba(0, 0, 0, 0.35) 0px 5px 15px',
+                        animation: 'scaleUp 400ms forwards',
                     }}
                 >
                     <div className="flex items-center gap-2 pb-[2%]">
                         <img
                             id="usr-pic"
-                            src={`${userPic !== null ? userPic : "images/reviews/default-user-pic.png"}`}
+                            // src={`${userPic !== null ? userPic : "images/reviews/default-user-pic.png"}`}
+                            src={`data:image/jpeg;base64,${idImageMap[json['id']]}`}
+                            alt="Фото клиента"
                             className="w-[12%]"
                             style={{ borderRadius: '50%' }}
                         />

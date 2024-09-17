@@ -37,6 +37,8 @@ public class UserPicService {
 
     private Logger log = LoggerFactory.getLogger(this.getClass());
 
+    // TODO make notification for user which tries to save image more than 5MB
+    // TODO make image compression functionality
     public String saveUserPic(UserPic pic) throws IOException {
         File saveDir = new File(HOME_FOLDER + IMAGES_PATH);
         if (!saveDir.exists()) {
@@ -46,8 +48,8 @@ public class UserPicService {
         final Review review = repo.findById(pic.reviewId()).get();
         Assert.hasLength(pic.userPic().getOriginalFilename(),
                 "Couldn't determine image original filename to get file extension. /reviews/user-pics/add");
-        final String fileExtension = pic.userPic().getOriginalFilename()
-                .substring(pic.userPic().getOriginalFilename().lastIndexOf(".") + 1);
+        final String fileExtension = pic.userPic().getContentType()
+                .substring(pic.userPic().getContentType().lastIndexOf("/") + 1);
 
         final File file = new File(
                 "%s/%d-%s-%s.%s".formatted(

@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import StarRating from '../common/StarRating';
 import { useSelector } from 'react-redux';
-import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 import SaveReviewForm from './SaveReviewForm';
 import { Splide, SplideSlide } from '@splidejs/react-splide';
 import '@splidejs/react-splide/css';
@@ -32,8 +31,6 @@ export default function Reviews() {
         RIGHT: midIdx + 1
     };
 
-    const [isScrollRight, setIsScrollRight] = useState(false);
-
     const sliderRef = useRef();
 
     useEffect(() => {
@@ -51,22 +48,6 @@ export default function Reviews() {
 
     if (sliderRef.current) {
         scrollDistancePx = sliderRef.current.offsetWidth / 3;
-    }
-
-    function switchToPrev() {
-        if (midIdx - 1 > 0) setMidIdx(midIdx - 1);
-        setIsScrollRight(false);
-        if (sliderRef.current) {
-            sliderRef.current.scrollLeft -= scrollDistancePx;
-        }
-    }
-
-    function switchToNext() {
-        if (midIdx - 1 < maxReviewsFetched) setMidIdx(midIdx + 1);
-        setIsScrollRight(true);
-        if (sliderRef.current) {
-            sliderRef.current.scrollLeft += scrollDistancePx;
-        }
     }
 
     useEffect(() => {
@@ -115,7 +96,7 @@ export default function Reviews() {
         const isRight = positionIdx === positions.RIGHT;
 
         return (
-            <SplideSlide className={' '}>
+            <SplideSlide>
                 <div
                     ref={reviewDivRef}
                     className={
@@ -167,25 +148,27 @@ export default function Reviews() {
                 </h1>
             </div>
 
-            <div className="flex-2 flex h-full max-mobile:h-full">
-
+            <div className="flex-2 flex h-full max-mobile:h-full overflow-hidden py-[2%]">
                 <Splide
                     options={{
-                        perPage: 1,
-                        rewind: true,
+                        perPage: window.innerWidth < 768 ? 1 : 3,
                         lazyLoad: true,
                         speed: 700,
                         easing: 'ease-in-out',
                         snap: true,
-                        gap: '2rem'
+                        gap: '2rem', 
+                       arrows: true,
+                       classes:  {
+                        arrow: "custom-arrow"
+                       }
                     }}
                     aria-label="Reviews"
+                    className="w-full px-[3%]"
                 >
                     {reviewsJsonArray.map((json, idx) => (
                         <ReviewDiv key={idx} json={json} positionIdx={idx} />
                     ))}
                 </Splide>
-
             </div>
 
             <SaveReviewForm formHolderRef={formHolderRef} />

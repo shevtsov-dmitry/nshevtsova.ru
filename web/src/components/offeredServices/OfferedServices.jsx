@@ -1,8 +1,13 @@
 import { useSelector } from 'react-redux';
+import Slide from 'react-reveal/Slide'; // Change the import to Slide
+import Fade from 'react-reveal/Fade'; // Import Fade
 
 export default function OfferedServices() {
     const IMAGES_PATH = 'images/offered-services';
     const GLOBAL_VALUES = useSelector((state) => state.globalStringValues);
+
+    const revealDelayStepMs = 130;
+    const extraFadeRevealDelayMs = 70;
 
     function ServiceDiv(props) {
         const TITLE = props.title;
@@ -14,8 +19,7 @@ export default function OfferedServices() {
                 <div className="col-span-1 row-span-1 flex h-full w-full items-center justify-center">
                     <img className="w-[60%]" src={`${IMAGE_SRC}`} />
                 </div>
-                <div className="col-span-3 row-span-1 flex h-full w-full items-center">
-                    <h1 className="font-ptsans-bold text-2xl">{TITLE}</h1>
+                <div className="col-span-3 row-span-1 flex h-full w-full items-center"> <h1 className="font-ptsans-bold text-2xl">{TITLE}</h1>
                 </div>
                 <div className="col-span-1 row-span-3" />
                 <ul className="col-span-3 row-span-3 flex list-disc flex-col gap-2 marker:text-yellow-400">
@@ -37,61 +41,88 @@ export default function OfferedServices() {
                 </h1>
             </div>
             <section className="grid h-4/5 w-full grid-cols-3 gap-5 px-[5%]">
-                <ServiceDiv
-                    title={'ПОКУПКА'}
-                    icon={`${IMAGES_PATH}/house-key.png`}
-                    description={[
-                        'Подбор идеальной недвижимости',
-                        'Сопровождение сделки на каждом этапе',
-                        'Юридическая проверка документов',
-                        'Переговоры с продавцами'
-                    ]}
-                />
-                <ServiceDiv
-                    title={'ПРОДАЖА'}
-                    icon={`${IMAGES_PATH}/deal.png`}
-                    description={[
-                        'Оценка рыночной стоимости',
-                        'Подготовка к продаже',
-                        'Маркетинг и реклама',
-                        'Проведение показов'
-                    ]}
-                />
-                <ServiceDiv
-                    title={'ПОИСК НЕДВИЖИМОСТИ'}
-                    icon={`${IMAGES_PATH}/find-house.png`}
-                    description={[
-                        'Поиск по заданным критериям',
-                        'Консультации по районам',
-                        'Организация просмотров',
-                        'Анализ рынка недвижимости'
-                    ]}
-                />
-                <ServiceDiv
-                    title={'АРЕНДА'}
-                    icon={`${IMAGES_PATH}/rent.png`}
-                    description={[
-                        'Поиск долгосрочной аренды',
-                        'Оформление договоров',
-                        'Консультации по аренде',
-                        'Подбор арендаторов'
-                    ]}
-                />
-                <ServiceDiv
-                    title={'ПОМОЩЬ В ОФОРМЛЕНИИ'}
-                    icon={`${IMAGES_PATH}/document.png`}
-                    description={[
-                        'Сбор необходимых документов',
-                        'Юридическое сопровождение',
-                        'Оформление ипотеки',
-                        'Консультации по налогам'
-                    ]}
-                />
-                <ServiceDiv
-                    title={'КОНСУЛЬТАЦИЯ'}
-                    icon={`${IMAGES_PATH}/consult.png`}
-                    description={[GLOBAL_VALUES.phoneNumber]}
-                />
+                <Slide bottom delay={revealDelayStepMs * 1}>
+                    <div> {/* Add a wrapper div */}
+                        <ServiceDiv
+                            title={'ПОКУПКА'}
+                            icon={`${IMAGES_PATH}/house-key.png`}
+                            description={[
+                                'Подбор идеальной недвижимости',
+                                'Сопровождение сделки на каждом этапе',
+                                'Юридическая проверка документов',
+                                'Переговоры с продавцами'
+                            ]}
+                        />
+                    </div>
+                </Slide>
+                <Slide bottom delay={revealDelayStepMs * 2}>
+                    <div> {/* Add a wrapper div */}
+                        <ServiceDiv
+                            title={'ПРОДАЖА'}
+                            icon={`${IMAGES_PATH}/deal.png`}
+                            description={[
+                                'Оценка рыночной стоимости',
+                                'Подготовка к продаже',
+                                'Маркетинг и реклама',
+                                'Проведение показов'
+                            ]}
+                        />
+                    </div>
+                </Slide>
+                <Slide bottom delay={revealDelayStepMs * 3}>
+
+                    <div> {/* Add a wrapper div */}
+                        <ServiceDiv
+                            title={'ПОИСК НЕДВИЖИМОСТИ'}
+                            icon={`${IMAGES_PATH}/find-house.png`}
+                            description={[
+                                'Поиск по заданным критериям',
+                                'Консультации по районам',
+                                'Организация просмотров',
+                                'Анализ рынка недвижимости'
+                            ]}
+                        />
+                    </div>
+                </Slide>
+                <Slide bottom delay={revealDelayStepMs * 4}>
+                    <Fade delay={revealDelayStepMs * 4 + extraFadeRevealDelayMs}>
+                        <ServiceDiv
+                            title={'АРЕНДА'}
+                            icon={`${IMAGES_PATH}/rent.png`}
+                            description={[
+                                'Поиск долгосрочной аренды',
+                                'Оформление договоров',
+                                'Консультации по аренде',
+                                'Подбор арендаторов'
+                            ]}
+                        />
+                        </Fade>
+                </Slide>
+
+                <Slide bottom delay={revealDelayStepMs * 5}>
+                    <Fade delay={revealDelayStepMs * 5 + extraFadeRevealDelayMs}>
+                        <ServiceDiv
+                            title={'ПОМОЩЬ В ОФОРМЛЕНИИ'}
+                            icon={`${IMAGES_PATH}/document.png`}
+                            description={[
+                                'Сбор необходимых документов',
+                                'Юридическое сопровождение',
+                                'Оформление ипотеки',
+                                'Консультации по налогам'
+                            ]}
+                        />
+                    </Fade>
+                </Slide>
+                <Slide bottom delay={revealDelayStepMs * 6}>
+                    <Fade delay={revealDelayStepMs * 6 + extraFadeRevealDelayMs}>
+                        <ServiceDiv
+                            title={'КОНСУЛЬТАЦИЯ'}
+                            icon={`${IMAGES_PATH}/consult.png`}
+                            description={[GLOBAL_VALUES.phoneNumber]}
+                        />
+                    </Fade>
+                </Slide>
+                
             </section>
         </div>
     );

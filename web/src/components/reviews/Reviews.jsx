@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import SaveReviewForm from './SaveReviewForm';
 import { Splide, SplideSlide } from '@splidejs/react-splide';
 import '@splidejs/react-splide/css';
+import { Slide } from 'react-reveal';
 
 export default function Reviews() {
     const formHolderRef = useRef();
@@ -142,10 +143,12 @@ export default function Reviews() {
             className={`flex h-full w-full flex-col bg-[url('images/reviews/foggy-city.jpg')] bg-cover bg-no-repeat py-[2%]`}
         >
             <div className="h-full w-full flex-1">
-                <h1 className="text-center font-ptsans-bold text-5xl">
-                    Отзывы тех, кто уже совершил <br /> выгодную сделку с моей
-                    помощью
-                </h1>
+                <Slide bottom delay={50}>
+                    <h1 className="text-center font-ptsans-bold text-5xl">
+                        Отзывы тех, кто уже совершил <br /> выгодную сделку с моей
+                        помощью
+                    </h1>
+                </Slide>
             </div>
 
             <div className="flex-2 flex h-full max-mobile:h-full overflow-hidden py-[2%]">
@@ -156,11 +159,11 @@ export default function Reviews() {
                         speed: 700,
                         easing: 'ease-in-out',
                         snap: true,
-                        gap: '2rem', 
-                       arrows: true,
-                       classes:  {
-                        arrow: "custom-arrow"
-                       }
+                        gap: '2rem',
+                        arrows: true,
+                        classes: {
+                            arrow: "custom-arrow"
+                        }
                     }}
                     aria-label="Reviews"
                     className="w-full px-[3%]"
@@ -187,7 +190,7 @@ export default function Reviews() {
                     Оставить отзыв
                 </button>
             </div>
-        </div>
+        </div >
     );
 
 

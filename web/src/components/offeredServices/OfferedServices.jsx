@@ -35,11 +35,13 @@ export default function OfferedServices() {
 
     return (
         <div className="mb-[2.5%] h-fit w-full">
-            <div className="flex h-1/5 items-center justify-start">
-                <h1 className="my-[2%] ml-[5%] font-ptsans-bold text-4xl">
-                    ПРЕДОСТАВЛЯЕМЫЕ УСЛУГИ
-                </h1>
-            </div>
+            <Slide left>
+                <div className="flex h-1/5 items-center justify-start">
+                    <h1 className="my-[2%] ml-[5%] font-ptsans-bold text-4xl">
+                        ПРЕДОСТАВЛЯЕМЫЕ УСЛУГИ
+                    </h1>
+                </div>
+            </Slide>
             <section className="grid h-4/5 w-full grid-cols-3 gap-5 px-[5%]">
                 <Slide bottom delay={revealDelayStepMs * 1}>
                     <div> {/* Add a wrapper div */}
@@ -84,8 +86,8 @@ export default function OfferedServices() {
                         />
                     </div>
                 </Slide>
-                <Slide bottom delay={revealDelayStepMs * 4}>
-                    <Fade delay={revealDelayStepMs * 4 + extraFadeRevealDelayMs}>
+                <Slide bottom delay={revealDelayStepMs * 1}>
+                    <Fade delay={revealDelayStepMs * 1 + extraFadeRevealDelayMs}>
                         <ServiceDiv
                             title={'АРЕНДА'}
                             icon={`${IMAGES_PATH}/rent.png`}
@@ -96,11 +98,11 @@ export default function OfferedServices() {
                                 'Подбор арендаторов'
                             ]}
                         />
-                        </Fade>
+                    </Fade>
                 </Slide>
 
-                <Slide bottom delay={revealDelayStepMs * 5}>
-                    <Fade delay={revealDelayStepMs * 5 + extraFadeRevealDelayMs}>
+                <Slide bottom delay={revealDelayStepMs * 2}>
+                    <Fade delay={revealDelayStepMs * 2 + extraFadeRevealDelayMs}>
                         <ServiceDiv
                             title={'ПОМОЩЬ В ОФОРМЛЕНИИ'}
                             icon={`${IMAGES_PATH}/document.png`}
@@ -113,8 +115,8 @@ export default function OfferedServices() {
                         />
                     </Fade>
                 </Slide>
-                <Slide bottom delay={revealDelayStepMs * 6}>
-                    <Fade delay={revealDelayStepMs * 6 + extraFadeRevealDelayMs}>
+                <Slide bottom delay={revealDelayStepMs * 3}>
+                    <Fade delay={revealDelayStepMs * 3 + extraFadeRevealDelayMs}>
                         <ServiceDiv
                             title={'КОНСУЛЬТАЦИЯ'}
                             icon={`${IMAGES_PATH}/consult.png`}
@@ -122,7 +124,7 @@ export default function OfferedServices() {
                         />
                     </Fade>
                 </Slide>
-                
+
             </section>
         </div>
     );

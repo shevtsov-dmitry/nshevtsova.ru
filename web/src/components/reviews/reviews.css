@@ -18,11 +18,11 @@
 
 @keyframes scaleDown {
     0% {
-        @apply scale-125;
+        @apply scale-125 bg-red-200;
     }
 
     100% {
-        @apply scale-100;
+        @apply scale-100 bg-amber-100;
     }
 }
 

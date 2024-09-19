@@ -3,6 +3,8 @@ import StarRating from '../common/StarRating';
 import { useSelector } from 'react-redux';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 import SaveReviewForm from './SaveReviewForm';
+import { Splide, SplideSlide } from '@splidejs/react-splide';
+import '@splidejs/react-splide/css';
 
 export default function Reviews() {
     const formHolderRef = useRef();
@@ -89,19 +91,20 @@ export default function Reviews() {
             jsonArray.forEach(json => {
                 ids.push(json['id']);
             });
-            const imagesResponce = await fetch(GLOBAL_VALUES.serverUrl + '/reviews/user-pics/get/by-ids', {
+            const imagesResponse = await fetch(GLOBAL_VALUES.serverUrl + '/reviews/user-pics/get/by-ids', {
                 method: 'POST',
                 body: JSON.stringify(ids),
                 headers: {
                     'Content-Type': 'application/json'
                 }
             });
-            const fetchedImagesMap = await imagesResponce.json();
+            const fetchedImagesMap = await imagesResponse.json();
             setIdImageMap(fetchedImagesMap);
 
         }
 
     }, [isReviewSent]);
+
 
     function ReviewDiv({ positionIdx, json }) {
         const [isShowMore, setIsShowMore] = useState(false);
@@ -111,48 +114,27 @@ export default function Reviews() {
         const isMid = positionIdx === positions.MID;
         const isRight = positionIdx === positions.RIGHT;
 
-     /*   useEffect(() => {
-            if (isMid) {
-                reviewDivRef.current.style.transform = 'scale(1.25)';
-                reviewDivRef.current.classList.add('animate-scale-up');
-            }
-            if (isScrollRight) {
-                isLeft &&
-                reviewDivRef.current.classList.add('animate-scale-down');
-            }
-            if (!isScrollRight) {
-                isRight &&
-                reviewDivRef.current.classList.add('animate-scale-down');
-            }
-        }, [midIdx]);*/
-
         return (
-            <div className="mx-[3.1665%] w-[27%] flex-shrink-0">
+            <SplideSlide className={' '}>
                 <div
                     ref={reviewDivRef}
-                    // className={`${isMid && 'z-20'} mx-[1.665%] flex h-[20em] w-[30%] flex-shrink-0 flex-col rounded-lg bg-white p-5`}
                     className={
-                        `flex h-[20em] flex-col rounded-lg bg-white p-5 ` +
-                        ` ${isShowMore && isLeft && 'z-50 h-auto'} ` +
-                        ` ${isShowMore && isMid && 'z-50 h-auto'} ` +
-                        ` ${isShowMore && isRight && 'z-50 h-auto'} `
+                        `flex h-[20em] my-[5%] w-auto flex-col rounded-lg bg-white p-5 ${isShowMore && 'z-50 h-auto'}`
                     }
                     style={{
-                        boxShadow: 'rgba(0, 0, 0, 0.35) 0px 5px 15px',
-                        animation: 'scaleUp 400ms forwards',
+                        boxShadow: 'rgba(0, 0, 0, 0.35) 0px 5px 15px'
                     }}
+
                 >
                     <div className="flex items-center gap-2 pb-[2%]">
                         <img
                             id="usr-pic"
-                            // src={`${userPic !== null ? userPic : "images/reviews/default-user-pic.png"}`}
                             src={`data:image/jpeg;base64,${idImageMap[json['id']]}`}
                             alt="Фото клиента"
                             className="w-[12%]"
                             style={{ borderRadius: '50%' }}
                         />
                         <div>
-
                             <h3 id="user-name">
                                 {json.name} {json.surname}
                             </h3>
@@ -170,36 +152,13 @@ export default function Reviews() {
                         {isShowMore ? 'закрыть' : 'посмотреть полностью'}
                     </p>
                 </div>
-            </div>
-        );
-    }
-
-    function SwitchArrows() {
-        return (
-            <div className="flex h-12 w-full justify-center">
-                <div className="z-50 mt-[-10%] flex items-center gap-5">
-                    <FaArrowLeft
-                        size={30}
-                        className="switch-review-arrow"
-                        onClick={() => switchToPrev()}
-                    />
-                    {/* TODO set here somethin like 1..252 underlined. go from newest requests to oldests */}
-                    <p className="select-none text-[2rem] font-bold text-white">
-                        {midIdx}
-                    </p>
-                    <FaArrowRight
-                        size={30}
-                        className="switch-review-arrow"
-                        onClick={() => switchToNext()}
-                    />
-                </div>
-            </div>
+            </SplideSlide>
         );
     }
 
     return (
         <div
-            className={`flex h-full flex-col bg-[url('images/reviews/foggy-city.jpg')] bg-cover bg-no-repeat py-[2%]`}
+            className={`flex h-full w-full flex-col bg-[url('images/reviews/foggy-city.jpg')] bg-cover bg-no-repeat py-[2%]`}
         >
             <div className="h-full w-full flex-1">
                 <h1 className="text-center font-ptsans-bold text-5xl">
@@ -208,28 +167,25 @@ export default function Reviews() {
                 </h1>
             </div>
 
-            <div className="flex-2 flex h-full w-full flex-col items-center justify-center">
-                <div
-                    // FIXME add antispam restriction for horizontal scrolling to prevent review position shift
-                    ref={sliderRef}
-                    className="z-20 flex w-full items-center overflow-hidden scroll-smooth py-[8%] max-mobile:h-full max-mobile:flex-col"
+            <div className="flex-2 flex h-full max-mobile:h-full">
+
+                <Splide
+                    options={{
+                        perPage: 1,
+                        rewind: true,
+                        lazyLoad: true,
+                        speed: 700,
+                        easing: 'ease-in-out',
+                        snap: true,
+                        gap: '2rem'
+                    }}
+                    aria-label="Reviews"
                 >
-                    {/* TODO decide what to do with confict of empty divs and smooth scrolling */}
-                    {/* <div */}
-                    {/*     id={'left-empty-space'} */}
-                    {/*     className={`${midIdx == 0 ? 'w-1/3' : 'w-0'} flex-shrink-0 transition-all`} */}
-                    {/* /> */}
                     {reviewsJsonArray.map((json, idx) => (
                         <ReviewDiv key={idx} json={json} positionIdx={idx} />
                     ))}
+                </Splide>
 
-                    {/* <div */}
-                    {/*     id={'right-empty-space'} */}
-                    {/*     className={`w-1/3 flex-shrink-0`} */}
-                    {/* /> */}
-                </div>
-
-                <SwitchArrows />
             </div>
 
             <SaveReviewForm formHolderRef={formHolderRef} />

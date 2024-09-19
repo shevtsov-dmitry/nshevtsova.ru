@@ -10,10 +10,9 @@
         "preview": "vite preview"
     },
     "dependencies": {
-        "@emotion/react": "^11.13.3",
-        "@emotion/styled": "^11.13.0",
-        "@mui/material": "^6.1.0",
+        "@react-spring/web": "^9.7.4",
         "@reduxjs/toolkit": "^2.2.1",
+        "@splidejs/react-splide": "^0.7.12",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
         "react-easy-crop": "^5.0.8",

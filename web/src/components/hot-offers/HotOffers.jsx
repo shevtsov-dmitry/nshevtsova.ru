@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { Slide } from 'react-reveal';
 
 export default function HotOffers() {
     const GLOBAL_VALUES = useSelector((state) => state.globalStringValues);
@@ -80,9 +81,11 @@ export default function HotOffers() {
 
     return (
         <div className="h-auto w-full bg-[#E9E7E7]">
-            <h1 className="py-[2%] pl-[5%] font-ptsans-bold text-4xl">
-                ГОРЯЧИЕ ПРЕДЛОЖЕНИЯ
-            </h1>
+            <Slide left>
+                <h1 className="py-[2%] pl-[5%] font-ptsans-bold text-4xl">
+                    ГОРЯЧИЕ ПРЕДЛОЖЕНИЯ
+                </h1>
+            </Slide>
             <div className="mx-[5%] grid grid-cols-4 gap-8 pb-[2%]">
                 {estatesList.map((json, idx) => (
                     <Estate

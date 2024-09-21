@@ -117,6 +117,7 @@ export default function OfferedServices() {
                 </Slide>
                 <Slide bottom delay={revealDelayStepMs * 3}>
                     <Fade delay={revealDelayStepMs * 3 + extraFadeRevealDelayMs}>
+                         {/* TODO make phone number clickable */}
                         <ServiceDiv
                             title={'КОНСУЛЬТАЦИЯ'}
                             icon={`${IMAGES_PATH}/consult.png`}

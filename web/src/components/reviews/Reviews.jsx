@@ -45,12 +45,6 @@ export default function Reviews() {
     const GLOBAL_VALUES = useSelector((state) => state.globalStringValues);
     const isReviewSent = useSelector((state) => state.review).isReviewSent;
 
-    let scrollDistancePx = 300;
-
-    if (sliderRef.current) {
-        scrollDistancePx = sliderRef.current.offsetWidth / 3;
-    }
-
     useEffect(() => {
 
         fetchUserReviews();
@@ -142,6 +136,8 @@ export default function Reviews() {
         <div
             className={`flex h-full w-full flex-col bg-[url('images/reviews/foggy-city.jpg')] bg-cover bg-no-repeat py-[2%]`}
         >
+
+
             <div className="h-full w-full flex-1">
                 <Slide bottom delay={50}>
                     <h1 className="text-center font-ptsans-bold text-5xl">
@@ -149,6 +145,10 @@ export default function Reviews() {
                         помощью
                     </h1>
                 </Slide>
+            </div>
+
+            <div className=''>
+                <SaveReviewForm formHolderRef={formHolderRef} />
             </div>
 
             <div className="flex-2 flex h-full max-mobile:h-full overflow-hidden py-[2%]">
@@ -174,9 +174,8 @@ export default function Reviews() {
                 </Splide>
             </div>
 
-            <SaveReviewForm formHolderRef={formHolderRef} />
 
-            <div className="flex w-full flex-1 justify-center">
+            <div className="flex w-full flex-1 justify-center items-center">
                 <button
                     onClick={() => {
                         formHolderRef.current.style.display = 'block';

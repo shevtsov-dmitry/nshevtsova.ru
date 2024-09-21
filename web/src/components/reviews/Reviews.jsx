@@ -147,9 +147,7 @@ export default function Reviews() {
                 </Slide>
             </div>
 
-            <div className=''>
                 <SaveReviewForm formHolderRef={formHolderRef} />
-            </div>
 
             <div className="flex-2 flex h-full max-mobile:h-full overflow-hidden py-[2%]">
                 <Splide

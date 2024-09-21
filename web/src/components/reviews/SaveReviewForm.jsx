@@ -16,6 +16,8 @@ export default function SaveReviewForm({ formHolderRef }) {
 
     const isReviewSent = useSelector((state) => state.review).isReviewSent
     const GLOBAL_VALUES = useSelector((state) => state.globalStringValues);
+    
+    const isMobile = window.innerWidth < 768
 
     const dispatch = useDispatch()
 
@@ -186,21 +188,8 @@ export default function SaveReviewForm({ formHolderRef }) {
                             aria-labelledby='Увеличение'
                             onChange={onZoomChange} />
                     </div>
-                    <div className='w-full flex justify-center'>
-                        <button
-                            className="my-5 form-button"
-                            onClick={(e) => {
-                                e.preventDefault()
-                                setIsCropped(true)
-                                setUserPicFile(userPicCropped)
-                            }}>
-                            Обрезать фото
-                        </button>
-                    </div>
+
                 </div>}
-                {/* <button className='font-bold font-sans text-2xl bg-white p-2 text-blue-400'> */}
-                {/*     OK */}
-                {/* </button> */}
             </div>
         )
 
@@ -208,7 +197,7 @@ export default function SaveReviewForm({ formHolderRef }) {
 
 
     return (
-        <div className={'absolute z-50 mt-[8%] w-full justify-center'}>
+        <div className={'absolute z-50 w-full justify-center'}>
             <div
                 className="z-50 mx-auto w-1/4 p-4 max-laptop:w-1/3 max-mobile:w-3/4"
                 ref={formHolderRef}
@@ -288,17 +277,27 @@ export default function SaveReviewForm({ formHolderRef }) {
                         />
                     </div>
                     {/* {isCropped && <img src={userPickedImage} />} */}
-                    {userPicFile.length !== 0 && <UserPicCropper />}
-                    <div className="flex items-center justify-center">
+                    {userPicFile && <UserPicCropper />}
+                    <div id='buttons' className={`w-full flex justify-around mt-3 ${isMobile ? "flex-col gap-3" :  "gap-1"}`}>
+                        {userPicFile &&
+                            <button
+                                className="form-button"
+                                onClick={(e) => {
+                                    e.preventDefault()
+                                    setIsCropped(true)
+                                    setUserPicFile(userPicCropped)
+                                }}>
+                                Обрезать фото
+                            </button>}
                         <button
                             type="submit"
                             className="form-button"
                         >
                             Оставить отзыв
                         </button>
-                        <div className={'absolute mt-[70px]'}>
-                            {operationStatusMessage}
-                        </div>
+                    </div>
+                    <div className={'absolute'}>
+                        {operationStatusMessage}
                     </div>
                 </form>
             </div>

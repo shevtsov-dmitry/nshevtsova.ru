@@ -67,7 +67,7 @@ export default function SaveReviewForm({ formHolderRef }) {
         const didSaveImageOrDecideNotTo = userPicFile === "" || picSaveRes.status === 200
         dispatch(setIsReviewSent(didSaveReview && didSaveImageOrDecideNotTo))
 
-        visualizeResponse(isReviewSent);
+        visualizeResponse(userReviewRes.status === 200);
 
         function visualizeResponse(statusIsOk) {
             if (statusIsOk) {

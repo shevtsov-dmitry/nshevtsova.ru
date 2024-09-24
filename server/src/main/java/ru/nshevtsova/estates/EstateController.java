@@ -20,7 +20,6 @@ public class EstateController {
 
     @PostMapping("/add")
     public ResponseEntity<Long> addNewEstate(@RequestBody EstatesDataHolder estateData) {
-        System.out.println(estateData);
         var savedEstate = service.addNewEstate(estateData);
         Assert.notNull(savedEstate, "Couldn't save estate. /estates/add");
         return ResponseEntity.ok(savedEstate);

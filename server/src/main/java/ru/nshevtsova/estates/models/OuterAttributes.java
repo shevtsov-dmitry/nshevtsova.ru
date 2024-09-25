@@ -25,7 +25,7 @@ public class OuterAttributes {
     private @NonNull int allFloors;
     private @NonNull int releaseDate; // год сдачи
     private boolean hasParking;
-    private String windowViewDescription;
+    private String description;
 
     @JsonIgnore
     @OneToOne

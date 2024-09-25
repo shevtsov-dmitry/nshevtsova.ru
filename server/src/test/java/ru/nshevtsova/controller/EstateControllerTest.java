@@ -35,8 +35,8 @@ public class EstateControllerTest {
     private final String chars = "abcdefghijclmnopqrstuvwxyzабвгдеёжзийклмнопрстуфхцчшщъыйэюя.?!".concat(" ".repeat(5));
     private static Long savedEstateId = 0L;
 
-//     @RepeatedTest(15)
-    @Test
+     @RepeatedTest(15)
+//    @Test
     void saveEstate() throws Exception {
         final var estate = new JSONObject();
 
@@ -60,7 +60,7 @@ public class EstateControllerTest {
         outerAttributes.put("allFloors", rand.nextInt(1, 20));
         outerAttributes.put("releaseDate", rand.nextInt(1950, 2024)); // год сдачи
         outerAttributes.put("hasParking", rand.nextDouble() > 0.5);
-        outerAttributes.put("windowViewDescription", IntStream.range(0, rand.nextInt(50, 90))
+        outerAttributes.put("description", IntStream.range(0, rand.nextInt(50, 90))
                 .mapToObj(idx -> String.valueOf((char) rand.nextInt(97, 122)))
                 .collect(Collectors.joining()));
 
@@ -100,8 +100,7 @@ public class EstateControllerTest {
                 "г. Калуга, Молодежная улица, дом 19А, 2 подъезд, 22 квартира",
                 "г. Кострома, Советская улица, дом 16Б, 1 подъезд, 33 квартира",
                 "г. Курск, Кировская улица, дом 21А, 4 подъезд, 49 квартира",
-                "г. Тула, Ленинский проспект, дом 18Б, 3 подъезд, 41 квартира"
-        );
+                "г. Тула, Ленинский проспект, дом 18Б, 3 подъезд, 41 квартира");
 
         return notExistentAddresses.get(rand.nextInt(notExistentAddresses.size()));
     }

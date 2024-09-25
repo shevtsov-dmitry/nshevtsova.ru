@@ -47,15 +47,24 @@ export default function HotOffers() {
     }, []);
 
     function Estate({ estate, innerAttributes, outerAttributes }) {
+        const [isOfferHovered, setIsOfferHovered] = useState(false);
+
         return (
             <div className="flex w-full justify-center">
                 <div
                     className="h-full w-5/6 rounded-3xl"
+                    onMouseEnter={() => setIsOfferHovered(true)}
+                    onMouseLeave={() => setIsOfferHovered(false)}
                     style={{
                         boxShadow:
                             'rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px'
                     }}
                 >
+                    {isAdmin && isOfferHovered &&
+                        <div className='absolute top-[1%] right-[9%] hover:bg-white hover:cursor-pointer p-3 rounded-full'>
+                            <img src='images/hot-offers/edit.png' />
+                        </div>
+                    }
                     <img
                         className="h-[300px] w-full rounded-t-3xl"
                         alt="фото квартиры"
@@ -88,11 +97,13 @@ export default function HotOffers() {
                         ГОРЯЧИЕ ПРЕДЛОЖЕНИЯ
                     </h1>
                 </Slide>
-                {isAdmin && (
-                    <button className="bg-blue-500 ml-5 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105 h-12">
-                        Добавить новое
-                    </button>
-                )}
+                <Slide right>
+                    {isAdmin && (
+                        <button className="bg-blue-500 ml-5 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105 h-12">
+                            Добавить новое
+                        </button>
+                    )}
+                </Slide>
             </div>
             <div className="mx-[5%] grid grid-cols-4 gap-8 pb-[2%]">
                 {estatesList.map((json, idx) => (

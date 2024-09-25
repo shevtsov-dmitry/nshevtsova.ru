@@ -1,6 +1,7 @@
 package ru.nshevtsova.controller;
 
 import org.json.JSONObject;
+import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -34,8 +35,8 @@ public class EstateControllerTest {
     private final String chars = "abcdefghijclmnopqrstuvwxyzабвгдеёжзийклмнопрстуфхцчшщъыйэюя.?!".concat(" ".repeat(5));
     private static Long savedEstateId = 0L;
 
-    // @RepeatedTest(15)
-    @Test
+     @RepeatedTest(15)
+//    @Test
     void saveEstate() throws Exception {
         final var estate = new JSONObject();
 

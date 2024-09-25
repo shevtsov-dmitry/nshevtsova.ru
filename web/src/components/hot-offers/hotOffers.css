@@ -1,0 +1,25 @@
+#estate-form {
+    label {
+        @apply text-sm;
+    }
+
+    .form-attribute-input {
+        @apply flex justify-between gap-1;
+    }
+
+    input {
+        @apply border-[1px] border-black px-5;
+    }
+
+    .inner-outer-attributes-holder {
+        @apply flex flex-col gap-5
+    }
+
+    .form-attribute-checkbox {
+        @apply flex gap-3;
+    }
+
+    .checkbox-shift-fix {
+        @apply mb-[-4px];
+    }
+}

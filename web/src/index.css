@@ -2,6 +2,7 @@
 @import './components/preview/preview.css';
 @import './components/advantages/advantages.css';
 @import './components/reviews/reviews.css';
+@import './components/hot-offers/hotOffers.css';
 
 @tailwind base;
 @tailwind components;

@@ -35,8 +35,8 @@ public class EstateControllerTest {
     private final String chars = "abcdefghijclmnopqrstuvwxyzабвгдеёжзийклмнопрстуфхцчшщъыйэюя.?!".concat(" ".repeat(5));
     private static Long savedEstateId = 0L;
 
-     @RepeatedTest(15)
-//    @Test
+//     @RepeatedTest(15)
+    @Test
     void saveEstate() throws Exception {
         final var estate = new JSONObject();
 
@@ -68,6 +68,8 @@ public class EstateControllerTest {
         requestJsonData.put("estate", estate);
         requestJsonData.put("innerAttributes", innerAttributes);
         requestJsonData.put("outerAttributes", outerAttributes);
+
+        System.out.println(requestJsonData);
 
         final String url = ENDPOINT_URL + "/estates/add";
         mockMvc.perform(post(url)

@@ -1,23 +1,30 @@
+#form-holder {
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
 #estate-form {
+
     label {
         @apply text-sm;
     }
 
     .form-attribute-input {
-        @apply flex justify-between gap-1;
+        @apply flex justify-between gap-2;
 
         input {
-            @apply border-[1px] border-black px-5;
+            @apply px-1 rounded-sm;
+            /*box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px, rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;*/
+            box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 0.13) 0px 0px 1px 1px;
         }
     }
 
 
     .inner-outer-attributes-holder {
-        @apply flex flex-col gap-5
+        @apply flex flex-col gap-3
     }
 
     .form-attribute-checkbox {
-        @apply flex gap-3;
+        @apply flex gap-1;
     }
 
     .checkbox-shift-fix {
@@ -27,4 +34,18 @@
     .upload-picture-label {
         @apply mb-2 block text-sm font-bold text-gray-700;
     }
+
+    .floor-selector {
+        @apply w-fit px-1 py-1 rounded-sm;
+    }
+
+    .selector-holder {
+        @apply flex gap-1 items-center justify-between;
+    }
+
+    .number-selector {
+        @apply rounded-sm bg-white p-1;
+        box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+    }
+
 }

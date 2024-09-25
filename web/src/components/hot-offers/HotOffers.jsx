@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Slide, Fade } from 'react-reveal';
-import EstateManagmentForm from './EstateManagmentForm.jsx';
+import EstateManagementForm from './EstateManagementForm.jsx';
 
 export default function HotOffers() {
     const isAdmin = true;
@@ -108,7 +108,7 @@ export default function HotOffers() {
                     )}
                 </Slide>
             </div>
-            <EstateManagmentForm type={"ADD"} />
+            <EstateManagementForm type={"ADD"} />
             <div className={`${isMobile ? "mx-0" : "mx-[5%]"} grid ${isLaptop && !isMobile ? 'grid-cols-3' : 'grid-cols-4'} ${isMobile && 'grid-cols-1'} ${window.innerWidth < 1200 ? 'grid-cols-2' : 'grid-cols-3'} gap-8 pb-[2%]`}>
                 {estatesList.map((json, idx) => (
                     <Slide bottom key={idx}>

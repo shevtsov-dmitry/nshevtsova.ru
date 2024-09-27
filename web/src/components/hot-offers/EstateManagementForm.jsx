@@ -35,6 +35,7 @@ export default function EstateManagementForm(type) {
 
     const [mainPictureIdx, setMainPictureIdx] = useState();
     const [imageFiles, setImageFiles] = useState([]);
+    const [notification, setNotification] = useState({ message: '', type: '' });
 
     // Function to handle input changes
     const handleFormInputChange = (e) => {
@@ -68,23 +69,32 @@ export default function EstateManagementForm(type) {
         });
         if (!resEstate.ok) {
             console.error('Error saving estate json:', resEstate.statusText);
+            setNotification({ message: 'Ошибка при сохранении недвижимости.', type: 'error' });
             return;
         }
 
         const estateId = await resEstate.text();
 
         const imageFormData = new FormData();
+        imageFormData.append('estateId', estateId);
         imageFiles.forEach((file) => {
             imageFormData.append('images', file);
         });
 
-        fetch(`${SERVER_URL}/reviews/images/save`, {
+        const resImagesSave = await fetch(`${SERVER_URL}/estates/images/save`, {
             method: 'POST',
             body: imageFormData
-        })
-            .then((response) => response.json())
-            .then((data) => console.log('Images uploaded:', data))
-            .catch((error) => console.error('Error uploading images:', error));
+        });
+
+        if (resImagesSave.status !== 200) {
+            let errMes = await resImagesSave.json();
+            errMes = errMes["message"];
+            console.error(errMes);
+            setNotification({ message: 'Ошибка при сохранении изображений.', type: 'error' });
+            return;
+        }
+
+        setNotification({ message: 'Недвижимость успешно сохранена!', type: 'success' });
     }
 
     const handleFileChange = (e) => {
@@ -399,6 +409,11 @@ export default function EstateManagementForm(type) {
                             Сохранить
                         </button>
                     </div>
+                    {notification.message && (
+                        <div className={`mt-2 p-2 rounded text-center ${notification.type === 'success' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
+                            {notification.message}
+                        </div>
+                    )}
                 </form>
             </div>
         </div>

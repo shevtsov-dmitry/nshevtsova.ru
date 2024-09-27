@@ -36,6 +36,16 @@ export default function EstateManagementForm(type) {
     const [mainPictureIdx, setMainPictureIdx] = useState(0);
     const [imageFiles, setImageFiles] = useState([]);
     const [notification, setNotification] = useState({ message: '', type: '' });
+    const [isVisible, setIsVisible] = useState(true); // State to manage form visibility
+
+    useEffect(() => {
+        if (notification.message) {
+            const timer = setTimeout(() => {
+                setNotification({ message: '', type: '' });
+            }, 5000);
+            return () => clearTimeout(timer);
+        }
+    }, [notification.message]);
 
     // Function to handle input changes
     const handleFormInputChange = (e) => {
@@ -98,7 +108,7 @@ export default function EstateManagementForm(type) {
             errMes = errMes['message'];
             console.error(errMes);
             setNotification({
-                message: 'Ошибка при сохранении изображений.',
+                message: 'Ошибка при сохранении изображении.',
                 type: 'error'
             });
         } else {
@@ -161,12 +171,20 @@ export default function EstateManagementForm(type) {
         );
     };
 
+    if (!isVisible) return null;
     return (
         <div className="absolute z-20 flex h-full w-full items-center justify-center">
             <div
                 id="form-holder"
-                className={`min-h-4/5 w-1/3 rounded-xl bg-white p-5 max-laptop:w-2/3 max-mobile:mx-6 max-mobile:w-full`}
+                className={`relative min-h-4/5 w-1/3 rounded-xl bg-white p-5 max-laptop:w-2/3 max-mobile:mx-6 max-mobile:w-full`}
             >
+                <button
+                    type="button"
+                    className="absolute top-0 right-2 text-3xl font-bold"
+                    onClick={() => setIsVisible(false)}
+                >
+                    &times;
+                </button>
                 <form id="estate-form" className="flex flex-col gap-2">
                     <div
                         className={'form-attribute-input'}

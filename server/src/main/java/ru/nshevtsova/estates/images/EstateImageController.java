@@ -15,7 +15,7 @@ public class EstateImageController {
     @Autowired
     private EstateImageService service;
 
-    @GetMapping("get/byEstateId/{estateId}")
+    @GetMapping("/get/byId/{estateId}")
     public ResponseEntity<List<byte[]>> getImagesByEstateId(@PathVariable Long estateId) {
         return ResponseEntity.ok(service.getImagesByEstateId(estateId));
     }

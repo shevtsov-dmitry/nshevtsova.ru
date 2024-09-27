@@ -118,6 +118,16 @@ export default function EstateManagementForm(type) {
         setImageFiles((prevFiles) => prevFiles.filter((_, i) => i !== index)); // Remove the image at the specified index
     };
 
+    const handleSetMainPictureIdx = (index) => {
+        setImageFiles((prevFiles) => {
+            const newFiles = [...prevFiles];
+            const [mainImage] = newFiles.splice(index, 1);
+            newFiles.unshift(mainImage);
+            return newFiles;
+        });
+        setMainPictureIdx(0); // The main picture is now at index 0
+    };
+
     // Function to render uploaded images with delete option
     const displayRenderImages = () => {
         return (
@@ -139,7 +149,7 @@ export default function EstateManagementForm(type) {
                         </button>
                         <button
                             type="button" // Added type="button" to prevent form submission
-                            onClick={() => setMainPictureIdx(index)}
+                            onClick={() => handleSetMainPictureIdx(index)}
                             className={`absolute right-5 top-0 scale-90 rounded-full px-1 text-white ${mainPictureIdx === index ? 'bg-green-500' : 'bg-gray-300'}`}
                             aria-label="Set as main image"
                         >

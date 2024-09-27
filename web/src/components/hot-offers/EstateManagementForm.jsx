@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { setIsEstateFormActive } from '../../store/activeElementsSlice';
 
 export default function EstateManagementForm(type) {
     const GLOBAL_VALUES = useSelector((state) => state.globalStringValues);
@@ -9,6 +10,9 @@ export default function EstateManagementForm(type) {
         ADD: 'ADD',
         EDIT: 'EDIT'
     };
+
+    const isVisible = useSelector((state) => state.activeElements).estateForm
+    const dispatch = useDispatch();
 
     const [estateJson, setEstateJson] = useState({
         estate: {
@@ -36,7 +40,6 @@ export default function EstateManagementForm(type) {
     const [mainPictureIdx, setMainPictureIdx] = useState(0);
     const [imageFiles, setImageFiles] = useState([]);
     const [notification, setNotification] = useState({ message: '', type: '' });
-    const [isVisible, setIsVisible] = useState(true); // State to manage form visibility
 
     useEffect(() => {
         if (notification.message) {
@@ -181,7 +184,7 @@ export default function EstateManagementForm(type) {
                 <button
                     type="button"
                     className="absolute top-0 right-2 text-3xl font-bold"
-                    onClick={() => setIsVisible(false)}
+                    onClick={() => dispatch(setIsEstateFormActive(false))}
                 >
                     &times;
                 </button>

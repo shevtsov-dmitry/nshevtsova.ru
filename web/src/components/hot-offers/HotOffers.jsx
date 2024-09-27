@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Slide, Fade } from 'react-reveal';
 import EstateManagementForm from './EstateManagementForm.jsx';
 import { setIsEstateFormActive } from '../../store/activeElementsSlice';
+import { Splide, SplideSlide } from '@splidejs/react-splide';
 
 export default function HotOffers() {
     const dispatch = useDispatch();
@@ -56,6 +57,19 @@ export default function HotOffers() {
 
     function Estate({ estate, innerAttributes, outerAttributes }) {
         const [isOfferHovered, setIsOfferHovered] = useState(false);
+        const [images, setImages] = useState([]);
+
+        useEffect(() => {
+            async function fetchImages() {
+                const res = await fetch(
+                    `${GLOBAL_VALUES.serverUrl}/estates/images/get/byId/${estate.id}`
+                );
+                const base64array = await res.json();
+                setImages(base64array);
+            }
+
+            fetchImages();
+        }, []);
 
         return (
             <div className="flex w-full justify-center">
@@ -73,11 +87,23 @@ export default function HotOffers() {
                             <img src="images/hot-offers/edit.png" />
                         </div>
                     )}
-                    <img
-                        className="h-[300px] w-full rounded-t-3xl"
-                        alt="фото квартиры"
-                        src={`data:image/png;base64,${noImgIconBase64}`}
-                    />
+                    {images ? (
+                        <Splide>
+                            {images.map((base64image, idx) => (
+                                <SplideSlide key={idx}>
+                                    <img
+                                        src={`data:image/jpeg;base64,${base64image}`}
+                                    />
+                                </SplideSlide>
+                            ))}
+                        </Splide>
+                    ) : (
+                        <img
+                            className="h-[300px] w-full rounded-t-3xl"
+                            alt="фото квартиры"
+                            src={`data:image/png;base64,${noImgIconBase64}`}
+                        />
+                    )}
                     <div className="p-4">
                         <p className="text-2xl font-semibold text-black">
                             {estate.price} ₽
@@ -107,8 +133,12 @@ export default function HotOffers() {
                 </Slide>
                 <Slide right>
                     {isAdmin && (
-                        <button className="ml-5 h-12 transform rounded-full bg-blue-500 px-4 py-2 font-bold text-white shadow-lg transition duration-300 ease-in-out hover:scale-105 hover:bg-blue-700"
-                        onClick={() => dispatch(setIsEstateFormActive(true))}>
+                        <button
+                            className="ml-5 h-12 transform rounded-full bg-blue-500 px-4 py-2 font-bold text-white shadow-lg transition duration-300 ease-in-out hover:scale-105 hover:bg-blue-700"
+                            onClick={() =>
+                                dispatch(setIsEstateFormActive(true))
+                            }
+                        >
                             Добавить новое
                         </button>
                     )}

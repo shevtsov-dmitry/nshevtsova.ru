@@ -30,7 +30,7 @@ public class UserPicService {
 
     @Value("${HOME}")
     private String HOME_FOLDER;
-    private static final String IMAGES_PATH = "/Pictures/realtor/images";
+    private static final String IMAGES_PATH = "/Pictures/realtor/avatars";
 
     @Autowired
     private ReviewRepo repo;

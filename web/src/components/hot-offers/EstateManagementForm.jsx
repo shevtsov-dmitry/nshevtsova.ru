@@ -33,25 +33,29 @@ export default function EstateManagementForm(type) {
         }
     });
 
-    const [mainPictureIdx, setMainPictureIdx] = useState();
+    const [mainPictureIdx, setMainPictureIdx] = useState(0);
     const [imageFiles, setImageFiles] = useState([]);
     const [notification, setNotification] = useState({ message: '', type: '' });
 
     // Function to handle input changes
     const handleFormInputChange = (e) => {
         const { name, value, type, checked } = e.target;
-        if (name in estateJson) {
-            setEstateJson((prev) => ({
-                ...prev,
-                [name]: type === 'checkbox' ? checked : value
-            }));
-        } else {
-            const [outerKey, innerKey] = name.split('.');
+        const [outerKey, innerKey] = name.split('.');
+
+        if (innerKey) {
             setEstateJson((prev) => ({
                 ...prev,
                 [outerKey]: {
                     ...prev[outerKey],
                     [innerKey]: type === 'checkbox' ? checked : value
+                }
+            }));
+        } else {
+            setEstateJson((prev) => ({
+                ...prev,
+                estate: {
+                    ...prev.estate,
+                    [name]: type === 'checkbox' ? checked : value
                 }
             }));
         }
@@ -69,7 +73,10 @@ export default function EstateManagementForm(type) {
         });
         if (!resEstate.ok) {
             console.error('Error saving estate json:', resEstate.statusText);
-            setNotification({ message: 'Ошибка при сохранении недвижимости.', type: 'error' });
+            setNotification({
+                message: 'Ошибка при сохранении недвижимости.',
+                type: 'error'
+            });
             return;
         }
 
@@ -88,13 +95,18 @@ export default function EstateManagementForm(type) {
 
         if (resImagesSave.status !== 200) {
             let errMes = await resImagesSave.json();
-            errMes = errMes["message"];
+            errMes = errMes['message'];
             console.error(errMes);
-            setNotification({ message: 'Ошибка при сохранении изображений.', type: 'error' });
-            return;
+            setNotification({
+                message: 'Ошибка при сохранении изображений.',
+                type: 'error'
+            });
+        } else {
+            setNotification({
+                message: 'Недвижимость успешно сохранена!',
+                type: 'success'
+            });
         }
-
-        setNotification({ message: 'Недвижимость успешно сохранена!', type: 'success' });
     }
 
     const handleFileChange = (e) => {
@@ -118,6 +130,7 @@ export default function EstateManagementForm(type) {
                             className="uploaded-image"
                         />
                         <button
+                            type="button" // Added type="button" to prevent form submission
                             onClick={() => handleRemoveImage(index)}
                             className="absolute right-0 top-0 scale-90 rounded-full bg-red-500 px-1 text-white"
                             aria-label="Remove image"
@@ -125,6 +138,7 @@ export default function EstateManagementForm(type) {
                             &times;
                         </button>
                         <button
+                            type="button" // Added type="button" to prevent form submission
                             onClick={() => setMainPictureIdx(index)}
                             className={`absolute right-5 top-0 scale-90 rounded-full px-1 text-white ${mainPictureIdx === index ? 'bg-green-500' : 'bg-gray-300'}`}
                             aria-label="Set as main image"
@@ -410,7 +424,9 @@ export default function EstateManagementForm(type) {
                         </button>
                     </div>
                     {notification.message && (
-                        <div className={`mt-2 p-2 rounded text-center ${notification.type === 'success' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
+                        <div
+                            className={`mt-2 rounded p-2 text-center ${notification.type === 'success' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}
+                        >
                             {notification.message}
                         </div>
                     )}

@@ -83,23 +83,29 @@ export default function HotOffers() {
                     }}
                 >
                     {isAdmin && isOfferHovered && (
-                        <div className="absolute right-[9%] top-[1%] rounded-full p-3 hover:cursor-pointer hover:bg-white">
+                        <div
+                            className="absolute right-[9%] top-[1%] z-10 rounded-full p-3 hover:cursor-pointer hover:bg-white"
+                            onClick={() => {
+                                dispatch(setIsEstateFormActive(true));
+                            }}
+                        >
                             <img src="images/hot-offers/edit.png" />
                         </div>
                     )}
-                    {images ? (
+                    {images.length > 0 ? (
                         <Splide>
                             {images.map((base64image, idx) => (
                                 <SplideSlide key={idx}>
                                     <img
                                         src={`data:image/jpeg;base64,${base64image}`}
+                                        className={'rounded-t-3xl'}
                                     />
                                 </SplideSlide>
                             ))}
                         </Splide>
                     ) : (
                         <img
-                            className="h-[300px] w-full rounded-t-3xl"
+                            className="h-[300px] w-full"
                             alt="фото квартиры"
                             src={`data:image/png;base64,${noImgIconBase64}`}
                         />

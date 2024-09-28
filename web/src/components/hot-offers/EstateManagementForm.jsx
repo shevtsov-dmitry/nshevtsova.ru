@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setIsEstateFormActive } from '../../store/activeElementsSlice';
+import { setIsEstateFormVisible } from '../../store/estateFormSlice.js';
 
 export default function EstateManagementForm(type) {
+    const dispatch = useDispatch();
     const GLOBAL_VALUES = useSelector((state) => state.globalStringValues);
     const SERVER_URL = GLOBAL_VALUES.serverUrl;
 
@@ -10,9 +11,7 @@ export default function EstateManagementForm(type) {
         ADD: 'ADD',
         EDIT: 'EDIT'
     };
-
-    const isVisible = useSelector((state) => state.activeElements).estateForm
-    const dispatch = useDispatch();
+    const isVisible = useSelector((state) => state.estateForm).isVisible;
 
     const [estateJson, setEstateJson] = useState({
         estate: {
@@ -179,12 +178,12 @@ export default function EstateManagementForm(type) {
         <div className="absolute z-20 flex h-full w-full items-center justify-center">
             <div
                 id="form-holder"
-                className={`relative min-h-4/5 w-1/3 rounded-xl bg-white p-5 max-laptop:w-2/3 max-mobile:mx-6 max-mobile:w-full`}
+                className={`min-h-4/5 relative w-1/3 rounded-xl bg-white p-5 max-laptop:w-2/3 max-mobile:mx-6 max-mobile:w-full`}
             >
                 <button
                     type="button"
-                    className="absolute top-0 right-2 text-3xl font-bold"
-                    onClick={() => dispatch(setIsEstateFormActive(false))}
+                    className="absolute right-2 top-0 text-3xl font-bold"
+                    onClick={() => dispatch(setIsEstateFormVisible(false))}
                 >
                     &times;
                 </button>

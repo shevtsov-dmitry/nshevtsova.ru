@@ -3,13 +3,11 @@ import { createSlice } from '@reduxjs/toolkit';
 export const estateFormSlice = createSlice({
     name: 'estateForm',
     initialState: {
-        // isVisible: false,
+        isVisible: false,
         estateJson: {
             estate: {
-                // imageBase64: noImgIconBase64,
                 price: 11248458,
                 estateType: 'APARTMENT',
-                // createdAt: '2024-08-24T14:33:24',
                 address: 'Борисоглебск, Третьяковская ул., 73'
             },
             innerAttributes: {
@@ -30,15 +28,16 @@ export const estateFormSlice = createSlice({
         }
     },
     reducers: {
-        // setIsEstateFormActive: (state, action) => {
-        //     state.estateForm = action.payload
-        // },
+        setIsEstateFormVisible: (state, action) => {
+            state.isVisible = action.payload;
+        },
         setEstateJson: (state, action) => {
             state.estateForm = action.payload;
         }
     }
 });
 
-export const { setEstateJson } = estateFormSlice.actions;
+export const { setEstateJson, setIsEstateFormVisible } =
+    estateFormSlice.actions;
 
 export default estateFormSlice.reducer;

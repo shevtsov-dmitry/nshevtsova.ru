@@ -79,4 +79,20 @@ public class EstateService {
         return dataHolderList;
     }
 
+    public EstatesDataHolder updateEstateData(EstatesDataHolder estateData) {
+        Estate updatedEstate = estateRepo.save(estateData.estate());
+        Assert.notNull(updatedEstate, "couldn't update estate. estates/update");
+
+        InnerAttributes innerAttributes = estateData.innerAttributes();
+        innerAttributes.setEstate(updatedEstate);
+        InnerAttributes updatedInnerAttributes = innerAttributesRepo.save(innerAttributes);
+        Assert.notNull(updatedInnerAttributes, "couldn't update inner attributes. estates/update");
+
+        OuterAttributes outerAttributes = estateData.outerAttributes();
+        outerAttributes.setEstate(updatedEstate);
+        OuterAttributes updatedOuterAttributes = outerAttributesRepo.save(outerAttributes);
+        Assert.notNull(updatedOuterAttributes, "couldn't update outer attributes. estates/update");
+
+        return new EstatesDataHolder(updatedEstate, updatedInnerAttributes, updatedOuterAttributes);
+    }
 }

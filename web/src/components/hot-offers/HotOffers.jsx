@@ -8,7 +8,7 @@ import { Splide, SplideSlide } from '@splidejs/react-splide';
 export default function HotOffers() {
     const dispatch = useDispatch();
 
-    const FORM_TYPES = {
+    const FORM_TYPES = { // TODO refactor into mutual global enum
         ADD: 'ADD',
         EDIT: 'EDIT'
     };

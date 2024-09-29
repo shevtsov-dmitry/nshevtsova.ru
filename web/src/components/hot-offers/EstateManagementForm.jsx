@@ -3,13 +3,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setIsEstateFormVisible } from '../../store/estateFormSlice.js';
 
 export default function EstateManagementForm({ formType, json }) {
-    useEffect(() => {
-        console.log(json);
-    }, []);
-
     const dispatch = useDispatch();
     const GLOBAL_VALUES = useSelector((state) => state.globalStringValues);
     const SERVER_URL = GLOBAL_VALUES.serverUrl;
+
+    const FORM_TYPES = {
+        ADD: 'ADD',
+        EDIT: 'EDIT'
+    };
 
     // const estateForm = useSelector((state) => state.estateForm);
     // const isVisible = estateForm.isVisible;
@@ -56,48 +57,78 @@ export default function EstateManagementForm({ formType, json }) {
     async function handleFormSubmit(e) {
         e.preventDefault();
 
-        const resEstate = await fetch(`${SERVER_URL}/estates/add`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(estateJson)
-        });
-        if (!resEstate.ok) {
-            console.error('Error saving estate json:', resEstate.statusText);
-            setNotification({
-                message: 'Ошибка при сохранении недвижимости.',
-                type: 'error'
-            });
-            return;
+        if (FORM_TYPES.ADD) {
+            saveNewEstate();
+        } else if (FORM_TYPES.EDIT) {
+            editExistingEstate();
         }
 
-        const estateId = await resEstate.text();
-
-        const imageFormData = new FormData();
-        imageFormData.append('estateId', estateId);
-        imageFiles.forEach((file) => {
-            imageFormData.append('images', file);
-        });
-
-        const resImagesSave = await fetch(`${SERVER_URL}/estates/images/save`, {
-            method: 'POST',
-            body: imageFormData
-        });
-
-        if (resImagesSave.status !== 200) {
-            let errMes = await resImagesSave.json();
-            errMes = errMes['message'];
-            console.error(errMes);
-            setNotification({
-                message: 'Ошибка при сохранении изображении.',
-                type: 'error'
+        async function saveNewEstate() {
+            const resEstate = await fetch(`${SERVER_URL}/estates/add`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(estateJson)
             });
-        } else {
-            setNotification({
-                message: 'Недвижимость успешно сохранена!',
-                type: 'success'
+
+            if (!resEstate.ok) {
+                displayNotification(
+                    resEstate,
+                    '',
+                    'Ошибка при обновлении данных о недвижимости.'
+                );
+                return;
+            }
+
+            const estateId = await resEstate.text();
+
+            const imageFormData = new FormData();
+            imageFormData.append('estateId', estateId);
+            imageFiles.forEach((file) => {
+                imageFormData.append('images', file);
             });
+
+            const resImagesSave = await fetch(
+                `${SERVER_URL}/estates/images/save`,
+                {
+                    method: 'POST',
+                    body: imageFormData
+                }
+            );
+
+            displayNotification(
+                resImagesSave,
+                'Данные о недвижимости успешно обновлены.',
+                'Ошибка при сохранении изображении.'
+            );
+        }
+
+        async function editExistingEstate() {
+            const resEstate = await fetch(`${SERVER_URL}/estates/update`);
+            const updatedEstateJson = await resEstate.json();
+            setEstateJson(updatedEstateJson);
+            displayNotification(
+                resEstate,
+                'Данные о недвижимости успешно обновлены.',
+                'Ошибка при обновлении данных о недвижимости.'
+            );
+        }
+
+        function displayNotification(responseEntity, sucsMes, errMes) {
+            if (responseEntity.status !== 200) {
+                console.error(responseEntity.statusText);
+
+                setNotification({
+                    message: errMes,
+                    type: 'error'
+                });
+            } else {
+                setNotification({
+                    message: sucsMes,
+                    type: 'success'
+                });
+            }
         }
     }
 
@@ -167,8 +198,8 @@ export default function EstateManagementForm({ formType, json }) {
                     &times;
                 </button>
                 <h1 className={'mb-3 text-2xl font-bold'}>
-                    {formType === 'ADD' && 'Добавить'}
-                    {formType === 'EDIT' && 'Редактировать'}
+                    {formType === FORM_TYPES.ADD && 'Добавить'}
+                    {formType === FORM_TYPES.EDIT && 'Редактировать'}
                 </h1>
                 <form id="estate-form" className="flex flex-col gap-2">
                     <div
@@ -433,7 +464,8 @@ export default function EstateManagementForm({ formType, json }) {
                             }}
                             onClick={handleFormSubmit}
                         >
-                            Сохранить
+                            {formType === FORM_TYPES.ADD && 'Сохранить'}
+                            {formType === FORM_TYPES.EDIT && 'Обновить'}
                         </button>
                     </div>
                     {notification.message && (

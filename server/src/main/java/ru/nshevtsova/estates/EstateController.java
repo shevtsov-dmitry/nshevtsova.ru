@@ -7,6 +7,11 @@ import org.springframework.web.multipart.MultipartFile;
 import ru.nshevtsova.estates.models.EstatesDataHolder;
 
 import java.util.List;
+import java.util.Objects;
+
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @RestController
 @RequestMapping("/estates")
@@ -25,10 +30,10 @@ public class EstateController {
         return ResponseEntity.ok(savedEstate);
     }
 
-    // TODO make images list upload/download
-//    @PostMapping
-//    public ResponseEntity<Long> saveFiles(@RequestParam("file") MultipartFile file) {
-//    }
+    @PutMapping("/update")
+    public ResponseEntity<EstatesDataHolder> updateEstateData(@RequestBody EstatesDataHolder estateData) {
+        return ResponseEntity.ok(service.updateEstateData(estateData));
+    }
 
     @GetMapping("/get/recent/{amount}")
     public ResponseEntity<List<EstatesDataHolder>> getRecentEstates(@PathVariable int amount) {

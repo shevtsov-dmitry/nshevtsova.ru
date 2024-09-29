@@ -8,42 +8,44 @@ import { Splide, SplideSlide } from '@splidejs/react-splide';
 export default function HotOffers() {
     const dispatch = useDispatch();
 
-    const isAdmin = true; // TODO make role with auth
-    const isMobile = window.innerWidth < 768;
-    const isLaptop = window.innerWidth < 1500;
-
     const FORM_TYPES = {
         ADD: 'ADD',
         EDIT: 'EDIT'
     };
+    const placeholderEstateJson = {
+        estate: {
+            price: '',
+            estateType: '',
+            address: ''
+        },
+        innerAttributes: {
+            roomsAmount: '',
+            totalSizeSquareMeters: '',
+            kitchenSizeSquareMeters: '',
+            hasFinishing: false,
+            ceilHeight: '',
+            toiletsAmount: ''
+        },
+        outerAttributes: {
+            floor: '',
+            allFloors: '',
+            releaseDate: '',
+            hasParking: true,
+            description: ''
+        }
+    };
 
+    const estateForm = useSelector((state) => state.estateForm);
     const GLOBAL_VALUES = useSelector((state) => state.globalStringValues);
 
+    const isVisible = estateForm.isVisible;
+    const isAdmin = true; // TODO make role with auth
+    const isMobile = window.innerWidth < 768;
+    const isLaptop = window.innerWidth < 1500;
+
+    const [estateJson, setEstateJson] = useState(placeholderEstateJson);
     const [currentFormType, setCurrentFormType] = useState('');
-    const [estatesList, setEstatesList] = useState([
-        /*{
-            estate: {
-                price: 11248458,
-                estateType: 'APARTMENT',
-                address: 'Борисоглебск, Третьяковская ул., 73'
-            },
-            innerAttributes: {
-                roomsAmount: 2,
-                totalSizeSquareMeters: 70.05079696151134,
-                kitchenSizeSquareMeters: 22.145527081439372,
-                hasFinishing: false,
-                ceilHeight: 2.0427580314220233,
-                toiletsAmount: 3
-            },
-            outerAttributes: {
-                floor: 9,
-                allFloors: 9,
-                releaseDate: 1958,
-                hasParking: true,
-                description: 'Квартира с видом на парк и реку.'
-            }
-        }*/
-    ]);
+    const [estatesList, setEstatesList] = useState([estateJson]);
 
     useEffect(() => {
         async function fetchEstatesList() {
@@ -92,6 +94,11 @@ export default function HotOffers() {
                             onClick={() => {
                                 dispatch(setIsEstateFormVisible(true));
                                 setCurrentFormType(FORM_TYPES.EDIT);
+                                setEstateJson({
+                                    estate: estate,
+                                    innerAttributes: innerAttributes,
+                                    outerAttributes: outerAttributes
+                                });
                             }}
                         >
                             <img src="images/hot-offers/edit.png" />
@@ -122,8 +129,10 @@ export default function HotOffers() {
                         </p>
                         <p className="text-lg text-gray-700">
                             {innerAttributes.roomsAmount} комн.{' '}
-                            {innerAttributes.totalSizeSquareMeters.toFixed(1)} м
-                            кв. {outerAttributes.floor}/
+                            {parseFloat(
+                                innerAttributes.totalSizeSquareMeters
+                            ).toFixed(1)}{' '}
+                            м кв. {outerAttributes.floor}/
                             {outerAttributes.allFloors} этаж
                         </p>
                         <p className="overflow-hidden text-base text-gray-500">
@@ -150,6 +159,7 @@ export default function HotOffers() {
                             onClick={() => {
                                 dispatch(setIsEstateFormVisible(true));
                                 setCurrentFormType(FORM_TYPES.ADD);
+                                setEstateJson(placeholderEstateJson);
                             }}
                         >
                             Добавить новое
@@ -157,7 +167,14 @@ export default function HotOffers() {
                     )}
                 </Slide>
             </div>
-            <EstateManagementForm formType={currentFormType} />
+            {isVisible ? (
+                <EstateManagementForm
+                    formType={currentFormType}
+                    json={estateJson}
+                />
+            ) : (
+                <div />
+            )}
             <div
                 className={`${isMobile ? 'mx-0' : 'mx-[5%]'} grid ${isLaptop && !isMobile ? 'grid-cols-3' : 'grid-cols-4'} ${isMobile && 'grid-cols-1'} ${window.innerWidth < 1200 ? 'grid-cols-2' : 'grid-cols-3'} gap-8 pb-[2%]`}
             >

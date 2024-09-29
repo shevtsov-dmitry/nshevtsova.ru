@@ -2,36 +2,19 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setIsEstateFormVisible } from '../../store/estateFormSlice.js';
 
-export default function EstateManagementForm({ formType }) {
+export default function EstateManagementForm({ formType, json }) {
+    useEffect(() => {
+        console.log(json);
+    }, []);
+
     const dispatch = useDispatch();
     const GLOBAL_VALUES = useSelector((state) => state.globalStringValues);
     const SERVER_URL = GLOBAL_VALUES.serverUrl;
 
-    const estateForm = useSelector((state) => state.estateForm);
-    const isVisible = estateForm.isVisible;
+    // const estateForm = useSelector((state) => state.estateForm);
+    // const isVisible = estateForm.isVisible;
 
-    const [estateJson, setEstateJson] = useState({
-        estate: {
-            address: '',
-            estateType: 'APARTMENT',
-            price: ''
-        },
-        innerAttributes: {
-            totalSizeSquareMeters: '',
-            kitchenSizeSquareMeters: '',
-            roomsAmount: '',
-            hasFinishing: false,
-            ceilHeight: '',
-            toiletsAmount: ''
-        },
-        outerAttributes: {
-            hasParking: false,
-            description: '',
-            releaseDate: '',
-            floor: 0,
-            allFloors: 0
-        }
-    });
+    const [estateJson, setEstateJson] = useState(json);
 
     const [mainPictureIdx, setMainPictureIdx] = useState(0);
     const [imageFiles, setImageFiles] = useState([]);
@@ -170,7 +153,6 @@ export default function EstateManagementForm({ formType }) {
         );
     };
 
-    if (!isVisible) return <div />;
     return (
         <div className="absolute z-20 flex h-full w-full items-center justify-center">
             <div
@@ -184,7 +166,7 @@ export default function EstateManagementForm({ formType }) {
                 >
                     &times;
                 </button>
-                <h1 className={"mb-3 text-2xl font-bold"}>
+                <h1 className={'mb-3 text-2xl font-bold'}>
                     {formType === 'ADD' && 'Добавить'}
                     {formType === 'EDIT' && 'Редактировать'}
                 </h1>

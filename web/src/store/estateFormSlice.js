@@ -4,8 +4,8 @@ export const estateFormSlice = createSlice({
     name: 'estateForm',
     initialState: {
         isVisible: false,
-        stateJson: {
-            currentFormType: '',
+        currentFormType: ''
+        /*estateJson: {
             estate: {
                 price: 11248458,
                 estateType: 'APARTMENT',
@@ -26,22 +26,21 @@ export const estateFormSlice = createSlice({
                 hasParking: true,
                 description: 'Квартира с видом на парк и реку.'
             }
-        }
+        }*/
     },
     reducers: {
         setIsEstateFormVisible: (state, action) => {
             state.isVisible = action.payload;
         },
-        setEstateJson: (state, action) => {
-            state.estateForm = action.payload;
-        },
+        // setEstateJson: (state, action) => {
+        //     state.estateForm = action.payload;
+        // },
         setCurrentFormType: (state, action) => {
             state.currentFormType = action.payload;
         }
     }
 });
 
-export const { setEstateJson, setIsEstateFormVisible, setCurrentFormType } =
-    estateFormSlice.actions;
+export const { setIsEstateFormVisible } = estateFormSlice.actions;
 
 export default estateFormSlice.reducer;

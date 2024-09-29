@@ -7,13 +7,21 @@ import { Splide, SplideSlide } from '@splidejs/react-splide';
 
 export default function HotOffers() {
     const dispatch = useDispatch();
+
     const isAdmin = true; // TODO make role with auth
-    const GLOBAL_VALUES = useSelector((state) => state.globalStringValues);
     const isMobile = window.innerWidth < 768;
     const isLaptop = window.innerWidth < 1500;
 
+    const FORM_TYPES = {
+        ADD: 'ADD',
+        EDIT: 'EDIT'
+    };
+
+    const GLOBAL_VALUES = useSelector((state) => state.globalStringValues);
+
+    const [currentFormType, setCurrentFormType] = useState('');
     const [estatesList, setEstatesList] = useState([
-        {
+        /*{
             estate: {
                 price: 11248458,
                 estateType: 'APARTMENT',
@@ -34,7 +42,7 @@ export default function HotOffers() {
                 hasParking: true,
                 description: 'Квартира с видом на парк и реку.'
             }
-        }
+        }*/
     ]);
 
     useEffect(() => {
@@ -70,7 +78,7 @@ export default function HotOffers() {
         return (
             <div className="flex w-full justify-center">
                 <div
-                    className="h-full w-5/6 rounded-3xl"
+                    className="h-full w-5/6 rounded-3xl bg-[#ECECEC]"
                     onMouseEnter={() => setIsOfferHovered(true)}
                     onMouseLeave={() => setIsOfferHovered(false)}
                     style={{
@@ -83,6 +91,7 @@ export default function HotOffers() {
                             className="absolute right-[9%] top-[1%] z-10 rounded-full p-3 hover:cursor-pointer hover:bg-white"
                             onClick={() => {
                                 dispatch(setIsEstateFormVisible(true));
+                                setCurrentFormType(FORM_TYPES.EDIT);
                             }}
                         >
                             <img src="images/hot-offers/edit.png" />
@@ -138,16 +147,17 @@ export default function HotOffers() {
                     {isAdmin && (
                         <button
                             className="ml-5 h-12 transform rounded-full bg-blue-500 px-4 py-2 font-bold text-white shadow-lg transition duration-300 ease-in-out hover:scale-105 hover:bg-blue-700"
-                            onClick={() =>
-                                dispatch(setIsEstateFormVisible(true))
-                            }
+                            onClick={() => {
+                                dispatch(setIsEstateFormVisible(true));
+                                setCurrentFormType(FORM_TYPES.ADD);
+                            }}
                         >
                             Добавить новое
                         </button>
                     )}
                 </Slide>
             </div>
-            <EstateManagementForm type={'ADD'} />
+            <EstateManagementForm formType={currentFormType} />
             <div
                 className={`${isMobile ? 'mx-0' : 'mx-[5%]'} grid ${isLaptop && !isMobile ? 'grid-cols-3' : 'grid-cols-4'} ${isMobile && 'grid-cols-1'} ${window.innerWidth < 1200 ? 'grid-cols-2' : 'grid-cols-3'} gap-8 pb-[2%]`}
             >

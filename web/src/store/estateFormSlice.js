@@ -4,7 +4,8 @@ export const estateFormSlice = createSlice({
     name: 'estateForm',
     initialState: {
         isVisible: false,
-        estateJson: {
+        stateJson: {
+            currentFormType: '',
             estate: {
                 price: 11248458,
                 estateType: 'APARTMENT',
@@ -33,11 +34,14 @@ export const estateFormSlice = createSlice({
         },
         setEstateJson: (state, action) => {
             state.estateForm = action.payload;
+        },
+        setCurrentFormType: (state, action) => {
+            state.currentFormType = action.payload;
         }
     }
 });
 
-export const { setEstateJson, setIsEstateFormVisible } =
+export const { setEstateJson, setIsEstateFormVisible, setCurrentFormType } =
     estateFormSlice.actions;
 
 export default estateFormSlice.reducer;

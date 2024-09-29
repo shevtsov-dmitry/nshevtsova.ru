@@ -2,22 +2,19 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setIsEstateFormVisible } from '../../store/estateFormSlice.js';
 
-export default function EstateManagementForm(type) {
+export default function EstateManagementForm({ formType }) {
     const dispatch = useDispatch();
     const GLOBAL_VALUES = useSelector((state) => state.globalStringValues);
     const SERVER_URL = GLOBAL_VALUES.serverUrl;
 
-    const TYPE = {
-        ADD: 'ADD',
-        EDIT: 'EDIT'
-    };
-    const isVisible = useSelector((state) => state.estateForm).isVisible;
+    const estateForm = useSelector((state) => state.estateForm);
+    const isVisible = estateForm.isVisible;
 
     const [estateJson, setEstateJson] = useState({
         estate: {
             address: '',
             estateType: 'APARTMENT',
-            price: 0
+            price: ''
         },
         innerAttributes: {
             totalSizeSquareMeters: '',
@@ -173,7 +170,7 @@ export default function EstateManagementForm(type) {
         );
     };
 
-    if (!isVisible) return null;
+    if (!isVisible) return <div />;
     return (
         <div className="absolute z-20 flex h-full w-full items-center justify-center">
             <div
@@ -187,6 +184,10 @@ export default function EstateManagementForm(type) {
                 >
                     &times;
                 </button>
+                <h1 className={"mb-3 text-2xl font-bold"}>
+                    {formType === 'ADD' && 'Добавить'}
+                    {formType === 'EDIT' && 'Редактировать'}
+                </h1>
                 <form id="estate-form" className="flex flex-col gap-2">
                     <div
                         className={'form-attribute-input'}

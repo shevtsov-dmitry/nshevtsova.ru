@@ -1,12 +1,16 @@
 package ru.nshevtsova.estates;
 
-import org.aspectj.apache.bcel.util.ClassPath;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+
 import ru.nshevtsova.estates.models.Estate;
 import ru.nshevtsova.estates.models.EstatesDataHolder;
 import ru.nshevtsova.estates.models.InnerAttributes;
@@ -14,15 +18,6 @@ import ru.nshevtsova.estates.models.OuterAttributes;
 import ru.nshevtsova.estates.repos.EstateRepo;
 import ru.nshevtsova.estates.repos.InnerAttributesRepo;
 import ru.nshevtsova.estates.repos.OuterAttributesRepo;
-
-import java.io.IOException;
-import java.io.OutputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.List;
 
 @Service
 public class EstateService {
@@ -33,8 +28,8 @@ public class EstateService {
     private final Logger log = LoggerFactory.getLogger(EstateService.class);
 
     public EstateService(EstateRepo estateRepo,
-                         InnerAttributesRepo innerAttributesRepo,
-                         OuterAttributesRepo outerAttributesRepo) {
+            InnerAttributesRepo innerAttributesRepo,
+            OuterAttributesRepo outerAttributesRepo) {
         this.estateRepo = estateRepo;
         this.innerAttributesRepo = innerAttributesRepo;
         this.outerAttributesRepo = outerAttributesRepo;
@@ -56,7 +51,6 @@ public class EstateService {
 
         return estate.getId();
     }
-
 
     public List<EstatesDataHolder> getRecentEstates(int amount) {
         final Pageable requestedAmountRestriction = PageRequest.of(0, amount);

@@ -57,9 +57,9 @@ export default function EstateManagementForm({ formType, json }) {
     async function handleFormSubmit(e) {
         e.preventDefault();
 
-        if (FORM_TYPES.ADD) {
+        if (formType === FORM_TYPES.ADD) {
             saveNewEstate();
-        } else if (FORM_TYPES.EDIT) {
+        } else if (formType === FORM_TYPES.EDIT) {
             editExistingEstate();
         }
 
@@ -105,7 +105,13 @@ export default function EstateManagementForm({ formType, json }) {
         }
 
         async function editExistingEstate() {
-            const resEstate = await fetch(`${SERVER_URL}/estates/update`);
+            const resEstate = await fetch(`${SERVER_URL}/estates/update`, {
+                method: 'PUT',
+                body: JSON.stringify(estateJson),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
             const updatedEstateJson = await resEstate.json();
             setEstateJson(updatedEstateJson);
             displayNotification(

@@ -8,7 +8,8 @@ import { Splide, SplideSlide } from '@splidejs/react-splide';
 export default function HotOffers() {
     const dispatch = useDispatch();
 
-    const FORM_TYPES = { // TODO refactor into mutual global enum
+    const FORM_TYPES = {
+        // TODO refactor into mutual global enum
         ADD: 'ADD',
         EDIT: 'EDIT'
     };
@@ -105,12 +106,14 @@ export default function HotOffers() {
                         </div>
                     )}
                     {images.length > 0 ? (
-                        <Splide>
+                        <Splide className="">
                             {images.map((base64image, idx) => (
                                 <SplideSlide key={idx}>
                                     <img
                                         src={`data:image/jpeg;base64,${base64image}`}
-                                        className={'rounded-t-3xl'}
+                                        className={
+                                            'h-full w-full rounded-t-3xl'
+                                        }
                                     />
                                 </SplideSlide>
                             ))}

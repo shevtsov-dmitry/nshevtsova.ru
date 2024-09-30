@@ -38,15 +38,12 @@ export default function Reviews() {
         if (sliderRef.current) {
             sliderRef.current.scrollLeft = 0;
         }
-
     }, []);
-
 
     const GLOBAL_VALUES = useSelector((state) => state.globalStringValues);
     const isReviewSent = useSelector((state) => state.review).isReviewSent;
 
     useEffect(() => {
-
         fetchUserReviews();
 
         async function fetchUserReviews() {
@@ -64,23 +61,23 @@ export default function Reviews() {
         async function fetchUserPictures(jsonArray) {
             // TODO refactor into one fetch
             const ids = [];
-            jsonArray.forEach(json => {
+            jsonArray.forEach((json) => {
                 ids.push(json['id']);
             });
-            const imagesResponse = await fetch(GLOBAL_VALUES.serverUrl + '/reviews/user-pics/get/by-ids', {
-                method: 'POST',
-                body: JSON.stringify(ids),
-                headers: {
-                    'Content-Type': 'application/json'
+            const imagesResponse = await fetch(
+                GLOBAL_VALUES.serverUrl + '/reviews/user-pics/get/by-ids',
+                {
+                    method: 'POST',
+                    body: JSON.stringify(ids),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
                 }
-            });
+            );
             const fetchedImagesMap = await imagesResponse.json();
             setIdImageMap(fetchedImagesMap);
-
         }
-
     }, [isReviewSent]);
-
 
     function ReviewDiv({ positionIdx, json }) {
         const [isShowMore, setIsShowMore] = useState(false);
@@ -94,13 +91,10 @@ export default function Reviews() {
             <SplideSlide>
                 <div
                     ref={reviewDivRef}
-                    className={
-                        `flex h-[20em] my-[5%] w-auto flex-col rounded-lg bg-white p-5 ${isShowMore && 'z-50 h-auto'}`
-                    }
+                    className={`my-[5%] flex h-[20em] w-auto flex-col rounded-lg bg-white p-5 ${isShowMore && 'z-50 h-auto'}`}
                     style={{
                         boxShadow: 'rgba(0, 0, 0, 0.35) 0px 5px 15px'
                     }}
-
                 >
                     <div className="flex items-center gap-2 pb-[2%]">
                         <img
@@ -136,20 +130,18 @@ export default function Reviews() {
         <div
             className={`flex h-full w-full flex-col bg-[url('images/reviews/foggy-city.jpg')] bg-cover bg-no-repeat py-[2%]`}
         >
-
-
             <div className="h-full w-full flex-1">
                 <Slide bottom delay={50}>
                     <h1 className="text-center font-ptsans-bold text-5xl">
-                        Отзывы тех, кто уже совершил <br /> выгодную сделку с моей
-                        помощью
+                        Отзывы тех, кто уже совершил <br /> выгодную сделку с
+                        моей помощью
                     </h1>
                 </Slide>
             </div>
 
-                <SaveReviewForm formHolderRef={formHolderRef} />
+            <SaveReviewForm formHolderRef={formHolderRef} />
 
-            <div className="flex-2 flex h-full max-mobile:h-full overflow-hidden py-[2%]">
+            <div className="flex-2 flex h-full overflow-hidden py-[2%] max-mobile:h-full">
                 <Splide
                     options={{
                         perPage: window.innerWidth < 768 ? 1 : 3,
@@ -160,7 +152,7 @@ export default function Reviews() {
                         gap: '2rem',
                         arrows: true,
                         classes: {
-                            arrow: "custom-arrow"
+                            arrow: 'custom-arrow'
                         }
                     }}
                     aria-label="Reviews"
@@ -172,8 +164,7 @@ export default function Reviews() {
                 </Splide>
             </div>
 
-
-            <div className="flex w-full flex-1 justify-center items-center">
+            <div className="flex w-full flex-1 items-center justify-center">
                 <button
                     onClick={() => {
                         formHolderRef.current.style.display = 'block';
@@ -187,8 +178,6 @@ export default function Reviews() {
                     Оставить отзыв
                 </button>
             </div>
-        </div >
+        </div>
     );
-
-
 }

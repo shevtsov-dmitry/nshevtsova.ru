@@ -30,6 +30,33 @@ export default function EstateManagementForm({ formType, json }) {
         }
     }, [notification.message]);
 
+    useEffect(() => {
+        async function loadEstateImages() {
+            if (formType === FORM_TYPES.EDIT) {
+                const res = await fetch(
+                    // `${SERVER_URL}/estates/images/get/by/id/${estateJson.estate.id}`
+                    `${SERVER_URL}/estates/images/get/by/id/1`
+                );
+                const fetchedImages = await res.json();
+                const parsedFetchedImages = [];
+                fetchedImages.forEach((base64content) =>
+                    parsedFetchedImages.push(
+                        `data:image/jpeg;base64,${base64content}`
+                    )
+                );
+                setImageFiles(parsedFetchedImages);
+            }
+        }
+
+        loadEstateImages();
+    }, []);
+
+    useEffect(() => {
+        if (imageFiles.length > 0) {
+            console.log(parsedFetchedImages);
+        }
+    }, []);
+
     // Function to handle input changes
     const handleFormInputChange = (e) => {
         const { name, value, type, checked } = e.target;
@@ -119,6 +146,7 @@ export default function EstateManagementForm({ formType, json }) {
                 'Данные о недвижимости успешно обновлены.',
                 'Ошибка при обновлении данных о недвижимости.'
             );
+            location.reload();
         }
 
         function displayNotification(responseEntity, sucsMes, errMes) {
@@ -164,7 +192,11 @@ export default function EstateManagementForm({ formType, json }) {
                 {imageFiles.map((file, index) => (
                     <div key={index} className="relative inline-block">
                         <img
-                            src={URL.createObjectURL(file)}
+                            src={
+                                formType === FORM_TYPES.EDIT
+                                    ? file
+                                    : URL.createObjectURL(file)
+                            }
                             alt={`upload-${index}`}
                             className="uploaded-image"
                         />

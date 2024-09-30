@@ -68,8 +68,11 @@ export default function HotOffers() {
 
         useEffect(() => {
             async function fetchImages() {
+                if (estate.id === undefined) {
+                    return;
+                }
                 const res = await fetch(
-                    `${GLOBAL_VALUES.serverUrl}/estates/images/get/byId/${estate.id}`
+                    `${GLOBAL_VALUES.serverUrl}/estates/images/get/by/id/${estate.id}`
                 );
                 const base64array = await res.json();
                 setImages(base64array);

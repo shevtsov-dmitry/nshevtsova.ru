@@ -7,7 +7,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
-
 @RestController
 @RequestMapping("/estates/images")
 public class EstateImageController {
@@ -15,7 +14,7 @@ public class EstateImageController {
     @Autowired
     private EstateImageService service;
 
-    @GetMapping("/get/byId/{estateId}")
+    @GetMapping("/get/by/id/{estateId}")
     public ResponseEntity<List<byte[]>> getImagesByEstateId(@PathVariable Long estateId) {
         return ResponseEntity.ok(service.getImagesByEstateId(estateId));
     }

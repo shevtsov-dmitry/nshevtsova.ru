@@ -1,6 +1,7 @@
 package ru.nshevtsova.reviews.userPic;
 
 import java.io.IOException;
+import java.nio.file.NoSuchFileException;
 import java.util.List;
 import java.util.Map;
 
@@ -32,19 +33,21 @@ public class UserPicController {
         try {
             String filename = service.saveUserPic(new UserPic(reviewId, userPic));
             return ResponseEntity.ok(filename);
+        } catch (NoSuchFileException e) {
+            return new ResponseEntity<>("This method is not suppose to use being used without existing @param reviewId in database.", HttpStatus.BAD_REQUEST);
         } catch (IOException e) {
-            return new ResponseEntity(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @PostMapping(value = "/get/by-ids", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Map<Long, byte[]>> getImagesMatchedId(@RequestBody List<Long> ids) {
         Map<Long, byte[]> matchedImages = service.getImagesMatchedId(ids);
-        return matchedImages.size() != 0 ? ResponseEntity.ok(matchedImages) : ResponseEntity.notFound().build();
+        return !matchedImages.isEmpty() ? ResponseEntity.ok(matchedImages) : ResponseEntity.notFound().build();
     }
 
     @DeleteMapping("/delete")
-    public ResponseEntity delete(@RequestParam long id) {
+    public ResponseEntity<Object> delete(@RequestParam long id) {
         try {
             service.deleteUserPic(id);
             return ResponseEntity.ok().build();

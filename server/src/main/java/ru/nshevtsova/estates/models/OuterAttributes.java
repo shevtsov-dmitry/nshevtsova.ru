@@ -20,10 +20,12 @@ public class OuterAttributes {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    private @NonNull int floor;
-    private @NonNull int allFloors;
-    private @NonNull int releaseDate; // год сдачи
+    @NonNull
+    private Integer floor;
+    @NonNull
+    private Integer allFloors;
+    @NonNull
+    private Integer releaseDate; // год сдачи
     private boolean hasParking;
     private String description;
 

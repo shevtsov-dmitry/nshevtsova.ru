@@ -4,10 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -35,7 +32,7 @@ public class UserPicService {
     @Autowired
     private ReviewRepo repo;
 
-    private Logger log = LoggerFactory.getLogger(this.getClass());
+    private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     // TODO make notification for user which tries to save image more than 5MB
     // TODO make image compression functionality
@@ -48,8 +45,9 @@ public class UserPicService {
         final Review review = repo.findById(pic.reviewId()).get();
         Assert.hasLength(pic.userPic().getOriginalFilename(),
                 "Couldn't determine image original filename to get file extension. /reviews/user-pics/add");
-        final String fileExtension = pic.userPic().getContentType()
-                .substring(pic.userPic().getContentType().lastIndexOf("/") + 1);
+        final String filename = pic.userPic().getOriginalFilename();
+        String[] splitted = filename.split("\\.");
+        final String fileExtension = splitted[splitted.length -1];
 
         final File file = new File(
                 "%s/%d-%s-%s.%s".formatted(
@@ -58,7 +56,7 @@ public class UserPicService {
                         review.getName(),
                         review.getSurname(),
                         fileExtension));
-
+        System.out.println(file.toPath().toAbsolutePath());
         pic.userPic().transferTo(file);
         return file.getName();
     }

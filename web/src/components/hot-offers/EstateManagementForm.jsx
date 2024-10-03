@@ -21,6 +21,10 @@ export default function EstateManagementForm({ formType, json }) {
     const [imageFiles, setImageFiles] = useState([]);
     const [notification, setNotification] = useState({ message: '', type: '' });
 
+    const map = {
+        // TODO "filename" : index,
+    };
+
     useEffect(() => {
         if (notification.message) {
             const timer = setTimeout(() => {

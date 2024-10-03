@@ -7,6 +7,7 @@ import java.io.File;
 import java.nio.file.Files;
 import java.util.Base64;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.random.RandomGenerator;
 
@@ -53,6 +54,7 @@ class ReviewControllerTest {
     // @RepeatedTest(15)
     @Order(1)
     void saveUserReview() throws Exception {
+        System.out.println(Locale.getDefault());
         String url = ENDPOINT_URL + "/add";
         JSONObject json = new JSONObject();
         NameSurname nameSurname = CustomTestUtils.generateNameSurname();
@@ -67,8 +69,8 @@ class ReviewControllerTest {
                                 .contentType("application/json"))
                 .andExpect(status().isOk())
                 .andDo(result -> {
-                    String recievedJson = result.getResponse().getContentAsString();
-                    Map<String, Object> map = JsonParserFactory.getJsonParser().parseMap(recievedJson);
+                    String receivedJson = result.getResponse().getContentAsString();
+                    Map<String, Object> map = JsonParserFactory.getJsonParser().parseMap(receivedJson);
                     savedUserId = Long.parseLong(map.get("id").toString());
                 });
     }
@@ -77,20 +79,19 @@ class ReviewControllerTest {
     @Test
     void saveUserPic() throws Exception {
         Assertions.assertNotEquals(0, savedUserId);
-        Assert.isTrue(testImageFile.exists(), "test image file does not exist");
+        Assertions.assertTrue(testImageFile.exists(), "test image file does not exist");
+
         byte[] imageBytes = Files.readAllBytes(testImageFile.toPath());
 
-        final MockMultipartFile file = new MockMultipartFile("userPic", testImageFile.getName(), "multipart/form-data",
-                imageBytes);
+        final var file = new MockMultipartFile("userPic", testImageFile.getName(), "multipart/form-data", imageBytes);
         final String url = ENDPOINT_URL + "/user-pics/save";
         String filename = testImageFile.getName();
 
-        mockMvc.perform(
-                        multipart(url)
-                                .file(file)
-                                .queryParam("reviewId", savedUserId.toString())
-                                .header("Content-Type", "multipart/form-data")
-                                .header("Content-Length", file.getSize()))
+        mockMvc.perform(multipart(url)
+                        .file(file)
+                        .queryParam("reviewId", savedUserId.toString())
+                        .header("Content-Type", "multipart/form-data")
+                        .header("Content-Length", file.getSize()))
                 .andExpect(status().isOk())
                 .andExpect(content().string(Matchers.startsWith(savedUserId.toString())))
                 .andExpect(content().string(
@@ -126,7 +127,7 @@ class ReviewControllerTest {
     }
 
     @Test
-    public void deleteNonExistentUserPic() throws Exception {
+    void deleteNonExistentUserPic() throws Exception {
         final int notPossibleId = -1;
         final String url = ENDPOINT_URL + "/user-pics/delete" + notPossibleId;
         mockMvc.perform(delete(url))

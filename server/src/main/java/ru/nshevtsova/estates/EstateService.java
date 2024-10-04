@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import jakarta.transaction.Transactional;
 import ru.nshevtsova.estates.models.Estate;
 import ru.nshevtsova.estates.models.EstatesDataHolder;
 import ru.nshevtsova.estates.models.InnerAttributes;
@@ -89,4 +90,12 @@ public class EstateService {
 
         return new EstatesDataHolder(updatedEstate, updatedInnerAttributes, updatedOuterAttributes);
     }
+
+    @Transactional
+    public void deleteEstateById(long estateId) {
+        innerAttributesRepo.deleteByEstateId(estateId);
+        outerAttributesRepo.deleteByEstateId(estateId);
+        estateRepo.deleteById(estateId);
+    }
+
 }

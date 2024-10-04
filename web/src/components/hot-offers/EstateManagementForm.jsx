@@ -3,20 +3,19 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setIsEstateFormVisible } from '../../store/estateFormSlice.js';
 
 export default function EstateManagementForm({ formType, json }) {
-    const dispatch = useDispatch();
-    const GLOBAL_VALUES = useSelector((state) => state.globalStringValues);
-    const SERVER_URL = GLOBAL_VALUES.serverUrl;
+  const dispatch = useDispatch();
+  const GLOBAL_VALUES = useSelector((state) => state.globalStringValues);
+  const SERVER_URL = GLOBAL_VALUES.serverUrl;
 
-    const FORM_TYPES = {
-        ADD: 'ADD',
-        EDIT: 'EDIT'
-    };
+  const FORM_TYPES = {
+    ADD: 'ADD',
+    EDIT: 'EDIT'
+  };
 
     // const estateForm = useSelector((state) => state.estateForm);
     // const isVisible = estateForm.isVisible;
 
     const [estateJson, setEstateJson] = useState(json);
-
     const [mainPictureIdx, setMainPictureIdx] = useState(0);
     const [imageFiles, setImageFiles] = useState([]);
     const [notification, setNotification] = useState({ message: '', type: '' });
@@ -38,8 +37,7 @@ export default function EstateManagementForm({ formType, json }) {
         async function loadEstateImages() {
             if (formType === FORM_TYPES.EDIT) {
                 const res = await fetch(
-                    // `${SERVER_URL}/estates/images/get/by/id/${estateJson.estate.id}`
-                    `${SERVER_URL}/estates/images/get/by/id/1`
+                    `${SERVER_URL}/estates/images/get/by/id/${estateJson.estate.id}`
                 );
                 const fetchedImages = await res.json();
                 const parsedFetchedImages = [];
@@ -107,7 +105,7 @@ export default function EstateManagementForm({ formType, json }) {
                 displayNotification(
                     resEstate,
                     '',
-                    'Ошибка при обновлении данных о недвижимости.'
+                    'Ошибка при добавлении новых данных о недвижимости.'
                 );
                 return;
             }
@@ -130,7 +128,7 @@ export default function EstateManagementForm({ formType, json }) {
 
             displayNotification(
                 resImagesSave,
-                'Данные о недвижимости успешно обновлены.',
+                'Недвижимость успешно сохранена.',
                 'Ошибка при сохранении изображении.'
             );
         }
@@ -150,6 +148,16 @@ export default function EstateManagementForm({ formType, json }) {
                 'Данные о недвижимости успешно обновлены.',
                 'Ошибка при обновлении данных о недвижимости.'
             );
+
+
+            // const resImagesSave = await fetch(
+            //             `${SERVER_URL}/estates/images/save`,
+            //             {
+            //                 method: 'POST',
+            //                 body: imageFormData
+            //             }
+            //         );
+
             location.reload();
         }
 
@@ -227,7 +235,7 @@ export default function EstateManagementForm({ formType, json }) {
     };
 
     return (
-        <div className="absolute z-20 flex h-full w-full items-center justify-center">
+        <div className="absolute z-20 flex h-auto w-full justify-center">
             <div
                 id="form-holder"
                 className={`min-h-4/5 relative w-1/3 rounded-xl bg-white p-5 max-laptop:w-2/3 max-mobile:mx-6 max-mobile:w-full`}
@@ -486,7 +494,7 @@ export default function EstateManagementForm({ formType, json }) {
                                                 name="outerAttributes.hasParking"
                                                 checked={
                                                     estateJson.outerAttributes
-                                                        .hasParking
+                                                        .hasPagking
                                                 }
                                                 onChange={handleFormInputChange}
                                                 className={'checkbox-shift-fix'}

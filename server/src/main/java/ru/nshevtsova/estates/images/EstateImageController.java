@@ -36,12 +36,17 @@ public class EstateImageController {
         } catch (Exception e) {
             return ResponseEntity.notFound().build();
         }
-
     }
 
     @PostMapping("/save")
     public ResponseEntity<String> saveImages(@RequestParam Long estateId, @RequestParam List<MultipartFile> images) {
         return ResponseEntity.ok(service.saveImages(estateId, images));
+    }
+
+    @DeleteMapping("/wipe/{estateId}")
+    public ResponseEntity<Object> wipeAllImagesFromFolder(@PathVariable Long estateId) {
+            service.wipeAllImagesFromFolder(estateId);
+            return ResponseEntity.ok().build();
     }
 
 }

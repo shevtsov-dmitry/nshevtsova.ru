@@ -14,4 +14,5 @@ public interface EstateRepo extends JpaRepository<Estate, Long> {
 
     @Query("SELECT e FROM Estate e ORDER BY e.createdAt DESC")
     List<Estate> findRecentlyAdded(Pageable requestedAmountRestriction);
+    void deleteById(long id);
 }

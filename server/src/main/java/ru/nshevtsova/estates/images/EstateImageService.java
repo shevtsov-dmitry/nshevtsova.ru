@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +14,7 @@ import java.util.NoSuchElementException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -65,10 +67,6 @@ public class EstateImageService {
         List<byte[]> images = new ArrayList<>();
 
         for (File image : idSaveDir.listFiles()) {
-            if (!image.getName().startsWith(estateId.toString())) {
-                continue;
-            }
-
             byte[] curImageBytes = new byte[0];
             try {
                 curImageBytes = Files.readAllBytes(image.toPath());
@@ -92,9 +90,7 @@ public class EstateImageService {
         if (!idSaveDir.exists()) {
             throw new NoSuchElementException("");
         }
-
         final Map<String, byte[]> nameImageMap = new HashMap<>();
-
         for (File image : idSaveDir.listFiles()) {
             try {
                 byte[] curImageBytes = Files.readAllBytes(image.toPath());
@@ -104,6 +100,15 @@ public class EstateImageService {
             }
         }
         return nameImageMap;
+    }
+
+    public void wipeAllImagesFromFolder(Long estateId) {
+        File idSaveDir = new File(ID_FOLDER_FORMAT.formatted(IMG_STORAGE_PATH_STRING, estateId));
+        try {
+            Files.delete(idSaveDir.toPath());
+        } catch (IOException e) {
+            log.warn("Couldn't delete a certain file from id folder: {}", idSaveDir.getName());
+        }
     }
 
 }

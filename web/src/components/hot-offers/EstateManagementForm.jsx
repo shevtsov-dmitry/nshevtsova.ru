@@ -33,31 +33,23 @@ export default function EstateManagementForm({ formType, json }) {
         }
     }, [notification.message]);
 
-    useEffect(() => {
-        async function loadEstateImages() {
-            if (formType === FORM_TYPES.EDIT) {
+    if (formType === FORM_TYPES.EDIT) {
+        useEffect(() => {
+            async function loadEstateImages() {
                 const res = await fetch(
                     `${SERVER_URL}/estates/images/get/by/id/${estateJson.estate.id}`
                 );
-                const fetchedImages = await res.json();
-                const parsedFetchedImages = [];
-                fetchedImages.forEach((base64content) =>
-                    parsedFetchedImages.push(
-                        `data:image/jpeg;base64,${base64content}`
-                    )
-                );
-                setImageFiles(parsedFetchedImages);
+                const fetchedImagesJson = await res.json();
+                const fetchedImages = [];
+                fetchedImagesJson.forEach((base64content) => {
+                    fetchedImages.push(base64content);
+                });
+                setImageFiles(fetchedImages);
             }
-        }
 
-        loadEstateImages();
-    }, []);
-
-    useEffect(() => {
-        if (imageFiles.length > 0) {
-            console.log(parsedFetchedImages);
-        }
-    }, []);
+            loadEstateImages();
+        }, []);
+    }
 
     // Function to handle input changes
     const handleFormInputChange = (e) => {
@@ -114,8 +106,8 @@ export default function EstateManagementForm({ formType, json }) {
 
             const imageFormData = new FormData();
             imageFormData.append('estateId', estateId);
-            imageFiles.forEach((file) => {
-                imageFormData.append('images', file);
+            imageFiles.forEach((image) => {
+                imageFormData.append('images', image);
             });
 
             const resImagesSave = await fetch(
@@ -141,6 +133,7 @@ export default function EstateManagementForm({ formType, json }) {
                     'Content-Type': 'application/json'
                 }
             });
+
             const updatedEstateJson = await resEstate.json();
             setEstateJson(updatedEstateJson);
             displayNotification(
@@ -162,8 +155,6 @@ export default function EstateManagementForm({ formType, json }) {
 
         function displayNotification(responseEntity, sucsMes, errMes) {
             if (responseEntity.status !== 200) {
-                console.error(responseEntity.statusText);
-
                 setNotification({
                     message: errMes,
                     type: 'error'
@@ -177,9 +168,48 @@ export default function EstateManagementForm({ formType, json }) {
         }
     }
 
-    const handleFileChange = (e) => {
+    const handleFileChange = async (e) => {
         const files = Array.from(e.target.files);
-        setImageFiles((prevFiles) => [...prevFiles, ...files]); // Add new files to the existing array
+        const base64array = await convertFilesToBase64Strings(files);
+        setImageFiles((prevFiles) => [...prevFiles, ...base64array]);
+
+        function convertFilesToBase64Strings(files) {
+            let splitIndex = 0;
+
+            return new Promise((resolve, reject) => {
+                const base64Promises = files.map((file) => {
+                    return new Promise((resolve, reject) => {
+                        const reader = new FileReader();
+                        reader.onload = () => {
+                            // The result contains the base64 string
+                            resolve(cropReactBase64Part(reader.result));
+                        };
+                        reader.onerror = () => {
+                            reject(
+                                new Error(`Could not read file: ${file.name}`)
+                            );
+                        };
+                        reader.readAsDataURL(file); // Read file as a data URL
+                    });
+                });
+
+                // Wait for all files to be read
+                Promise.all(base64Promises).then(resolve).catch(reject);
+            });
+
+            function cropReactBase64Part(base64string) {
+                if (splitIndex !== 0) {
+                    return base64string.substring(splitIndex);
+                }
+
+                for (let i = 0; i < base64string.length; i++) {
+                    if (base64string[i] === ',') {
+                        splitIndex = i + 1;
+                        return base64string.substring(splitIndex);
+                    }
+                }
+            }
+        }
     };
 
     const handleRemoveImage = (index) => {
@@ -198,27 +228,33 @@ export default function EstateManagementForm({ formType, json }) {
 
     const handleDeleteChosenEstate = async (e) => {
         e.preventDefault();
-        await fetch(`${SERVER_URL}/estates/delete/by/id/${estateJson.estate.id}`, {
-          method: "DELETE"
-        })
-        await fetch(`${SERVER_URL}/estates/images/delete/by/id/${estateJson.estate.id}`, {
-          method: "DELETE"
-        })
-        location.reload()
+        await fetch(
+            `${SERVER_URL}/estates/delete/by/id/${estateJson.estate.id}`,
+            {
+                method: 'DELETE'
+            }
+        );
+        await fetch(
+            `${SERVER_URL}/estates/images/delete/by/id/${estateJson.estate.id}`,
+            {
+                method: 'DELETE'
+            }
+        );
+        location.reload();
     };
 
     // Function to render uploaded images with delete option
     const displayRenderImages = () => {
+        imageFiles.map((base64image, index) => {
+            console.log(base64image.substring(0, 50), index);
+        });
+
         return (
             <div className={'grid grid-cols-3 gap-2'}>
-                {imageFiles.map((file, index) => (
+                {imageFiles.map((base64image, index) => (
                     <div key={index} className="relative inline-block">
                         <img
-                            src={
-                                formType === FORM_TYPES.EDIT
-                                    ? file
-                                    : URL.createObjectURL(file)
-                            }
+                            src={`data:image/jpeg;base64,${base64image}`}
                             alt={`upload-${index}`}
                             className="uploaded-image"
                         />
@@ -517,7 +553,7 @@ export default function EstateManagementForm({ formType, json }) {
                     </div>
                     <div className="flex w-full items-center justify-center">
                         <button
-                            className="w-fit select-none rounded-lg bg-white px-4 pb-2 pt-1 font-ptsans-bold text-2xl transition-all hover:scale-105 z-10"
+                            className="z-10 w-fit select-none rounded-lg bg-white px-4 pb-2 pt-1 font-ptsans-bold text-2xl transition-all hover:scale-105"
                             style={{
                                 boxShadow:
                                     'rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset'
@@ -527,7 +563,7 @@ export default function EstateManagementForm({ formType, json }) {
                             {formType === FORM_TYPES.ADD && 'Сохранить'}
                             {formType === FORM_TYPES.EDIT && 'Обновить'}
                         </button>
-                        <div className="absolute w-full flex justify-end pr-5">
+                        <div className="absolute flex w-full justify-end pr-5">
                             <button
                                 onClick={handleDeleteChosenEstate}
                                 className="text-1xl w-fit select-none rounded-lg bg-red-700 px-2 pb-2 pt-1 font-ptsans-bold text-white transition-all hover:scale-105"

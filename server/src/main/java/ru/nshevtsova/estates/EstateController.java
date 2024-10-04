@@ -4,8 +4,12 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.util.Assert;
+import org.springframework.web.ErrorResponse;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,9 +30,17 @@ public class EstateController {
         this.service = service;
     }
 
+//    @ControllerAdvice
+//    public class GlobalExceptionHandler {
+//        @ExceptionHandler(HttpMessageNotReadableException.class)
+//        public ErrorResponse handleHttpMessageNotReadableException(HttpMessageNotReadableException ex) {
+//            return ErrorResponse.create(ex, HttpStatus.BAD_REQUEST, ex.getMessage());
+//        }
+//    }
+
     @PostMapping("/add")
     public ResponseEntity<Long> addNewEstate(@RequestBody EstatesDataHolder estateData) {
-        var savedEstate = service.addNewEstate(estateData);
+        Long savedEstate = service.addNewEstate(estateData);
         Assert.notNull(savedEstate, "Couldn't save estate. /estates/add");
         return ResponseEntity.ok(savedEstate);
     }
@@ -47,6 +59,6 @@ public class EstateController {
     @DeleteMapping("/delete/by/id/{estateId}")
     public ResponseEntity<Object> deleteEstateById(@PathVariable long estateId) {
         service.deleteEstateById(estateId);
-		return ResponseEntity.ok().build();
+        return ResponseEntity.ok().build();
     }
 }

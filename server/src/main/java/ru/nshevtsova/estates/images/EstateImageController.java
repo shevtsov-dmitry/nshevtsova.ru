@@ -43,7 +43,7 @@ public class EstateImageController {
         return ResponseEntity.ok(service.saveImages(estateId, images));
     }
 
-    @DeleteMapping("/wipe/{estateId}")
+    @DeleteMapping("/delete/by/id/{estateId}")
     public ResponseEntity<Object> wipeAllImagesFromFolder(@PathVariable Long estateId) {
             service.wipeAllImagesFromFolder(estateId);
             return ResponseEntity.ok().build();

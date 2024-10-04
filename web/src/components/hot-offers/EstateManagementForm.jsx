@@ -3,14 +3,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setIsEstateFormVisible } from '../../store/estateFormSlice.js';
 
 export default function EstateManagementForm({ formType, json }) {
-  const dispatch = useDispatch();
-  const GLOBAL_VALUES = useSelector((state) => state.globalStringValues);
-  const SERVER_URL = GLOBAL_VALUES.serverUrl;
+    const dispatch = useDispatch();
+    const GLOBAL_VALUES = useSelector((state) => state.globalStringValues);
+    const SERVER_URL = GLOBAL_VALUES.serverUrl;
 
-  const FORM_TYPES = {
-    ADD: 'ADD',
-    EDIT: 'EDIT'
-  };
+    const FORM_TYPES = {
+        ADD: 'ADD',
+        EDIT: 'EDIT'
+    };
 
     // const estateForm = useSelector((state) => state.estateForm);
     // const isVisible = estateForm.isVisible;
@@ -149,7 +149,6 @@ export default function EstateManagementForm({ formType, json }) {
                 'Ошибка при обновлении данных о недвижимости.'
             );
 
-
             // const resImagesSave = await fetch(
             //             `${SERVER_URL}/estates/images/save`,
             //             {
@@ -195,6 +194,17 @@ export default function EstateManagementForm({ formType, json }) {
             return newFiles;
         });
         setMainPictureIdx(0); // The main picture is now at index 0
+    };
+
+    const handleDeleteChosenEstate = async (e) => {
+        e.preventDefault();
+        await fetch(`${SERVER_URL}/estates/delete/by/id/${estateJson.estate.id}`, {
+          method: "DELETE"
+        })
+        await fetch(`${SERVER_URL}/estates/images/delete/by/id/${estateJson.estate.id}`, {
+          method: "DELETE"
+        })
+        location.reload()
     };
 
     // Function to render uploaded images with delete option
@@ -507,7 +517,7 @@ export default function EstateManagementForm({ formType, json }) {
                     </div>
                     <div className="flex w-full items-center justify-center">
                         <button
-                            className="w-fit select-none rounded-lg bg-white px-4 pb-2 pt-1 font-ptsans-bold text-2xl transition-all hover:scale-105"
+                            className="w-fit select-none rounded-lg bg-white px-4 pb-2 pt-1 font-ptsans-bold text-2xl transition-all hover:scale-105 z-10"
                             style={{
                                 boxShadow:
                                     'rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset'
@@ -517,6 +527,18 @@ export default function EstateManagementForm({ formType, json }) {
                             {formType === FORM_TYPES.ADD && 'Сохранить'}
                             {formType === FORM_TYPES.EDIT && 'Обновить'}
                         </button>
+                        <div className="absolute w-full flex justify-end pr-5">
+                            <button
+                                onClick={handleDeleteChosenEstate}
+                                className="text-1xl w-fit select-none rounded-lg bg-red-700 px-2 pb-2 pt-1 font-ptsans-bold text-white transition-all hover:scale-105"
+                                style={{
+                                    boxShadow:
+                                        'rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset'
+                                }}
+                            >
+                                Удалить
+                            </button>
+                        </div>
                     </div>
                     {notification.message && (
                         <div

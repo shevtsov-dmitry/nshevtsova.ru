@@ -17,7 +17,7 @@ export default function EstateManagementForm({ formType, json }) {
 
     const [estateJson, setEstateJson] = useState(json);
     const [mainPictureIdx, setMainPictureIdx] = useState(0);
-    const [imageFiles, setImageFiles] = useState([]);
+    const [base64Images, setBase64Images] = useState([]);
     const [notification, setNotification] = useState({ message: '', type: '' });
 
     const map = {
@@ -44,7 +44,7 @@ export default function EstateManagementForm({ formType, json }) {
                 fetchedImagesJson.forEach((base64content) => {
                     fetchedImages.push(base64content);
                 });
-                setImageFiles(fetchedImages);
+                setBase64Images(fetchedImages);
             }
 
             loadEstateImages();
@@ -78,11 +78,25 @@ export default function EstateManagementForm({ formType, json }) {
     async function handleFormSubmit(e) {
         e.preventDefault();
 
-        if (formType === FORM_TYPES.ADD) {
-            saveNewEstate();
-        } else if (formType === FORM_TYPES.EDIT) {
-            editExistingEstate();
+        // TODO make performant estate editing instead of recreating it
+        // if (formType === FORM_TYPES.ADD) {
+        //     saveNewEstate();
+        // } else if (formType === FORM_TYPES.EDIT) {
+        //     editExistingEstate();
+        // }
+        //
+
+        if (formType === FORM_TYPES.EDIT) {
+            const delImagesRes = await fetch(
+                `${SERVER_URL}/estates/images/delete/by/id/${estateJson.estate.id}`,
+                {
+                    method: 'DELETE'
+                }
+            );
+            console.log(delImagesRes.status);
         }
+
+        saveNewEstate();
 
         async function saveNewEstate() {
             const resEstate = await fetch(`${SERVER_URL}/estates/add`, {
@@ -106,9 +120,26 @@ export default function EstateManagementForm({ formType, json }) {
 
             const imageFormData = new FormData();
             imageFormData.append('estateId', estateId);
-            imageFiles.forEach((image) => {
-                imageFormData.append('images', image);
+            base64Images.forEach((base64, index) => {
+                imageFormData.append(
+                    'images',
+                    base64ToBlob(base64),
+                    `image_${index}.jpg`
+                );
             });
+
+            function base64ToBlob(base64, type = 'image/**') {
+                // const contentType = 'application/octet-stream';
+                // const contentType = 'image/**';
+                const byteCharacters = atob(base64); // Remove the prefix (data URL)
+                const byteNumbers = new Uint8Array(byteCharacters.length);
+
+                for (let i = 0; i < byteCharacters.length; i++) {
+                    byteNumbers[i] = byteCharacters.charCodeAt(i);
+                }
+
+                return new Blob([byteNumbers], { type });
+            }
 
             const resImagesSave = await fetch(
                 `${SERVER_URL}/estates/images/save`,
@@ -125,33 +156,33 @@ export default function EstateManagementForm({ formType, json }) {
             );
         }
 
-        async function editExistingEstate() {
-            const resEstate = await fetch(`${SERVER_URL}/estates/update`, {
-                method: 'PUT',
-                body: JSON.stringify(estateJson),
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            });
-
-            const updatedEstateJson = await resEstate.json();
-            setEstateJson(updatedEstateJson);
-            displayNotification(
-                resEstate,
-                'Данные о недвижимости успешно обновлены.',
-                'Ошибка при обновлении данных о недвижимости.'
-            );
-
-            // const resImagesSave = await fetch(
-            //             `${SERVER_URL}/estates/images/save`,
-            //             {
-            //                 method: 'POST',
-            //                 body: imageFormData
-            //             }
-            //         );
-
-            location.reload();
-        }
+        // async function editExistingEstate() {
+        //     const resEstate = await fetch(`${SERVER_URL}/estates/update`, {
+        //         method: 'PUT',
+        //         body: JSON.stringify(estateJson),
+        //         headers: {
+        //             'Content-Type': 'application/json'
+        //         }
+        //     });
+        //
+        //     const updatedEstateJson = await resEstate.json();
+        //     setEstateJson(updatedEstateJson);
+        //     displayNotification(
+        //         resEstate,
+        //         'Данные о недвижимости успешно обновлены.',
+        //         'Ошибка при обновлении данных о недвижимости.'
+        //     );
+        //
+        //     // const resImagesSave = await fetch(
+        //     //             `${SERVER_URL}/estates/images/save`,
+        //     //             {
+        //     //                 method: 'POST',
+        //     //                 body: imageFormData
+        //     //             }
+        //     //         );
+        //
+        //     location.reload();
+        // }
 
         function displayNotification(responseEntity, sucsMes, errMes) {
             if (responseEntity.status !== 200) {
@@ -171,7 +202,7 @@ export default function EstateManagementForm({ formType, json }) {
     const handleFileChange = async (e) => {
         const files = Array.from(e.target.files);
         const base64array = await convertFilesToBase64Strings(files);
-        setImageFiles((prevFiles) => [...prevFiles, ...base64array]);
+        setBase64Images((prevFiles) => [...prevFiles, ...base64array]);
 
         function convertFilesToBase64Strings(files) {
             let splitIndex = 0;
@@ -213,11 +244,11 @@ export default function EstateManagementForm({ formType, json }) {
     };
 
     const handleRemoveImage = (index) => {
-        setImageFiles((prevFiles) => prevFiles.filter((_, i) => i !== index)); // Remove the image at the specified index
+        setBase64Images((prevFiles) => prevFiles.filter((_, i) => i !== index)); // Remove the image at the specified index
     };
 
     const handleSetMainPictureIdx = (index) => {
-        setImageFiles((prevFiles) => {
+        setBase64Images((prevFiles) => {
             const newFiles = [...prevFiles];
             const [mainImage] = newFiles.splice(index, 1);
             newFiles.unshift(mainImage);
@@ -245,13 +276,9 @@ export default function EstateManagementForm({ formType, json }) {
 
     // Function to render uploaded images with delete option
     const displayRenderImages = () => {
-        imageFiles.map((base64image, index) => {
-            console.log(base64image.substring(0, 50), index);
-        });
-
         return (
             <div className={'grid grid-cols-3 gap-2'}>
-                {imageFiles.map((base64image, index) => (
+                {base64Images.map((base64image, index) => (
                     <div key={index} className="relative inline-block">
                         <img
                             src={`data:image/jpeg;base64,${base64image}`}
@@ -333,6 +360,7 @@ export default function EstateManagementForm({ formType, json }) {
                                 onChange={handleFormInputChange}
                                 className={'number-selector'}
                             >
+                                {/* FIXME currently there is no default option */}
                                 <option value="APARTMENT">Квартира</option>
                                 <option value="HOUSE">Дом</option>
                             </select>

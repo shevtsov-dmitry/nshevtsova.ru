@@ -3,18 +3,14 @@ package ru.nshevtsova.estates.images;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.NoSuchElementException;
+import java.util.*;
+import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -102,13 +98,21 @@ public class EstateImageService {
         return nameImageMap;
     }
 
-    public void wipeAllImagesFromFolder(Long estateId) {
+    public void wipeAllImagesFromFolder(Long estateId) throws IOException {
         File idSaveDir = new File(ID_FOLDER_FORMAT.formatted(IMG_STORAGE_PATH_STRING, estateId));
-        try {
-            Files.delete(idSaveDir.toPath());
-        } catch (IOException e) {
-            log.warn("Couldn't delete a certain file from id folder: {}", idSaveDir.getName());
+        if (!idSaveDir.exists()) {
+            throw new NoSuchElementException("");
         }
+        try (Stream<Path> walkStream = Files.walk(idSaveDir.toPath())) {
+            walkStream.forEach(file -> {
+                try {
+                    Files.delete(file);
+                } catch (IOException e) {
+                    log.warn("Couldn't delete the image in id folder №{}, because: {}", estateId, e.getMessage());
+                }
+            });
+        }
+        Files.delete(idSaveDir.toPath());
     }
 
 }

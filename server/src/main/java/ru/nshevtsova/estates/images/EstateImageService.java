@@ -1,5 +1,6 @@
 package ru.nshevtsova.estates.images;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -8,6 +9,7 @@ import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Stream;
 
+import net.coobird.thumbnailator.Thumbnailator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -36,7 +38,6 @@ public class EstateImageService {
         }
     }
 
-    // TODO also compress images
     public String saveImages(Long estateId, List<MultipartFile> images) {
         File idSaveDir = new File(ID_FOLDER_FORMAT.formatted(IMG_STORAGE_PATH_STRING, estateId));
         idSaveDir.mkdirs();
@@ -44,14 +45,21 @@ public class EstateImageService {
         try {
             for (int i = 0; i < images.size(); i++) {
                 MultipartFile image = images.get(i);
-                String newImageName = i == 0 ? "/main___" + image.getOriginalFilename()
-                        : "/" + image.getOriginalFilename();
-                Files.write(Paths.get(idSaveDir.toPath().toString(), newImageName),
-                        image.getBytes());
+                String newImageName = i == 0 ? "/main___" + image.getOriginalFilename() : "/" + image.getOriginalFilename();
+                Files.write(Paths.get(idSaveDir.toPath().toString(), newImageName), compressImage(image));
+
             }
             return "";
         } catch (IOException e) {
             return "Error saving image: %s".formatted(e.getMessage());
+        }
+    }
+
+    private byte[] compressImage(MultipartFile image) throws IOException {
+        try (var initialImage = image.getInputStream();
+             var croppedImage = new ByteArrayOutputStream()) {
+            Thumbnailator.createThumbnail(initialImage, croppedImage, 800, 500);
+            return croppedImage.toByteArray();
         }
     }
 

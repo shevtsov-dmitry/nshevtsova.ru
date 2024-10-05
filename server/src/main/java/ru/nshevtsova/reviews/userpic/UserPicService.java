@@ -59,10 +59,9 @@ public class UserPicService {
 
         try (var initialImage = pic.userPic().getInputStream();
              var croppedImage = new ByteArrayOutputStream()) {
-            Thumbnailator.createThumbnail(initialImage, croppedImage, 80, 80);
+            Thumbnailator.createThumbnail(initialImage, croppedImage, 110, 110);
             Files.write(file.toPath(), croppedImage.toByteArray());
         }
-//        pic.userPic().transferTo(file);
         return file.getName();
     }
 

@@ -153,7 +153,15 @@ export default function HotOffers() {
     }
 
     return (
-        <div className="h-auto w-full bg-[#E9E7E7]">
+        <div
+            className="h-auto w-full"
+            style={{
+                background:
+                    'linear-gradient(0deg, rgba(255,255,255,1) 0%, rgba(233,231,231,1) 78%)'
+            }}
+        >
+            {' '}
+            {/*bg-[#E9E7E7]*/}
             <div className="flex items-center">
                 <Slide
                     direction="left"

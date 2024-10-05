@@ -33,6 +33,7 @@ const PriceList = () => {
         );
     };
 
+    // bg-[]
     return (
         <div className="flex h-auto flex-col items-center bg-[#E9E7E7] py-[3%]">
             <Slide direction="up">

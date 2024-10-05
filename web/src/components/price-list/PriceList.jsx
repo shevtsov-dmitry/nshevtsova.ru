@@ -35,7 +35,7 @@ const PriceList = () => {
 
     return (
         <div className="flex h-auto flex-col items-center bg-[#E9E7E7] py-[3%]">
-            <Slide bottom>
+            <Slide direction="up">
                 <h1 className="mb-8 font-ptsans-bold text-4xl font-bold">
                     Прайс-лист на риэлторские услуги
                 </h1>
@@ -43,11 +43,11 @@ const PriceList = () => {
             <div className="w-full max-w-4xl space-y-4">
                 {services.map((service, index) =>
                     index % 2 == 0 ? (
-                        <Slide left key={index}>
+                        <Slide direction="left" key={index}>
                             <PriceBlock service={service} />
                         </Slide>
                     ) : (
-                        <Slide right key={index}>
+                        <Slide direction="right" key={index}>
                             <PriceBlock service={service} />
                         </Slide>
                     )

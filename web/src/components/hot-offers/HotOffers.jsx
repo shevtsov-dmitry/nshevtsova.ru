@@ -155,12 +155,13 @@ export default function HotOffers() {
     return (
         <div className="h-auto w-full bg-[#E9E7E7]">
             <div className="flex items-center">
-                <Slide left>
-                    <h1 className="py-[2%] pl-[5%] font-ptsans-bold text-4xl">
-                        ГОРЯЧИЕ ПРЕДЛОЖЕНИЯ
-                    </h1>
+                <Slide
+                    direction="left"
+                    className="ml-[5%] py-[2%] font-ptsans-bold text-4xl"
+                >
+                    <h1>ГОРЯЧИЕ ПРЕДЛОЖЕНИЯ</h1>
                 </Slide>
-                <Slide right>
+                <Slide direction="right">
                     {isAdmin && (
                         <button
                             className="ml-5 h-12 transform rounded-full bg-blue-500 px-4 py-2 font-bold text-white shadow-lg transition duration-300 ease-in-out hover:scale-105 hover:bg-blue-700"
@@ -187,15 +188,13 @@ export default function HotOffers() {
                 className={`${isMobile ? 'mx-0' : 'mx-[5%]'} grid ${isLaptop && !isMobile ? 'grid-cols-3' : 'grid-cols-4'} ${isMobile && 'grid-cols-1'} ${window.innerWidth < 1200 ? 'grid-cols-2' : 'grid-cols-3'} gap-8 pb-[2%]`}
             >
                 {estatesList.map((json, idx) => (
-                    <Slide bottom key={idx}>
-                        <Fade>
-                            <Estate
-                                estate={json.estate}
-                                innerAttributes={json.innerAttributes}
-                                outerAttributes={json.outerAttributes}
-                            />
-                        </Fade>
-                    </Slide>
+                    <Fade delay={150} key={idx}>
+                        <Estate
+                            estate={json.estate}
+                            innerAttributes={json.innerAttributes}
+                            outerAttributes={json.outerAttributes}
+                        />
+                    </Fade>
                 ))}
             </div>
             {isMobile && (

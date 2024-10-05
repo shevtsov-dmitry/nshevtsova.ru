@@ -4,7 +4,7 @@ import { Fade, Slide } from 'react-awesome-reveal'; // Change the import to Slid
 export default function OfferedServices() {
     const IMAGES_PATH = 'images/offered-services';
     const GLOBAL_VALUES = useSelector((state) => state.globalStringValues);
-    const FADE_REVEAL_BASE_TIMING =600;
+    const FADE_REVEAL_BASE_TIMING = 570;
 
     const ServiceDiv = ({ title, icon, description }) => {
         return (
@@ -69,7 +69,7 @@ export default function OfferedServices() {
                             'Анализ рынка недвижимости'
                         ]}
                     />
-                    <Fade delay={1 * FADE_REVEAL_BASE_TIMING}>
+                    <Fade delay={1 * FADE_REVEAL_BASE_TIMING} triggerOnce>
                         <ServiceDiv
                             title={'АРЕНДА'}
                             icon={`${IMAGES_PATH}/rent.png`}
@@ -81,7 +81,7 @@ export default function OfferedServices() {
                             ]}
                         />
                     </Fade>
-                    <Fade delay={2 * FADE_REVEAL_BASE_TIMING}>
+                    <Fade delay={2 * FADE_REVEAL_BASE_TIMING} triggerOnce>
                         <ServiceDiv
                             title={'ПОМОЩЬ В ОФОРМЛЕНИИ'}
                             icon={`${IMAGES_PATH}/document.png`}
@@ -94,7 +94,7 @@ export default function OfferedServices() {
                         />
                     </Fade>
                     {/* TODO make phone number clickable */}
-                    <Fade delay={3 * FADE_REVEAL_BASE_TIMING}>
+                    <Fade delay={3 * FADE_REVEAL_BASE_TIMING} triggerOnce>
                         <ServiceDiv
                             title={'КОНСУЛЬТАЦИЯ'}
                             icon={`${IMAGES_PATH}/consult.png`}

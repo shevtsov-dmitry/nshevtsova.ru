@@ -13,26 +13,35 @@ export default function Advantages() {
         >
             <div className="flex gap-3">
                 <div className="flex h-auto flex-col gap-x-10 max-mobile:gap-5">
-                    <Slide left>
+                    <Slide direction="left" triggerOnce>
                         <h1 className="pb-[2%] font-ptsans-bold text-4xl">
                             ВОЗЬМУ ВСЮ РАБОТУ НА СЕБЯ
                         </h1>
                     </Slide>
-                    <Fade delay={200}>
-                        <p className="text-[1.3rem] max-laptop:text-[1.15rem]">
+                    <Fade
+                        delay={200}
+                        cascade
+                        triggerOnce
+                        className="text-[1.3rem] max-laptop:text-[1.15rem]"
+                    >
+                        <p>
                             Моя задача - сохранить ваше время и деньги и уберечь
                             от стресса в таком нелегком процессе, как продажа
-                            квартиры. <br /> Сбор необходимых документов, уборка
-                            в квартире, размещение объявлений, показы и
-                            заключение сделки — все эти этапы я возьму на себя.{' '}
-                            <br /> А вы каждую неделю будете получать подробный
-                            отчет о результатах.
+                            квартиры.
+                        </p>
+                        <p>
+                            Сбор необходимых документов, уборка в квартире,
+                            размещение объявлений, показы и заключение сделки —
+                            все эти этапы я возьму на себя.
+                        </p>
+                        <p>
+                            А вы каждую неделю будете получать подробный отчет о
+                            результатах.
                         </p>
                     </Fade>
-
                     <div className="flex h-full w-full items-center justify-center">
                         <ul className="grid grid-cols-2 gap-y-10 text-[1.2rem] max-laptop:grid-cols-1 max-laptop:gap-y-4">
-                            <Fade bottom delay={fadeRevealDelayStepMs * 0}>
+                            <Fade delay={fadeRevealDelayStepMs * 0}>
                                 <Zoom delay={fadeRevealDelayStepMs * 0}>
                                     <li className="advantage-icon-holder">
                                         <img
@@ -47,7 +56,10 @@ export default function Advantages() {
                                     </li>
                                 </Zoom>
                             </Fade>
-                            <Fade bottom delay={fadeRevealDelayStepMs * 1}>
+                            <Fade
+                                direction="down"
+                                delay={fadeRevealDelayStepMs * 1}
+                            >
                                 <Zoom delay={fadeRevealDelayStepMs * 1}>
                                     <li className="advantage-icon-holder">
                                         <img
@@ -62,7 +74,10 @@ export default function Advantages() {
                                     </li>
                                 </Zoom>
                             </Fade>
-                            <Fade bottom delay={fadeRevealDelayStepMs * 2}>
+                            <Fade
+                                direction="down"
+                                delay={fadeRevealDelayStepMs * 2}
+                            >
                                 <Zoom delay={fadeRevealDelayStepMs * 2}>
                                     <li className="advantage-icon-holder">
                                         <img
@@ -77,7 +92,10 @@ export default function Advantages() {
                                     </li>
                                 </Zoom>
                             </Fade>
-                            <Fade bottom delay={fadeRevealDelayStepMs * 3}>
+                            <Fade
+                                direction="down"
+                                delay={fadeRevealDelayStepMs * 3}
+                            >
                                 <Zoom delay={fadeRevealDelayStepMs * 3}>
                                     <li className="advantage-icon-holder">
                                         <img

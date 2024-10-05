@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import SaveReviewForm from './SaveReviewForm';
 import { Splide, SplideSlide } from '@splidejs/react-splide';
 import '@splidejs/react-splide/css';
-import { Slide } from 'react-awesome-reveal';
+import { Slide, Fade } from 'react-awesome-reveal';
 
 export default function Reviews() {
     const formHolderRef = useRef();
@@ -23,14 +23,8 @@ export default function Reviews() {
     ]);
 
     const [idImageMap, setIdImageMap] = useState({});
-    const [midIdx, setMidIdx] = useState(1);
+    // TODO add option to load more reviews when finished scrolling
     const maxReviewsFetched = 15;
-
-    const positions = {
-        LEFT: midIdx - 1,
-        MID: midIdx,
-        RIGHT: midIdx + 1
-    };
 
     const sliderRef = useRef();
 
@@ -79,13 +73,9 @@ export default function Reviews() {
         }
     }, [isReviewSent]);
 
-    function ReviewDiv({ positionIdx, json }) {
+    const ReviewDiv = ({ json }) => {
         const [isShowMore, setIsShowMore] = useState(false);
         const reviewDivRef = useRef();
-
-        const isLeft = positionIdx === positions.LEFT;
-        const isMid = positionIdx === positions.MID;
-        const isRight = positionIdx === positions.RIGHT;
 
         return (
             <SplideSlide>
@@ -100,7 +90,6 @@ export default function Reviews() {
                         <img
                             id="usr-pic"
                             src={`data:image/jpeg;base64,${idImageMap[json['id']]}`}
-                            alt="Фото клиента"
                             className="w-[12%]"
                             style={{ borderRadius: '50%' }}
                         />
@@ -124,14 +113,14 @@ export default function Reviews() {
                 </div>
             </SplideSlide>
         );
-    }
+    };
 
     return (
         <div
             className={`flex h-full w-full flex-col bg-[url('images/reviews/foggy-city.jpg')] bg-cover bg-no-repeat py-[2%]`}
         >
             <div className="h-full w-full flex-1">
-                <Slide bottom delay={50}>
+                <Slide direction="up" delay={50}>
                     <h1 className="text-center font-ptsans-bold text-5xl">
                         Отзывы тех, кто уже совершил <br /> выгодную сделку с
                         моей помощью
@@ -141,7 +130,11 @@ export default function Reviews() {
 
             <SaveReviewForm formHolderRef={formHolderRef} />
 
-            <div className="flex-2 flex h-full overflow-hidden py-[2%] max-mobile:h-full">
+            <Fade
+                cascade
+                delay={300}
+                className="flex-2 flex h-full overflow-hidden py-[2%] max-mobile:h-full"
+            >
                 <Splide
                     options={{
                         perPage: window.innerWidth < 768 ? 1 : 3,
@@ -159,10 +152,10 @@ export default function Reviews() {
                     className="w-full px-[3%]"
                 >
                     {reviewsJsonArray.map((json, idx) => (
-                        <ReviewDiv key={idx} json={json} positionIdx={idx} />
+                        <ReviewDiv key={idx} json={json} />
                     ))}
                 </Splide>
-            </div>
+            </Fade>
 
             <div className="flex w-full flex-1 items-center justify-center">
                 <button

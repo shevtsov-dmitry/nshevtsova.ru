@@ -13,10 +13,11 @@ export default function HotOffers() {
         ADD: 'ADD',
         EDIT: 'EDIT'
     };
+
     const placeholderEstateJson = {
         estate: {
             price: '',
-            estateType: '',
+            estateType: 'APARTMENT',
             address: ''
         },
         innerAttributes: {
@@ -28,10 +29,10 @@ export default function HotOffers() {
             toiletsAmount: ''
         },
         outerAttributes: {
-            floor: '',
-            allFloors: '',
-            releaseDate: '',
-            hasParking: true,
+            floor: '1',
+            allFloors: '16',
+            releaseDate: '2000',
+            hasParking: false,
             description: ''
         }
     };
@@ -137,7 +138,7 @@ export default function HotOffers() {
                             {innerAttributes.roomsAmount} комн.{' '}
                             {parseFloat(
                                 innerAttributes.totalSizeSquareMeters
-                            ).toFixed(1)}{' '}
+                            ).toFixed(1).toString().replace(".", ",")}{' '}
                             м кв. {outerAttributes.floor}/
                             {outerAttributes.allFloors} этаж
                         </p>

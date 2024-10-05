@@ -12,17 +12,11 @@ export default function EstateManagementForm({ formType, json }) {
         EDIT: 'EDIT'
     };
 
-    // const estateForm = useSelector((state) => state.estateForm);
-    // const isVisible = estateForm.isVisible;
-
     const [estateJson, setEstateJson] = useState(json);
+    const [validationMessage, setValidationMessage] = useState('');
     const [mainPictureIdx, setMainPictureIdx] = useState(0);
     const [base64Images, setBase64Images] = useState([]);
     const [notification, setNotification] = useState({ message: '', type: '' });
-
-    const map = {
-        // TODO "filename" : index,
-    };
 
     useEffect(() => {
         if (notification.message) {
@@ -32,6 +26,18 @@ export default function EstateManagementForm({ formType, json }) {
             return () => clearTimeout(timer);
         }
     }, [notification.message]);
+
+    useEffect(() => {
+         const handleKeyDown = (event) => {
+             if (event.key === 'Escape') {
+                 dispatch(setIsEstateFormVisible(false));
+             }
+         };
+         document.addEventListener('keydown', handleKeyDown);
+         return () => {
+             document.removeEventListener('keydown', handleKeyDown);
+         };
+     }, []);
 
     if (formType === FORM_TYPES.EDIT) {
         useEffect(() => {
@@ -51,29 +57,42 @@ export default function EstateManagementForm({ formType, json }) {
         }, []);
     }
 
-    // Function to handle input changes
     const handleFormInputChange = (e) => {
-        const { name, value, type, checked } = e.target;
-        const [outerKey, innerKey] = name.split('.');
+        let { name, value, type, checked } = e.target;
+        const [characteristic, property] = name.split('.');
 
-        if (innerKey) {
+        if (property) {
             setEstateJson((prev) => ({
                 ...prev,
-                [outerKey]: {
-                    ...prev[outerKey],
-                    [innerKey]: type === 'checkbox' ? checked : value
-                }
-            }));
-        } else {
-            setEstateJson((prev) => ({
-                ...prev,
-                estate: {
-                    ...prev.estate,
-                    [name]: type === 'checkbox' ? checked : value
+                [characteristic]: {
+                    ...prev[characteristic],
+                    [property]: type === 'checkbox' ? checked : value
                 }
             }));
         }
+
+        validateInputs(characteristic, property, value);
     };
+
+    function validateInputs(characteristic, property, value) {
+        const regexOnlyNums = /[^0-9,.]/;
+        switch (property) {
+            case 'price':
+            case 'totalSizeSquareMeters':
+            case 'kitchenSizeSquareMeters':
+            case 'ceilHeight':
+            case 'toiletsAmount':
+            case 'roomsAmount':
+                setValidationMessage(
+                    regexOnlyNums.test(value)
+                        ? 'Допустимы только цифры и/или запятая'
+                        : ''
+                );
+                break;
+        }
+
+
+    }
 
     async function handleFormSubmit(e) {
         e.preventDefault();
@@ -84,16 +103,14 @@ export default function EstateManagementForm({ formType, json }) {
         // } else if (formType === FORM_TYPES.EDIT) {
         //     editExistingEstate();
         // }
-        //
 
         if (formType === FORM_TYPES.EDIT) {
-            const delImagesRes = await fetch(
+            await fetch(
                 `${SERVER_URL}/estates/images/delete/by/id/${estateJson.estate.id}`,
                 {
                     method: 'DELETE'
                 }
             );
-            console.log(delImagesRes.status);
         }
 
         saveNewEstate();
@@ -154,48 +171,49 @@ export default function EstateManagementForm({ formType, json }) {
                 'Недвижимость успешно сохранена.',
                 'Ошибка при сохранении изображении.'
             );
+
         }
+    }
 
-        // async function editExistingEstate() {
-        //     const resEstate = await fetch(`${SERVER_URL}/estates/update`, {
-        //         method: 'PUT',
-        //         body: JSON.stringify(estateJson),
-        //         headers: {
-        //             'Content-Type': 'application/json'
-        //         }
-        //     });
-        //
-        //     const updatedEstateJson = await resEstate.json();
-        //     setEstateJson(updatedEstateJson);
-        //     displayNotification(
-        //         resEstate,
-        //         'Данные о недвижимости успешно обновлены.',
-        //         'Ошибка при обновлении данных о недвижимости.'
-        //     );
-        //
-        //     // const resImagesSave = await fetch(
-        //     //             `${SERVER_URL}/estates/images/save`,
-        //     //             {
-        //     //                 method: 'POST',
-        //     //                 body: imageFormData
-        //     //             }
-        //     //         );
-        //
-        //     location.reload();
-        // }
+    // async function editExistingEstate() {
+    //     const resEstate = await fetch(`${SERVER_URL}/estates/update`, {
+    //         method: 'PUT',
+    //         body: JSON.stringify(estateJson),
+    //         headers: {
+    //             'Content-Type': 'application/json'
+    //         }
+    //     });
+    //
+    //     const updatedEstateJson = await resEstate.json();
+    //     setEstateJson(updatedEstateJson);
+    //     displayNotification(
+    //         resEstate,
+    //         'Данные о недвижимости успешно обновлены.',
+    //         'Ошибка при обновлении данных о недвижимости.'
+    //     );
+    //
+    //     // const resImagesSave = await fetch(
+    //     //             `${SERVER_URL}/estates/images/save`,
+    //     //             {
+    //     //                 method: 'POST',
+    //     //                 body: imageFormData
+    //     //             }
+    //     //         );
+    //
+    //     location.reload();
+    // }
 
-        function displayNotification(responseEntity, sucsMes, errMes) {
-            if (responseEntity.status !== 200) {
-                setNotification({
-                    message: errMes,
-                    type: 'error'
-                });
-            } else {
-                setNotification({
-                    message: sucsMes,
-                    type: 'success'
-                });
-            }
+    function displayNotification(responseEntity, sucsMes, errMes) {
+        if (responseEntity.status !== 200) {
+            setNotification({
+                message: errMes,
+                type: 'error'
+            });
+        } else {
+            setNotification({
+                message: sucsMes,
+                type: 'success'
+            });
         }
     }
 
@@ -307,6 +325,10 @@ export default function EstateManagementForm({ formType, json }) {
         );
     };
 
+    const RequiredFieldSign = () => {
+        return <div className="absolute ml-[-9px] text-sm text-red-500">*</div>;
+    };
+
     return (
         <div className="absolute z-20 flex h-auto w-full justify-center">
             <div
@@ -332,30 +354,38 @@ export default function EstateManagementForm({ formType, json }) {
                         <label>Адрес</label>
                         <input
                             type="text"
-                            name="address"
+                            name="estate.address"
                             value={estateJson.estate.address}
+                            required={true}
                             onChange={handleFormInputChange}
                             className={'w-[88%]'}
                             placeholder={
                                 'г. Воронеж, Ленинский проспект, дом 5Б, 2 подъезд, 38 кабинет'
                             }
                         />
+                        {estateJson.estate.address.length === 0 && (
+                            <RequiredFieldSign />
+                        )}
                     </div>
                     <div className={'flex items-center justify-around gap-1'}>
                         <div className={'form-attribute-input'}>
                             <label>Цена</label>
                             <input
-                                type="number"
-                                name="price"
+                                type="text"
+                                name="estate.price"
+                                required={true}
                                 value={estateJson.estate.price}
                                 onChange={handleFormInputChange}
-                                placeholder={'4 199 000'}
+                                placeholder={'4199000'}
                             />
+                            {estateJson.estate.price === '' && (
+                                <RequiredFieldSign />
+                            )}
                         </div>
                         <div className={'flex items-center gap-2'}>
                             <label>Тип недвижимости</label>
                             <select
-                                name="estateType"
+                                name="estate.estateType"
                                 value={estateJson.estate.estateType}
                                 onChange={handleFormInputChange}
                                 className={'number-selector'}
@@ -375,6 +405,7 @@ export default function EstateManagementForm({ formType, json }) {
                             </label>
                             <input
                                 type="file"
+                                required={true}
                                 accept="image/*"
                                 multiple
                                 onChange={handleFileChange}
@@ -390,8 +421,9 @@ export default function EstateManagementForm({ formType, json }) {
                                 <div className="form-attribute-input">
                                     <label>Размер квартиры (м²)</label>
                                     <input
-                                        type="number"
+                                        type="text"
                                         name="innerAttributes.totalSizeSquareMeters"
+                                        required={true}
                                         value={
                                             estateJson.innerAttributes
                                                 .totalSizeSquareMeters
@@ -399,11 +431,15 @@ export default function EstateManagementForm({ formType, json }) {
                                         onChange={handleFormInputChange}
                                         placeholder={'57,9'}
                                     />
+                                    {estateJson.innerAttributes
+                                        .totalSizeSquareMeters.length === 0 && (
+                                        <RequiredFieldSign />
+                                    )}
                                 </div>
                                 <div className="form-attribute-input">
                                     <label>Размер кухни (м²)</label>
                                     <input
-                                        type="number"
+                                        type="text"
                                         name="innerAttributes.kitchenSizeSquareMeters"
                                         value={
                                             estateJson.innerAttributes
@@ -416,8 +452,9 @@ export default function EstateManagementForm({ formType, json }) {
                                 <div className="form-attribute-input">
                                     <label>Количество комнат</label>
                                     <input
-                                        type="number"
+                                        type="text"
                                         name="innerAttributes.roomsAmount"
+                                        required={true}
                                         value={
                                             estateJson.innerAttributes
                                                 .roomsAmount
@@ -425,24 +462,26 @@ export default function EstateManagementForm({ formType, json }) {
                                         onChange={handleFormInputChange}
                                         placeholder={'2'}
                                     />
+                                    {estateJson.innerAttributes.roomsAmount
+                                        .length === 0 && <RequiredFieldSign />}
                                 </div>
                                 <div className="form-attribute-input">
                                     <label>Высота потолков (м)</label>
                                     <input
-                                        type="number"
+                                        type="text"
                                         name="innerAttributes.ceilHeight"
                                         value={
                                             estateJson.innerAttributes
                                                 .ceilHeight
                                         }
                                         onChange={handleFormInputChange}
-                                        placeholder={'2.2'}
+                                        placeholder={'2,2'}
                                     />
                                 </div>
                                 <div className="form-attribute-input">
                                     <label>Количество санузлов</label>
                                     <input
-                                        type="number"
+                                        type="text"
                                         name="innerAttributes.toiletsAmount"
                                         value={
                                             estateJson.innerAttributes
@@ -591,6 +630,15 @@ export default function EstateManagementForm({ formType, json }) {
                             {formType === FORM_TYPES.ADD && 'Сохранить'}
                             {formType === FORM_TYPES.EDIT && 'Обновить'}
                         </button>
+                        <div className="absolute flex w-full justify-start pl-5">
+                            <p
+                                className={
+                                    'font-ptsans-bold text-sm text-red-300'
+                                }
+                            >
+                                {validationMessage}
+                            </p>
+                        </div>
                         <div className="absolute flex w-full justify-end pr-5">
                             <button
                                 onClick={handleDeleteChosenEstate}

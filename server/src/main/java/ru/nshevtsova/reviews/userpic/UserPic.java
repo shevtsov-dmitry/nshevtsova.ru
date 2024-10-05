@@ -1,4 +1,4 @@
-package ru.nshevtsova.reviews.userPic;
+package ru.nshevtsova.reviews.userpic;
 
 import org.springframework.web.multipart.MultipartFile;
 

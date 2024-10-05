@@ -1,13 +1,8 @@
 package ru.nshevtsova.reviews;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.nio.file.NoSuchFileException;
 import java.util.List;
 
 /**
@@ -17,8 +12,11 @@ import java.util.List;
 @RequestMapping("/reviews")
 public class ReviewController {
 
-    @Autowired
-    private ReviewService service;
+    private final ReviewService service;
+
+    public ReviewController(ReviewService service) {
+        this.service = service;
+    }
 
     @GetMapping("/get/recent/{amount}")
     public ResponseEntity<List<Review>> listRecent(@PathVariable int amount) {

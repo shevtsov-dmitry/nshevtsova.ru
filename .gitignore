@@ -1,12 +1,12 @@
-dist
-node_modules
+dist/
+node_modules/
 *.Identifier
-.idea
+.idea/
 *.iml
-.settings
+.settings/
 
 server/target
-server.db
+.attach*
 .project
 .factorypath
 .classpath

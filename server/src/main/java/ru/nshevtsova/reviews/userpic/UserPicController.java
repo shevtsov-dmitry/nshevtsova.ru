@@ -1,16 +1,14 @@
-package ru.nshevtsova.reviews.userPic;
+package ru.nshevtsova.reviews.userpic;
 
 import java.io.IOException;
 import java.nio.file.NoSuchFileException;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,8 +23,11 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("/reviews/user-pics")
 public class UserPicController {
 
-    @Autowired
-    private UserPicService service;
+    private final UserPicService service;
+
+    public UserPicController(UserPicService service) {
+        this.service = service;
+    }
 
     @PostMapping("/save")
     public ResponseEntity<String> save(@RequestParam Long reviewId, @RequestParam MultipartFile userPic) {
@@ -34,7 +35,9 @@ public class UserPicController {
             String filename = service.saveUserPic(new UserPic(reviewId, userPic));
             return ResponseEntity.ok(filename);
         } catch (NoSuchFileException e) {
-            return new ResponseEntity<>("This method is not suppose to use being used without existing @param reviewId in database.", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(
+                    "This method is not suppose to use being used without existing @param reviewId in database.",
+                    HttpStatus.BAD_REQUEST);
         } catch (IOException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -54,6 +57,5 @@ public class UserPicController {
         } catch (IOException e) {
             return ResponseEntity.notFound().build();
         }
-
     }
 }

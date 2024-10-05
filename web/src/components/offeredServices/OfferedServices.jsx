@@ -4,27 +4,21 @@ import { Fade, Slide } from 'react-awesome-reveal'; // Change the import to Slid
 export default function OfferedServices() {
     const IMAGES_PATH = 'images/offered-services';
     const GLOBAL_VALUES = useSelector((state) => state.globalStringValues);
+    const FADE_REVEAL_BASE_TIMING =600;
 
-    const revealDelayStepMs = 130;
-    const extraFadeRevealDelayMs = 70;
-
-    function ServiceDiv(props) {
-        const TITLE = props.title;
-        const DESCRIPTION_LIST = props.description;
-        const IMAGE_SRC = props.icon;
-
+    const ServiceDiv = ({ title, icon, description }) => {
         return (
             <div className="grid h-auto w-full grid-cols-4 grid-rows-3 gap-2 rounded-[0.75rem] border border-gray-300 py-[4%] pr-[5%]">
                 <div className="col-span-1 row-span-1 flex h-full w-full items-center justify-center">
-                    <img className="w-[60%]" src={`${IMAGE_SRC}`} />
+                    <img className="w-[60%]" src={`${icon}`} />
                 </div>
                 <div className="col-span-3 row-span-1 flex h-full w-full items-center">
                     {' '}
-                    <h1 className="font-ptsans-bold text-2xl">{TITLE}</h1>
+                    <h1 className="font-ptsans-bold text-2xl">{title}</h1>
                 </div>
                 <div className="col-span-1 row-span-3" />
                 <ul className="col-span-3 row-span-3 flex list-disc flex-col gap-2 marker:text-yellow-400">
-                    {DESCRIPTION_LIST.map((text, index) => (
+                    {description.map((text, index) => (
                         <li key={index} className="">
                             {text}
                         </li>
@@ -32,70 +26,50 @@ export default function OfferedServices() {
                 </ul>
             </div>
         );
-    }
+    };
 
     return (
         <div className="mb-[2.5%] h-fit w-full">
-            <Slide left>
+            <Slide triggerOnce>
                 <div className="flex h-1/5 items-center justify-start">
                     <h1 className="my-[2%] ml-[5%] font-ptsans-bold text-4xl">
                         ПРЕДОСТАВЛЯЕМЫЕ УСЛУГИ
                     </h1>
                 </div>
             </Slide>
-            <section className="grid h-4/5 w-full grid-cols-3 gap-5 px-[5%]">
-                <Slide direction="up" delay={revealDelayStepMs * 1}>
-                    <div>
-                        {' '}
-                        {/* Add a wrapper div */}
-                        <ServiceDiv
-                            title={'ПОКУПКА'}
-                            icon={`${IMAGES_PATH}/house-key.png`}
-                            description={[
-                                'Подбор идеальной недвижимости',
-                                'Сопровождение сделки на каждом этапе',
-                                'Юридическая проверка документов',
-                                'Переговоры с продавцами'
-                            ]}
-                        />
-                    </div>
-                </Slide>
-                <Slide bottom delay={revealDelayStepMs * 2}>
-                    <div>
-                        {' '}
-                        {/* Add a wrapper div */}
-                        <ServiceDiv
-                            title={'ПРОДАЖА'}
-                            icon={`${IMAGES_PATH}/deal.png`}
-                            description={[
-                                'Оценка рыночной стоимости',
-                                'Подготовка к продаже',
-                                'Маркетинг и реклама',
-                                'Проведение показов'
-                            ]}
-                        />
-                    </div>
-                </Slide>
-                <Slide bottom delay={revealDelayStepMs * 3}>
-                    <div>
-                        {' '}
-                        {/* Add a wrapper div */}
-                        <ServiceDiv
-                            title={'ПОИСК НЕДВИЖИМОСТИ'}
-                            icon={`${IMAGES_PATH}/find-house.png`}
-                            description={[
-                                'Поиск по заданным критериям',
-                                'Консультации по районам',
-                                'Организация просмотров',
-                                'Анализ рынка недвижимости'
-                            ]}
-                        />
-                    </div>
-                </Slide>
-                <Slide bottom delay={revealDelayStepMs * 1}>
-                    <Fade
-                        delay={revealDelayStepMs * 1 + extraFadeRevealDelayMs}
-                    >
+            <div className="grid h-4/5 w-full grid-cols-3 gap-5 px-[5%]">
+                <Slide cascade triggerOnce direction="up" damping={0.3}>
+                    <ServiceDiv
+                        title={'ПОКУПКА'}
+                        icon={`${IMAGES_PATH}/house-key.png`}
+                        description={[
+                            'Подбор идеальной недвижимости',
+                            'Сопровождение сделки на каждом этапе',
+                            'Юридическая проверка документов',
+                            'Переговоры с продавцами'
+                        ]}
+                    />
+                    <ServiceDiv
+                        title={'ПРОДАЖА'}
+                        icon={`${IMAGES_PATH}/deal.png`}
+                        description={[
+                            'Оценка рыночной стоимости',
+                            'Подготовка к продаже',
+                            'Маркетинг и реклама',
+                            'Проведение показов'
+                        ]}
+                    />
+                    <ServiceDiv
+                        title={'ПОИСК НЕДВИЖИМОСТИ'}
+                        icon={`${IMAGES_PATH}/find-house.png`}
+                        description={[
+                            'Поиск по заданным критериям',
+                            'Консультации по районам',
+                            'Организация просмотров',
+                            'Анализ рынка недвижимости'
+                        ]}
+                    />
+                    <Fade delay={1 * FADE_REVEAL_BASE_TIMING}>
                         <ServiceDiv
                             title={'АРЕНДА'}
                             icon={`${IMAGES_PATH}/rent.png`}
@@ -107,12 +81,7 @@ export default function OfferedServices() {
                             ]}
                         />
                     </Fade>
-                </Slide>
-
-                <Slide bottom delay={revealDelayStepMs * 2}>
-                    <Fade
-                        delay={revealDelayStepMs * 2 + extraFadeRevealDelayMs}
-                    >
+                    <Fade delay={2 * FADE_REVEAL_BASE_TIMING}>
                         <ServiceDiv
                             title={'ПОМОЩЬ В ОФОРМЛЕНИИ'}
                             icon={`${IMAGES_PATH}/document.png`}
@@ -124,12 +93,8 @@ export default function OfferedServices() {
                             ]}
                         />
                     </Fade>
-                </Slide>
-                <Slide bottom delay={revealDelayStepMs * 3}>
-                    <Fade
-                        delay={revealDelayStepMs * 3 + extraFadeRevealDelayMs}
-                    >
-                        {/* TODO make phone number clickable */}
+                    {/* TODO make phone number clickable */}
+                    <Fade delay={3 * FADE_REVEAL_BASE_TIMING}>
                         <ServiceDiv
                             title={'КОНСУЛЬТАЦИЯ'}
                             icon={`${IMAGES_PATH}/consult.png`}
@@ -137,7 +102,7 @@ export default function OfferedServices() {
                         />
                     </Fade>
                 </Slide>
-            </section>
+            </div>
         </div>
     );
 }

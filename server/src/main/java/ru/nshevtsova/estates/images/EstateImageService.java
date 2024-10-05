@@ -58,7 +58,7 @@ public class EstateImageService {
     private byte[] compressImage(MultipartFile image) throws IOException {
         try (var initialImage = image.getInputStream();
              var croppedImage = new ByteArrayOutputStream()) {
-            Thumbnailator.createThumbnail(initialImage, croppedImage, 800, 500);
+            Thumbnailator.createThumbnail(initialImage, croppedImage, 600, 400);
             return croppedImage.toByteArray();
         }
     }

@@ -85,7 +85,7 @@ export default function HotOffers() {
         return (
             <div className="flex w-full justify-center">
                 <div
-                    className="h-full w-5/6 rounded-3xl bg-[#ECECEC]"
+                    className="relative h-full w-5/6 rounded-3xl bg-[#ECECEC]"
                     onMouseEnter={() => setIsOfferHovered(true)}
                     onMouseLeave={() => setIsOfferHovered(false)}
                     style={{
@@ -95,7 +95,7 @@ export default function HotOffers() {
                 >
                     {isAdmin && isOfferHovered && (
                         <div
-                            className="absolute right-[9%] top-[1%] z-10 rounded-full p-3 hover:cursor-pointer hover:bg-white"
+                            className="absolute right-[1%] top-[1%] z-10 rounded-full p-3 hover:cursor-pointer hover:bg-white"
                             onClick={() => {
                                 dispatch(setIsEstateFormVisible(true));
                                 setCurrentFormType(FORM_TYPES.EDIT);

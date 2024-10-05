@@ -34,9 +34,22 @@
     @apply rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700 focus:outline-none;
 }
 
+.form-label {
+    @apply mb-2 block font-ptsans-bold text-gray-700;
+}
+
+.text-input-form-field {
+    @apply w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:border-2 focus:border-blue-200 focus:outline-none;
+}
+
 .custom-arrow {
     z-index: 10;
-    background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent black background */
+    background-color: rgba(
+        0,
+        0,
+        0,
+        0.6
+    ); /* Semi-transparent black background */
     border: none; /* Remove border */
     border-radius: 50%; /* Make it circular */
     width: 50px; /* Set width */
@@ -47,7 +60,9 @@
     position: absolute; /* Position arrows absolutely */
     top: 50%; /* Center vertically */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add subtle shadow */
-    transition: transform 0.3s ease, background-color 0.3s ease; /* Smooth transition */
+    transition:
+        transform 0.3s ease,
+        background-color 0.3s ease; /* Smooth transition */
     filter: blur(0.5px);
 }
 
@@ -71,7 +86,8 @@
 }
 
 /* Hide arrows on mobile devices */
-@media (max-width: 768px) { /* Adjust the max-width as needed */
+@media (max-width: 768px) {
+    /* Adjust the max-width as needed */
     .custom-arrow {
         display: none; /* Hide arrows */
     }
@@ -81,7 +97,6 @@
 .splide__pagination .splide__pagination__page {
     background-color: #ffffff; /* Darker gray for inactive dots */
     opacity: 1; /* Ensure dots are fully opaque */
-
 }
 
 .splide__pagination .splide__pagination__page.is-active {

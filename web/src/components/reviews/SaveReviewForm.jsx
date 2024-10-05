@@ -213,81 +213,85 @@ export default function SaveReviewForm({ formHolderRef }) {
     return (
         <div className={'absolute z-50 w-full justify-center'}>
             <div
-                className="z-50 mx-auto w-1/4 p-4 max-laptop:w-1/3 max-mobile:w-3/4"
+                className="z-50 mx-auto w-1/4 p-4 max-laptop:w-1/3 max-mobile:w-full"
                 ref={formHolderRef}
             >
                 <form
                     onSubmit={handleFormSubmit}
-                    className="mb-4 rounded-lg bg-white px-10 pb-8 pt-6 max-mobile:px-4"
+                    className={
+                        'relative mb-4 rounded-lg bg-white px-10 pb-8 pt-6' +
+                        ' max-mobile:px-3'
+                    }
                     style={{
                         boxShadow: 'rgba(0, 0, 0, 0.56) 0px 22px 70px 4px'
                     }}
                 >
                     <div
                         id={'close-sign-holder'}
-                        className={'mt-[-1rem] flex justify-end'}
+                        className={'absolute right-2 top-0 flex justify-end'}
                     >
                         <div
                             id="form-close-sign"
                             className={
-                                'select-none text-right font-mono text-3xl font-bold hover:cursor-pointer'
+                                'select-none p-2 text-right font-mono text-4xl font-bold transition-colors' +
+                                ' hover:cursor-pointer hover:rounded-full hover:bg-blue-400 hover:text-white' +
+                                ' max-mobile:text-2xl'
                             }
                             onClick={() => {
                                 // setIsFormActive(false)
                                 formHolderRef.current.style.display = 'none';
                             }}
                         >
-                            X
+                            &times;
                         </div>
                     </div>
-                    <div className="mb-4">
-                        <label className="mb-2 block text-sm font-bold text-gray-700">
-                            Имя
-                        </label>
-                        <input
-                            type="text"
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
-                            className="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none"
-                        />
-                    </div>
-                    <div className="mb-4">
-                        <label className="mb-2 block text-sm font-bold text-gray-700">
-                            Фамилия
-                        </label>
-                        <input
-                            type="text"
-                            value={surname}
-                            onChange={(e) => setSurname(e.target.value)}
-                            className="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none"
-                        />
-                    </div>
-                    <div className="mb-4">
-                        <label className="mb-2 block text-sm font-bold text-gray-700">
-                            Оценка
-                        </label>
-                        <StarRating stars={0} isDefaultChecked={false} />
-                    </div>
-                    <div className="mb-4">
-                        <label className="mb-2 block text-sm font-bold text-gray-700">
-                            Отзыв
-                        </label>
-                        <textarea
-                            value={reviewText}
-                            onChange={(e) => setReviewText(e.target.value)}
-                            className="focus:shadow-outline min-h-[100px] w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none"
-                        ></textarea>
-                    </div>
-                    <div className="mb-4">
-                        <label className="mb-2 block text-sm font-bold text-gray-700">
-                            Ваша фотография (к пожеланию)
-                        </label>
-                        <input
-                            type="file"
-                            accept="image/*"
-                            onChange={(e) => setUserPicFile(e.target.files[0])}
-                            className="w-full appearance-none rounded px-3 py-2 leading-tight text-gray-700 hover:cursor-pointer"
-                        />
+                    <div
+                        id="inputs-holder"
+                        className={'flex flex-col gap-5' + ' max-mobile:gap-1'}
+                    >
+                        <div>
+                            <label className="form-label">Имя</label>
+                            <input
+                                type="text"
+                                value={name}
+                                onChange={(e) => setName(e.target.value)}
+                                className="text-input-form-field"
+                            />
+                        </div>
+                        <div>
+                            <label className="form-label">Фамилия</label>
+                            <input
+                                type="text"
+                                value={surname}
+                                onChange={(e) => setSurname(e.target.value)}
+                                className="text-input-form-field"
+                            />
+                        </div>
+                        <div>
+                            <label className="form-label">Оценка</label>
+                            <StarRating stars={0} isDefaultChecked={false} />
+                        </div>
+                        <div>
+                            <label className="form-label">Отзыв</label>
+                            <textarea
+                                value={reviewText}
+                                onChange={(e) => setReviewText(e.target.value)}
+                                className="text-input-form-field min-h-[100px]"
+                            ></textarea>
+                        </div>
+                        <div>
+                            <label className="form-label">
+                                Ваша фотография (к пожеланию)
+                            </label>
+                            <input
+                                type="file"
+                                accept="image/*"
+                                onChange={(e) =>
+                                    setUserPicFile(e.target.files[0])
+                                }
+                                className="w-full px-3 py-2"
+                            />
+                        </div>
                     </div>
                     {/* {isCropped && <img src={userPickedImage} />} */}
                     {userPicFile && <UserPicCropper />}

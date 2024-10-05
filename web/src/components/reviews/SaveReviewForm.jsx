@@ -1,9 +1,10 @@
+// SaveReviewForm.jsx
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import Cropper from 'react-easy-crop';
 import StarRating from '../common/StarRating';
 import getCroppedImg from '../../utils/ImageCroppers';
 import { setIsReviewSent } from '../../store/reviewSlice';
+import UserPicCropper from './UserPicCropper'; // Adjust the path as necessary
 
 export default function SaveReviewForm({ formHolderRef }) {
     const dispatch = useDispatch();
@@ -12,10 +13,10 @@ export default function SaveReviewForm({ formHolderRef }) {
     const [surname, setSurname] = useState('');
     const [reviewText, setReviewText] = useState('');
     const [operationStatusMessage, setOperationStatusMessage] = useState('');
-    const [userPicFile, setUserPicFile] = useState('');
-    const stars = useSelector((state) => state.review).stars;
+    const [userPicFile, setUserPicFile] = useState(null); // Initialize as null
+    const stars = useSelector((state) => state.review.stars);
 
-    const isReviewSent = useSelector((state) => state.review).isReviewSent;
+    const isReviewSent = useSelector((state) => state.review.isReviewSent);
     const GLOBAL_VALUES = useSelector((state) => state.globalStringValues);
 
     const isMobile = window.innerWidth < 768;
@@ -24,16 +25,11 @@ export default function SaveReviewForm({ formHolderRef }) {
         if (formHolderRef.current) {
             formHolderRef.current.style.display = 'none';
         }
-    }, []);
+    }, [formHolderRef]);
 
     async function handleFormSubmit(e) {
         e.preventDefault();
 
-        useEffect(() => {
-            if (formHolderRef.current) {
-                formHolderRef.current.style.display = 'none';
-            }
-        }, []);
         if (isReviewSent) {
             return;
         }
@@ -44,31 +40,47 @@ export default function SaveReviewForm({ formHolderRef }) {
             return;
         }
 
-        const userReviewRes = await fetch(
-            GLOBAL_VALUES.serverUrl + '/reviews/add',
-            {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(reviewData)
+        try {
+            const userReviewRes = await fetch(
+                `${GLOBAL_VALUES.serverUrl}/reviews/add`,
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(reviewData)
+                }
+            );
+
+            if (!userReviewRes.ok) {
+                throw new Error('Failed to add review');
             }
-        );
 
-        const savedReview = await userReviewRes.json();
-        const picSaveRes =
-            userPicFile !== '' && (await saveUserPic(savedReview.id));
+            const savedReview = await userReviewRes.json();
 
-        const didSaveReview = userReviewRes.status === 200;
-        const didSaveImageOrDecideNotTo =
-            userPicFile === '' || picSaveRes.status === 200;
-        dispatch(setIsReviewSent(didSaveReview && didSaveImageOrDecideNotTo));
+            let picSaveRes = { status: 200 };
+            if (userPicFile) {
+                picSaveRes = await saveUserPic(savedReview.id);
+            }
 
-        setOperationStatusMessage(
-            userReviewRes.status === 200
-                ? 'Благодарим за оставленный отзыв! ✅'
-                : 'Ошибка при добавлении нового отзыва. ❌'
-        );
+            const didSaveReview = userReviewRes.status === 200;
+            const didSaveImageOrDecideNotTo =
+                !userPicFile || picSaveRes.status === 200;
+            dispatch(
+                setIsReviewSent(didSaveReview && didSaveImageOrDecideNotTo)
+            );
+
+            setOperationStatusMessage(
+                userReviewRes.status === 200
+                    ? 'Благодарим за оставленный отзыв! ✅'
+                    : 'Ошибка при добавлении нового отзыва. ❌'
+            );
+        } catch (error) {
+            console.error(error);
+            setOperationStatusMessage(
+                'Произошла ошибка при отправке отзыва. ❌'
+            );
+        }
     }
 
     function validateFormInputs({ name, surname, stars, reviewText }) {
@@ -94,7 +106,7 @@ export default function SaveReviewForm({ formHolderRef }) {
             return false;
         } else if (reviewText.length > 10000) {
             setOperationStatusMessage(
-                'Лимит символов отзыва привышен (10 000) ❌'
+                'Лимит символов отзыва превышен (10 000) ❌'
             );
             return false;
         }
@@ -106,134 +118,22 @@ export default function SaveReviewForm({ formHolderRef }) {
         formData.append('reviewId', reviewId);
         formData.append('userPic', userPicFile);
 
-        return await fetch(
-            GLOBAL_VALUES.serverUrl + '/reviews/user-pics/save',
+        const response = await fetch(
+            `${GLOBAL_VALUES.serverUrl}/reviews/user-pics/save`,
             {
                 method: 'POST',
                 body: formData
             }
         );
+
+        if (!response.ok) {
+            throw new Error('Failed to save user picture');
+        }
+
+        return response;
     }
 
     const [isCropped, setIsCropped] = useState(false);
-
-    const UserPicCropper = () => {
-        const [userPicCropped, setUserPicCropped] = useState(null);
-        const [userPicBase64, setUserPicBase64] = useState('');
-        const [crop, setCrop] = useState({ x: 0, y: 0 });
-        const [zoom, setZoom] = useState(1);
-        const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
-
-        useEffect(() => {
-            async function readFile() {
-                const base64Image = await toBase64(userPicFile);
-                setUserPicBase64(base64Image);
-            }
-
-            readFile();
-        }, []);
-
-        const toBase64 = (file) =>
-            new Promise((resolve, reject) => {
-                const reader = new FileReader();
-                reader.readAsDataURL(file);
-                reader.onload = () => resolve(reader.result);
-                // reader.onerror = reject;
-            });
-
-        const onCropComplete = (croppedArea, croppedAreaPixels) => {
-            setCroppedAreaPixels(croppedAreaPixels);
-        };
-
-        const onZoomChange = (event) => {
-            setZoom(event.target.value);
-        };
-
-        useEffect(() => {
-            async function proccessImageCrop() {
-                if (isCropped) {
-                    return;
-                }
-
-                const blobImage = await getCroppedImg(
-                    userPicBase64,
-                    userPicFile.type,
-                    croppedAreaPixels
-                );
-
-                const file = new File([blobImage], userPicFile.name, {
-                    type: userPicFile.type
-                });
-
-                setUserPicCropped(file);
-            }
-            proccessImageCrop();
-        }, [croppedAreaPixels]);
-
-        return (
-            <div className="flex flex-col gap-3">
-                <div
-                    className={`relative ${isCropped ? 'h-auto' : 'h-[300px]'} w-full max-mobile:h-[200px]`}
-                >
-                    {isCropped ? (
-                        <div className="w-full">
-                            <img
-                                src={userPicBase64}
-                                className="mx-auto my-2 w-1/2"
-                                style={{
-                                    borderRadius: '50%',
-                                    boxShadow:
-                                        'rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px'
-                                }}
-                                alt="превью обрезанной фотографии"
-                            />
-                        </div>
-                    ) : (
-                        <Cropper
-                            image={userPicBase64}
-                            crop={crop}
-                            zoom={zoom}
-                            aspect={1}
-                            cropShape="round"
-                            showGrid={false}
-                            onCropChange={setCrop}
-                            onCropComplete={onCropComplete}
-                            onZoomChange={setZoom}
-                        />
-                    )}
-                </div>
-                {!isCropped && (
-                    <div className="flex flex-col gap-2">
-                        <div>
-                            <div className="flex w-full justify-center">
-                                <input
-                                    type="range"
-                                    value={zoom}
-                                    min={1}
-                                    max={3}
-                                    step={0.1}
-                                    aria-labelledby="Увеличение"
-                                    onChange={onZoomChange}
-                                />
-                            </div>
-                        </div>
-                        <div className="flex justify-center">
-                            <button
-                                className="form-button"
-                                onClick={(e) => {
-                                    e.preventDefault();
-                                    setIsCropped(true);
-                                    setUserPicFile(userPicCropped);
-                                }}
-                            >
-                                Обрезать фото
-                            </button>
-                        </div>
-                    </div>
-                )}
-            </div>
-        );
-    };
 
     return (
         <div className={'absolute z-50 w-full justify-center'}>
@@ -258,12 +158,10 @@ export default function SaveReviewForm({ formHolderRef }) {
                         <div
                             id="form-close-sign"
                             className={
-                                'select-none p-2 text-right font-mono text-4xl font-bold transition-colors' +
-                                ' hover:cursor-pointer hover:rounded-full hover:bg-blue-400 hover:text-white' +
+                                'select-none p-2 text-right font-mono text-4xl font-bold transition-colors hover:cursor-pointer' +
                                 ' max-mobile:text-2xl'
                             }
                             onClick={() => {
-                                // setIsFormActive(false)
                                 formHolderRef.current.style.display = 'none';
                             }}
                         >
@@ -294,7 +192,10 @@ export default function SaveReviewForm({ formHolderRef }) {
                         </div>
                         <div>
                             <label className="form-label">Оценка</label>
-                            <StarRating stars={0} isDefaultChecked={false} />
+                            <StarRating
+                                stars={stars}
+                                isDefaultChecked={false}
+                            />
                         </div>
                         <div>
                             <label className="form-label">Отзыв</label>
@@ -313,22 +214,37 @@ export default function SaveReviewForm({ formHolderRef }) {
                                 type="file"
                                 accept="image/*"
                                 onChange={(e) => {
-                                    setUserPicFile(e.target.files[0]);
+                                    setUserPicFile(e.target.files[0] || null);
                                     setIsCropped(false);
                                 }}
                             />
                         </div>
                     </div>
-                    {userPicFile && <UserPicCropper />}
+                    {userPicFile && (
+                        <UserPicCropper
+                            userPicFile={userPicFile}
+                            setUserPicFile={setUserPicFile}
+                            isCropped={isCropped}
+                            setIsCropped={setIsCropped}
+                        />
+                    )}
                     <div
                         id="buttons"
-                        className={`mt-3 flex w-full justify-around ${isMobile ? 'flex-col gap-3' : 'gap-1'}`}
+                        className={`mt-3 flex w-full justify-around ${
+                            isMobile ? 'flex-col gap-3' : 'gap-1'
+                        }`}
                     >
                         <button type="submit" className="form-button">
                             Оставить отзыв
                         </button>
                     </div>
-                    <div className={'absolute'}>{operationStatusMessage}</div>
+                    <p
+                        className={`absolute left-0 mt-1 flex w-full justify-center text-center text-sm ${
+                            isReviewSent ? 'text-green-700' : 'text-red-900'
+                        }`}
+                    >
+                        {operationStatusMessage}
+                    </p>
                 </form>
             </div>
         </div>

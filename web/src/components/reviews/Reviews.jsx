@@ -90,8 +90,12 @@ export default function Reviews() {
                         <img
                             id="usr-pic"
                             src={`data:image/jpeg;base64,${idImageMap[json['id']]}`}
-                            className="w-[12%]"
-                            style={{ borderRadius: '50%' }}
+                            className="w-[15%]"
+                            style={{
+                                borderRadius: '50%',
+                                boxShadow:
+                                    'rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px'
+                            }}
                         />
                         <div>
                             <h3 id="user-name">

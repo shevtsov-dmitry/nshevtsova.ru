@@ -6,6 +6,7 @@ import OfferedServices from './components/offeredServices/OfferedServices.jsx';
 import HotOffers from './components/hot-offers/HotOffers.jsx';
 import Preview from './components/preview/Preview.jsx';
 import Reviews from './components/reviews/Reviews.jsx';
+import PriceList from './components/price-list/PriceList.jsx';
 
 function App() {
     return (
@@ -18,9 +19,10 @@ function App() {
                 <OfferedServices />
                 <Advantages />
             </div>
-            <div id="hot-offers">
-                <HotOffers />
+            <div id="price-list">
+              <PriceList/>
             </div>
+            <HotOffers />
             <div id="about-me">
                 <AboutMe />
             </div>

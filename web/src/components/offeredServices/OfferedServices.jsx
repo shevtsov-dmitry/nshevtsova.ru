@@ -1,6 +1,5 @@
 import { useSelector } from 'react-redux';
-import Slide from 'react-reveal/Slide'; // Change the import to Slide
-import Fade from 'react-reveal/Fade'; // Import Fade
+import { Fade, Slide } from 'react-awesome-reveal'; // Change the import to Slide
 
 export default function OfferedServices() {
     const IMAGES_PATH = 'images/offered-services';
@@ -19,7 +18,9 @@ export default function OfferedServices() {
                 <div className="col-span-1 row-span-1 flex h-full w-full items-center justify-center">
                     <img className="w-[60%]" src={`${IMAGE_SRC}`} />
                 </div>
-                <div className="col-span-3 row-span-1 flex h-full w-full items-center"> <h1 className="font-ptsans-bold text-2xl">{TITLE}</h1>
+                <div className="col-span-3 row-span-1 flex h-full w-full items-center">
+                    {' '}
+                    <h1 className="font-ptsans-bold text-2xl">{TITLE}</h1>
                 </div>
                 <div className="col-span-1 row-span-3" />
                 <ul className="col-span-3 row-span-3 flex list-disc flex-col gap-2 marker:text-yellow-400">
@@ -43,8 +44,10 @@ export default function OfferedServices() {
                 </div>
             </Slide>
             <section className="grid h-4/5 w-full grid-cols-3 gap-5 px-[5%]">
-                <Slide bottom delay={revealDelayStepMs * 1}>
-                    <div> {/* Add a wrapper div */}
+                <Slide direction="up" delay={revealDelayStepMs * 1}>
+                    <div>
+                        {' '}
+                        {/* Add a wrapper div */}
                         <ServiceDiv
                             title={'ПОКУПКА'}
                             icon={`${IMAGES_PATH}/house-key.png`}
@@ -58,7 +61,9 @@ export default function OfferedServices() {
                     </div>
                 </Slide>
                 <Slide bottom delay={revealDelayStepMs * 2}>
-                    <div> {/* Add a wrapper div */}
+                    <div>
+                        {' '}
+                        {/* Add a wrapper div */}
                         <ServiceDiv
                             title={'ПРОДАЖА'}
                             icon={`${IMAGES_PATH}/deal.png`}
@@ -72,8 +77,9 @@ export default function OfferedServices() {
                     </div>
                 </Slide>
                 <Slide bottom delay={revealDelayStepMs * 3}>
-
-                    <div> {/* Add a wrapper div */}
+                    <div>
+                        {' '}
+                        {/* Add a wrapper div */}
                         <ServiceDiv
                             title={'ПОИСК НЕДВИЖИМОСТИ'}
                             icon={`${IMAGES_PATH}/find-house.png`}
@@ -87,7 +93,9 @@ export default function OfferedServices() {
                     </div>
                 </Slide>
                 <Slide bottom delay={revealDelayStepMs * 1}>
-                    <Fade delay={revealDelayStepMs * 1 + extraFadeRevealDelayMs}>
+                    <Fade
+                        delay={revealDelayStepMs * 1 + extraFadeRevealDelayMs}
+                    >
                         <ServiceDiv
                             title={'АРЕНДА'}
                             icon={`${IMAGES_PATH}/rent.png`}
@@ -102,7 +110,9 @@ export default function OfferedServices() {
                 </Slide>
 
                 <Slide bottom delay={revealDelayStepMs * 2}>
-                    <Fade delay={revealDelayStepMs * 2 + extraFadeRevealDelayMs}>
+                    <Fade
+                        delay={revealDelayStepMs * 2 + extraFadeRevealDelayMs}
+                    >
                         <ServiceDiv
                             title={'ПОМОЩЬ В ОФОРМЛЕНИИ'}
                             icon={`${IMAGES_PATH}/document.png`}
@@ -116,8 +126,10 @@ export default function OfferedServices() {
                     </Fade>
                 </Slide>
                 <Slide bottom delay={revealDelayStepMs * 3}>
-                    <Fade delay={revealDelayStepMs * 3 + extraFadeRevealDelayMs}>
-                         {/* TODO make phone number clickable */}
+                    <Fade
+                        delay={revealDelayStepMs * 3 + extraFadeRevealDelayMs}
+                    >
+                        {/* TODO make phone number clickable */}
                         <ServiceDiv
                             title={'КОНСУЛЬТАЦИЯ'}
                             icon={`${IMAGES_PATH}/consult.png`}
@@ -125,7 +137,6 @@ export default function OfferedServices() {
                         />
                     </Fade>
                 </Slide>
-
             </section>
         </div>
     );

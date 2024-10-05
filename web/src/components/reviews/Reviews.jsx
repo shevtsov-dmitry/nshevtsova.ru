@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import SaveReviewForm from './SaveReviewForm';
 import { Splide, SplideSlide } from '@splidejs/react-splide';
 import '@splidejs/react-splide/css';
-import { Slide } from 'react-reveal';
+import { Slide } from 'react-awesome-reveal';
 
 export default function Reviews() {
     const formHolderRef = useRef();

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Slide, Fade } from 'react-reveal';
+import { Slide, Fade } from 'react-awesome-reveal';
 import EstateManagementForm from './EstateManagementForm.jsx';
 import { setIsEstateFormVisible } from '../../store/estateFormSlice.js';
 import { Splide, SplideSlide } from '@splidejs/react-splide';
@@ -136,9 +136,10 @@ export default function HotOffers() {
                         </p>
                         <p className="text-lg text-gray-700">
                             {innerAttributes.roomsAmount} комн.{' '}
-                            {parseFloat(
-                                innerAttributes.totalSizeSquareMeters
-                            ).toFixed(1).toString().replace(".", ",")}{' '}
+                            {parseFloat(innerAttributes.totalSizeSquareMeters)
+                                .toFixed(1)
+                                .toString()
+                                .replace('.', ',')}{' '}
                             м кв. {outerAttributes.floor}/
                             {outerAttributes.allFloors} этаж
                         </p>

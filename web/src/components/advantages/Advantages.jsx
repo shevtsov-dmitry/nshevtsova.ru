@@ -1,4 +1,4 @@
-import { Slide, Fade, Zoom} from "react-reveal";
+import { Slide, Fade, Zoom } from 'react-awesome-reveal';
 
 export default function Advantages() {
     const fadeRevealDelayStepMs = 300;
@@ -18,20 +18,20 @@ export default function Advantages() {
                             ВОЗЬМУ ВСЮ РАБОТУ НА СЕБЯ
                         </h1>
                     </Slide>
-            <Fade delay={200}>
-                    <p className="text-[1.3rem] max-laptop:text-[1.15rem]">
-                        Моя задача - сохранить ваше время и деньги и уберечь от
-                        стресса в таком нелегком процессе, как продажа квартиры.{' '}
-                        <br /> Сбор необходимых документов, уборка в квартире,
-                        размещение объявлений, показы и заключение сделки — все
-                        эти этапы я возьму на себя. <br /> А вы каждую неделю
-                        будете получать подробный отчет о результатах.
-                    </p>
-</Fade>
+                    <Fade delay={200}>
+                        <p className="text-[1.3rem] max-laptop:text-[1.15rem]">
+                            Моя задача - сохранить ваше время и деньги и уберечь
+                            от стресса в таком нелегком процессе, как продажа
+                            квартиры. <br /> Сбор необходимых документов, уборка
+                            в квартире, размещение объявлений, показы и
+                            заключение сделки — все эти этапы я возьму на себя.{' '}
+                            <br /> А вы каждую неделю будете получать подробный
+                            отчет о результатах.
+                        </p>
+                    </Fade>
 
                     <div className="flex h-full w-full items-center justify-center">
                         <ul className="grid grid-cols-2 gap-y-10 text-[1.2rem] max-laptop:grid-cols-1 max-laptop:gap-y-4">
-
                             <Fade bottom delay={fadeRevealDelayStepMs * 0}>
                                 <Zoom delay={fadeRevealDelayStepMs * 0}>
                                     <li className="advantage-icon-holder">
@@ -41,8 +41,8 @@ export default function Advantages() {
                                             className="advantage-icon"
                                         />
                                         <p className="advantage-icon-label">
-                                            Решение о цене недвижимости всегда за
-                                            клиентом
+                                            Решение о цене недвижимости всегда
+                                            за клиентом
                                         </p>
                                     </li>
                                 </Zoom>
@@ -56,7 +56,8 @@ export default function Advantages() {
                                             className="advantage-icon"
                                         />
                                         <p className="advantage-icon-label">
-                                            Грамотная упаковка объекта для продажи
+                                            Грамотная упаковка объекта для
+                                            продажи
                                         </p>
                                     </li>
                                 </Zoom>
@@ -70,7 +71,8 @@ export default function Advantages() {
                                             className="advantage-icon"
                                         />
                                         <p className="advantage-icon-label">
-                                            Точная и качественная оценка квартиры
+                                            Точная и качественная оценка
+                                            квартиры
                                         </p>
                                     </li>
                                 </Zoom>
@@ -84,7 +86,8 @@ export default function Advantages() {
                                             src="images/advantages/adds.png"
                                         />
                                         <p className="advantage-icon-label">
-                                            Эффективная реклама и размещение объявлений
+                                            Эффективная реклама и размещение
+                                            объявлений
                                         </p>
                                     </li>
                                 </Zoom>

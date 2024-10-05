@@ -36,7 +36,7 @@ public class EstateControllerTest {
     private static Long savedEstateId = 0L;
 
     @RepeatedTest(15)
-    // @Test
+        // @Test
     void saveEstate() throws Exception {
         final var estate = new JSONObject();
 
@@ -73,8 +73,8 @@ public class EstateControllerTest {
 
         final String url = ENDPOINT_URL + "/estates/add";
         mockMvc.perform(post(url)
-                .content(String.valueOf(requestJsonData))
-                .contentType("application/json"))
+                        .content(String.valueOf(requestJsonData))
+                        .contentType("application/json"))
                 .andExpect(status().is(200))
                 .andDo(result -> System.out.println(result.getResponse().getContentAsString()));
     }

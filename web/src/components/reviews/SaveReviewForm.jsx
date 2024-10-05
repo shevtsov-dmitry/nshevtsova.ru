@@ -6,6 +6,8 @@ import getCroppedImg from '../../utils/ImageCroppers';
 import { setIsReviewSent } from '../../store/reviewSlice';
 
 export default function SaveReviewForm({ formHolderRef }) {
+    const dispatch = useDispatch();
+
     const [name, setName] = useState('');
     const [surname, setSurname] = useState('');
     const [reviewText, setReviewText] = useState('');
@@ -18,40 +20,27 @@ export default function SaveReviewForm({ formHolderRef }) {
 
     const isMobile = window.innerWidth < 768;
 
-    const dispatch = useDispatch();
+    useEffect(() => {
+        if (formHolderRef.current) {
+            formHolderRef.current.style.display = 'none';
+        }
+    }, []);
 
     async function handleFormSubmit(e) {
+        e.preventDefault();
+
+        useEffect(() => {
+            if (formHolderRef.current) {
+                formHolderRef.current.style.display = 'none';
+            }
+        }, []);
         if (isReviewSent) {
             return;
         }
 
-        e.preventDefault();
         const reviewData = { name, surname, stars, reviewText };
 
-        if (name.length < 2) {
-            setOperationStatusMessage('Пожалуйста, укажите своё имя ❌');
-            return;
-        } else if (name.length > 50) {
-            setOperationStatusMessage('Слишком длинное имя ❌');
-            return;
-        } else if (surname.length < 2) {
-            setOperationStatusMessage('Пожалуйста, укажите свою фамилию ❌');
-            return;
-        } else if (surname.length > 70) {
-            setOperationStatusMessage('Слишком длинная фамилия ❌');
-            return;
-        } else if (stars === 0) {
-            setOperationStatusMessage('Пожалуйста, оставьте оценку ⭐');
-            return;
-        } else if (reviewText.length < 10) {
-            setOperationStatusMessage(
-                'Пожалуйста, напишите отзыв (от 3-ёх слов) ❌'
-            );
-            return;
-        } else if (reviewText.length > 10000) {
-            setOperationStatusMessage(
-                'Лимит символов отзыва привышен (10 000) ❌'
-            );
+        if (!validateFormInputs(reviewData)) {
             return;
         }
 
@@ -75,19 +64,41 @@ export default function SaveReviewForm({ formHolderRef }) {
             userPicFile === '' || picSaveRes.status === 200;
         dispatch(setIsReviewSent(didSaveReview && didSaveImageOrDecideNotTo));
 
-        visualizeResponse(userReviewRes.status === 200);
+        setOperationStatusMessage(
+            userReviewRes.status === 200
+                ? 'Благодарим за оставленный отзыв! ✅'
+                : 'Ошибка при добавлении нового отзыва. ❌'
+        );
+    }
 
-        function visualizeResponse(statusIsOk) {
-            if (statusIsOk) {
-                setOperationStatusMessage(
-                    'Благодарим за оставленный отзыв! ✅'
-                );
-            } else {
-                setOperationStatusMessage(
-                    'Ошибка при добавлении нового отзыва. ❌'
-                );
-            }
+    function validateFormInputs({ name, surname, stars, reviewText }) {
+        if (name.length < 2) {
+            setOperationStatusMessage('Пожалуйста, укажите своё имя ❌');
+            return false;
+        } else if (name.length > 50) {
+            setOperationStatusMessage('Слишком длинное имя ❌');
+            return false;
+        } else if (surname.length < 2) {
+            setOperationStatusMessage('Пожалуйста, укажите свою фамилию ❌');
+            return false;
+        } else if (surname.length > 70) {
+            setOperationStatusMessage('Слишком длинная фамилия ❌');
+            return false;
+        } else if (stars === 0) {
+            setOperationStatusMessage('Пожалуйста, оставьте оценку ⭐');
+            return false;
+        } else if (reviewText.length < 10) {
+            setOperationStatusMessage(
+                'Пожалуйста, напишите отзыв (от 3-ёх слов) ❌'
+            );
+            return false;
+        } else if (reviewText.length > 10000) {
+            setOperationStatusMessage(
+                'Лимит символов отзыва привышен (10 000) ❌'
+            );
+            return false;
         }
+        return true;
     }
 
     async function saveUserPic(reviewId) {
@@ -103,11 +114,6 @@ export default function SaveReviewForm({ formHolderRef }) {
             }
         );
     }
-    useEffect(() => {
-        if (formHolderRef.current) {
-            formHolderRef.current.style.display = 'none';
-        }
-    }, []);
 
     const [isCropped, setIsCropped] = useState(false);
 
@@ -165,17 +171,23 @@ export default function SaveReviewForm({ formHolderRef }) {
         }, [croppedAreaPixels]);
 
         return (
-            <div className="">
+            <div className="flex flex-col gap-3">
                 <div
                     className={`relative ${isCropped ? 'h-auto' : 'h-[300px]'} w-full max-mobile:h-[200px]`}
                 >
                     {isCropped ? (
-                        <img
-                            src={userPicBase64}
-                            className="mx-auto mb-5"
-                            alt="превью обрезанной фотографии"
-                            style={{ borderRadius: '50%' }}
-                        />
+                        <div className="w-full">
+                            <img
+                                src={userPicBase64}
+                                className="mx-auto my-2 w-1/2"
+                                style={{
+                                    borderRadius: '50%',
+                                    boxShadow:
+                                        'rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px'
+                                }}
+                                alt="превью обрезанной фотографии"
+                            />
+                        </div>
                     ) : (
                         <Cropper
                             image={userPicBase64}
@@ -191,18 +203,31 @@ export default function SaveReviewForm({ formHolderRef }) {
                     )}
                 </div>
                 {!isCropped && (
-                    <div>
-                        <div className="flex w-full justify-center">
-                            <input
-                                className={'bg-pink-400'}
-                                type="range"
-                                value={zoom}
-                                min={1}
-                                max={3}
-                                step={0.1}
-                                aria-labelledby="Увеличение"
-                                onChange={onZoomChange}
-                            />
+                    <div className="flex flex-col gap-2">
+                        <div>
+                            <div className="flex w-full justify-center">
+                                <input
+                                    type="range"
+                                    value={zoom}
+                                    min={1}
+                                    max={3}
+                                    step={0.1}
+                                    aria-labelledby="Увеличение"
+                                    onChange={onZoomChange}
+                                />
+                            </div>
+                        </div>
+                        <div className="flex justify-center">
+                            <button
+                                className="form-button"
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    setIsCropped(true);
+                                    setUserPicFile(userPicCropped);
+                                }}
+                            >
+                                Обрезать фото
+                            </button>
                         </div>
                     </div>
                 )}
@@ -284,33 +309,21 @@ export default function SaveReviewForm({ formHolderRef }) {
                                 Ваша фотография (к пожеланию)
                             </label>
                             <input
+                                className="mb-2 w-full"
                                 type="file"
                                 accept="image/*"
-                                onChange={(e) =>
-                                    setUserPicFile(e.target.files[0])
-                                }
-                                className="w-full px-3 py-2"
+                                onChange={(e) => {
+                                    setUserPicFile(e.target.files[0]);
+                                    setIsCropped(false);
+                                }}
                             />
                         </div>
                     </div>
-                    {/* {isCropped && <img src={userPickedImage} />} */}
                     {userPicFile && <UserPicCropper />}
                     <div
                         id="buttons"
                         className={`mt-3 flex w-full justify-around ${isMobile ? 'flex-col gap-3' : 'gap-1'}`}
                     >
-                        {userPicFile && (
-                            <button
-                                className="form-button"
-                                onClick={(e) => {
-                                    e.preventDefault();
-                                    setIsCropped(true);
-                                    setUserPicFile(userPicCropped);
-                                }}
-                            >
-                                Обрезать фото
-                            </button>
-                        )}
                         <button type="submit" className="form-button">
                             Оставить отзыв
                         </button>

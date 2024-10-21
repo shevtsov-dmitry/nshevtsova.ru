@@ -7,6 +7,7 @@ import HotOffers from './components/hot-offers/HotOffers.jsx';
 import Preview from './components/preview/Preview.jsx';
 import Reviews from './components/reviews/Reviews.jsx';
 import PriceList from './components/price-list/PriceList.jsx';
+import { Slide } from 'react-awesome-reveal';
 
 function App() {
     return (
@@ -20,12 +21,16 @@ function App() {
                 <Advantages />
             </div>
             <div id="price-list">
-              <PriceList/>
+                <PriceList />
             </div>
             <HotOffers />
-            <div id="about-me">
-                <AboutMe />
-            </div>
+
+            <Slide direction="up" duration={1000} className={'w-full'} triggerOnce={true}>
+                <div id="about-me" className={'flex justify-center mt-[3%] mb-[5%]'}>
+                    <AboutMe />
+                </div>
+            </Slide>
+
             <div id="reviews">
                 <Reviews />
             </div>

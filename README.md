@@ -1,5 +1,5 @@
-| Required ENVs     |
-|-------------------|
-| SERVER_URL        |
-| CLIENT_URL        |
-| POSTGRES_PASSWORD |
+| Required ENVs      |
+|--------------------|
+| SERVER_URL         |
+| CLIENT_URL         |
+| USER_PSQL_PASSWORD |

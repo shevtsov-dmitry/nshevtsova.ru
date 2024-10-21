@@ -1,67 +1,72 @@
-import { Fade } from 'react-awesome-reveal';
+import { Fade, Slide } from 'react-awesome-reveal';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHeadset, faShieldAlt, faSearch, faChartLine } from '@fortawesome/free-solid-svg-icons';
 
 export default function AboutMe() {
     return (
-        <div className="bg-[#E9E7E7] px-[5%] py-[5%]">
-            <div className="flex items-center gap-12">
-                <div className="flex flex-[2] flex-col">
+        <div className="flex justify-between w-[60%] bg-white rounded-lg">
+            <div className="flex flex-col lg:flex-row items-center gap-12">
+                <div className="flex-2 space-y-6">
                     <Fade>
-                        <h1 className="mb-[3%] font-ptsans-bold text-4xl max-laptop:text-2xl">
-                            Уже 10 лет я помогаю продавать квартиры в Воронеже
+                        <h1 className="text-4xl font-bold text-gray-800 mb-4">
+                            Обо мне
                         </h1>
                     </Fade>
 
-                    <Fade
-                        cascade
-                        className="flex text-2xl max-laptop:text-[1rem]"
-                    >
-                        <p>
-                            Я опытный риелтор с многолетним стажем,
-                            специализирующийся на продаже недвижимости.
-                            Благодаря моему опыту и знаниям, я помогаю клиентам
-                            успешно решать сложные задачи и находить оптимальные
-                            варианты для покупки или продажи жилья.
+                    <Fade cascade>
+                        <p className="text-lg text-gray-600 leading-relaxed">
+                            Я не просто риелтор — я ваш надёжный партнёр в решении вопросов с
+                            недвижимостью. Моей задачей является сделать процесс покупки или
+                            продажи вашего жилья максимально комфортным и безопасным.
                         </p>
-                        <p>
-                            За годы работы я приобрёл бесценный опыт и наладил
-                            прочные связи с коллегами, агентствами и
-                            застройщиками. Это позволяет мне быстро находить
-                            подходящие объекты, соответствующие требованиям и
-                            пожеланиям клиентов, а также предоставлять им
-                            профессиональные консультации на всех этапах
-                            сделки.Я умею слушать и понимать потребности своих
-                            клиентов, всегда готов предложить альтернативные
-                            варианты и найти компромиссное решение.
+                        <p className="text-lg text-gray-600 leading-relaxed">
+                            Опираясь на более чем 10 лет опыта, я внимательно изучу ваши
+                            пожелания и помогу найти оптимальный вариант, будь то покупка
+                            квартиры или её продажа. Каждая сделка — это индивидуальный подход
+                            и тщательная проработка всех деталей.
                         </p>
-                        <p>
-                            Моя главная цель — обеспечить максимальный комфорт и
-                            удовлетворение потребностей клиентов, предоставляя
-                            им качественные услуги и индивидуальный подход.Я
-                            постоянно совершенствую свои навыки и слежу за
-                            изменениями на рынке недвижимости, чтобы быть в
-                            курсе последних тенденций и предложений. Это
-                            помогает мне предлагать своим клиентам самые
-                            выгодные условия и находить лучшие варианты для
-                            инвестиций.
-                        </p>
-                        <p>
-                            Я горжусь своей репутацией и стремлюсь продолжать
-                            развиваться, чтобы стать ещё более успешным
-                            риелтором и помогать большему количеству людей. Если
-                            вы ищете надёжного помощника в сфере недвижимости,
-                            обращайтесь ко мне, и я с радостью предложу вам свои
-                            услуги.
-                        </p>
+
+                        <div className="flex flex-col space-y-4">
+                            <div className="flex items-center space-x-4">
+                                <FontAwesomeIcon icon={faSearch} className="text-blue-500 text-3xl" />
+                                <p className="text-gray-600">
+                                    Подробный поиск объектов, учитывающий все ваши пожелания.
+                                </p>
+                            </div>
+                            <div className="flex items-center space-x-4">
+                                <FontAwesomeIcon icon={faShieldAlt} className="text-green-500 text-3xl" />
+                                <p className="text-gray-600">
+                                    Безопасность каждой сделки благодаря моим знаниям и опыту.
+                                </p>
+                            </div>
+                            <div className="flex items-center space-x-4">
+                                <FontAwesomeIcon icon={faHeadset} className="text-yellow-500 text-3xl" />
+                                <p className="text-gray-600">
+                                    Возможность связаться со мной по вопросам сделки в любой момент.
+                                </p>
+                            </div>
+                            <div className="flex items-center space-x-4">
+                                <FontAwesomeIcon icon={faChartLine} className="text-purple-500 text-3xl" />
+                                <p className="text-gray-600">
+                                    Актуальная информация по рынку и советы для выгодных решений.
+                                </p>
+                            </div>
+                        </div>
                     </Fade>
+                    <div className={''}>
+                        <u className={'hover:cursor-pointer hover:text-blue-500'}>Посмотреть сертификаты</u>
+                    </div>
                 </div>
-                <div className="flex flex-1 justify-end">
+
+                <div className="flex-1">
                     <img
                         src="images/aboutme/realtor-picture.jpg"
                         alt="Фотография Натальи"
-                        className="h-fit"
+                        className="rounded-md shadow-lg max-w-[25rem] mx-auto"
                     />
                 </div>
             </div>
         </div>
-    );
+    )
+        ;
 }

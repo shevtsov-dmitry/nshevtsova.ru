@@ -5,7 +5,8 @@ export default function Preview() {
     const fadeRevealDelayStepMs = 200;
 
     return (
-        <div className="flex h-screen w-full items-center bg-[url('/images/preview/new-preview.jpg')] bg-cover bg-center">
+        <div
+            className="flex h-screen w-full items-center bg-[url('/images/preview/new-preview.jpg')] bg-cover bg-center">
             <div className="flex-[4]" />
             <div className="w-full flex-[5] font-andika-bold">
                 <Fade direction="down" delay={200}>
@@ -20,58 +21,58 @@ export default function Preview() {
                     <Fade
                         delay={initialFadeDelayMs + fadeRevealDelayStepMs * 1}
                     >
-                        <li className="li-holder">
-                            <Slide direction="left" delay={600}>
+                        <Slide direction="left" delay={600}>
+                            <li className="li-holder">
                                 <div className="li-num-holder">
                                     <p className="li-num">10</p>
                                 </div>
                                 <div className="li-txt-holder">
                                     <p className="li-txt">ЛЕТ ПРАКТИКИ</p>
                                 </div>
-                            </Slide>
-                        </li>
+                            </li>
+                        </Slide>
                     </Fade>
                     <Fade
                         delay={initialFadeDelayMs + fadeRevealDelayStepMs * 2}
                     >
-                        <li className="li-holder">
-                            <Slide direction="left" delay={800}>
+                        <Slide direction="left" delay={800}>
+                            <li className="li-holder">
                                 <div className="li-num-holder">
                                     <p className="li-num">785</p>
                                 </div>
                                 <div className="li-txt-holder">
                                     <p className="li-txt">ДОВОЛЬНЫХ КЛИЕНТОВ</p>
                                 </div>
-                            </Slide>
-                        </li>
+                            </li>
+                        </Slide>
                     </Fade>
                     <Fade
                         delay={initialFadeDelayMs + fadeRevealDelayStepMs * 3}
                     >
-                        <li className="li-holder">
-                            <Slide direction="left" delay={1000}>
+                        <Slide direction="left" delay={1000}>
+                            <li className="li-holder">
                                 <div className="li-num-holder">
                                     <p className="li-num">5</p>
                                 </div>
                                 <div className="li-txt-holder">
                                     <p className="li-txt">БАНК ПАРТНЁРОВ</p>
                                 </div>
-                            </Slide>
-                        </li>
+                            </li>
+                        </Slide>
                     </Fade>
                     <Fade
                         delay={initialFadeDelayMs + fadeRevealDelayStepMs * 4}
                     >
-                        <li className="li-holder">
-                            <Slide direction="left" delay={1200}>
+                        <Slide direction="left" delay={1200}>
+                            <li className="li-holder">
                                 <div className="li-num-holder">
                                     <p className="li-num">125</p>
                                 </div>
                                 <div className="li-txt-holder">
                                     <p className="li-txt">ПРЕДАННЫХ КЛИЕНТОВ</p>
                                 </div>
-                            </Slide>
-                        </li>
+                            </li>
+                        </Slide>
                     </Fade>
                 </ul>
             </div>

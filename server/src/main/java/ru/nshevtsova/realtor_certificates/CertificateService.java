@@ -21,7 +21,7 @@ public class CertificateService {
     public Integer save(MultipartFile certificateImage) throws Exception {
         try (var compressedImageStream = new FastByteArrayOutputStream()) {
             Thumbnails.of(certificateImage.getInputStream())
-                    .scale(0.75)
+                    .scale(0.9)
                     .toOutputStream(compressedImageStream);
             Certificate cert = new Certificate(certificateImage.getOriginalFilename(), compressedImageStream.toByteArray());
             return repo.save(cert).getId();

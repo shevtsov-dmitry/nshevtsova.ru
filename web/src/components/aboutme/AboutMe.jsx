@@ -8,17 +8,19 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { useState } from 'react';
 import UploadCertificateForm from './UploadCertificateForm.jsx';
-import Certificates from './Certificate.jsx';
+import Certificates from './Certificates.jsx';
 
 export default function AboutMe() {
     const isAdmin = true; // TODO make role with auth
-    const [isCertificatesShown, setIsCertificatesShown] = useState(true);
+    const [isCertificatesShown, setIsCertificatesShown] = useState(false);
     const [isFormShown, setIsFormShown] = useState(false);
 
     return (
         <div className="flex w-[60%] justify-between rounded-lg bg-white">
-            <div className={'z-20'}>
-                {isCertificatesShown && <Certificates />}
+            <div className={'z-10'}>
+                {isCertificatesShown && <Fade duration={300} triggerOnce={true}>
+                    <Certificates setIsCertificatesShown={setIsCertificatesShown} />
+                </Fade>}
             </div>
             <div className="flex flex-col items-center gap-12 lg:flex-row">
                 <div className="flex-2 space-y-6">
@@ -101,14 +103,18 @@ export default function AboutMe() {
                                 </p>
                             </div>
                         </div>
-                        <p
+                        <button
                             className={
-                                'select-none text-2xl underline hover:cursor-pointer hover:text-blue-500'
+                                'z-10 select-none text-2xl underline hover:cursor-pointer hover:text-blue-500'
                             }
-                            onClick={() => setIsCertificatesShown(true)}
+                            onClick={() =>
+                                isCertificatesShown
+                                    ? setIsCertificatesShown(false)
+                                    : setIsCertificatesShown(true)
+                            }
                         >
                             Посмотреть сертификаты
-                        </p>
+                            </button>
                     </Fade>
                 </div>
 

@@ -81,16 +81,16 @@ export default function Reviews() {
             <SplideSlide>
                 <div
                     ref={reviewDivRef}
-                    className={`my-[5%] flex h-[20em] w-auto flex-col rounded-lg bg-white p-5 ${isShowMore && 'z-50 h-auto'}`}
+                    className={`my-[5%] flex h-[20em] w-auto flex-col rounded-lg bg-white p-5 ${isShowMore && 'z-50 h-auto'} ${window.innerWidth <= 768 ? 'p-3' : ''}`}
                     style={{
                         boxShadow: 'rgba(0, 0, 0, 0.35) 0px 5px 15px'
                     }}
                 >
-                    <div className="flex items-center gap-2 pb-[2%]">
+                    <div className={`flex items-center gap-2 pb-[2%] ${window.innerWidth <= 768 ? 'gap-1' : ''}`}>
                         <img
                             id="usr-pic"
                             src={`data:image/jpeg;base64,${idImageMap[json['id']]}`}
-                            className="w-[15%]"
+                            className={`w-[15%] ${window.innerWidth <= 768 ? 'w-[25%]' : ''}`}
                             style={{
                                 borderRadius: '50%',
                                 boxShadow:
@@ -98,7 +98,7 @@ export default function Reviews() {
                             }}
                         />
                         <div>
-                            <h3 id="user-name">
+                            <h3 id="user-name" className={`${window.innerWidth <= 768 ? 'text-sm' : ''}`}>
                                 {json.name} {json.surname}
                             </h3>
                             <StarRating
@@ -107,9 +107,9 @@ export default function Reviews() {
                             />
                         </div>
                     </div>
-                    <p className={`overflow-hidden`}>{json.reviewText}</p>
+                    <p className={`overflow-hidden ${window.innerWidth <= 768 ? 'text-sm' : ''}`}>{json.reviewText}</p>
                     <p
-                        className={`w-fit select-none py-[2%] font-[0.7rem] underline hover:cursor-pointer hover:text-blue-500`}
+                        className={`w-fit select-none py-[2%] font-[0.7rem] underline hover:cursor-pointer hover:text-blue-500 ${window.innerWidth <= 768 ? 'text-xs' : ''}`}
                         onClick={() => setIsShowMore(isShowMore ? false : true)}
                     >
                         {isShowMore ? 'закрыть' : 'посмотреть полностью'}
@@ -121,11 +121,11 @@ export default function Reviews() {
 
     return (
         <div
-            className={`flex h-full w-full flex-col bg-[url('images/reviews/foggy-city.jpg')] bg-cover bg-no-repeat py-[2%]`}
+            className={`flex h-full w-full flex-col bg-[url('images/reviews/foggy-city.jpg')] bg-cover bg-no-repeat py-[2%] ${window.innerWidth <= 768 ? 'px-4' : ''}`}
         >
             <div className="h-full w-full flex-1">
                 <Slide direction="up" delay={50}>
-                    <h1 className="text-center font-ptsans-bold text-5xl">
+                    <h1 className={`text-center font-ptsans-bold ${window.innerWidth <= 768 ? 'text-3xl' : 'text-5xl'}`}>
                         Отзывы тех, кто уже совершил <br /> выгодную сделку с
                         моей помощью
                     </h1>
@@ -161,12 +161,12 @@ export default function Reviews() {
                 </Splide>
             </Fade>
 
-            <div className="flex w-full flex-1 items-center justify-center">
+            <div className="flex w-full flex-1 items-center justify-center mt-4">
                 <button
                     onClick={() => {
                         formHolderRef.current.style.display = 'block';
                     }}
-                    className="w-fit select-none rounded-lg bg-white px-5 pb-4 pt-3 font-ptsans-bold text-3xl transition-all hover:scale-105"
+                    className={`w-fit select-none rounded-lg bg-white px-5 pb-4 pt-3 font-ptsans-bold text-3xl transition-all hover:scale-105 ${window.innerWidth <= 768 ? 'text-2xl px-3 pb-3 pt-2' : ''}`}
                     style={{
                         boxShadow:
                             'rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset'

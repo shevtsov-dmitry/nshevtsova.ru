@@ -8,6 +8,10 @@
 @tailwind components;
 @tailwind utilities;
 
+/** {*/
+/*    @apply bg-purple-500;*/
+/*}*/
+
 @font-face {
     font-family: 'Andika-Bold';
     src: url('public/fonts/Andika-Bold.ttf') format('truetype');

@@ -15,6 +15,9 @@ export default function AboutMe() {
     const [isCertificatesShown, setIsCertificatesShown] = useState(false);
     const [isFormShown, setIsFormShown] = useState(false);
 
+    // Adding screen size detection for mobile adaptation
+    const isMobile = window.innerWidth <= 768;
+
     return (
         <>
             {isCertificatesShown && (
@@ -24,13 +27,13 @@ export default function AboutMe() {
                     />
                 </div>
             )}
-            <div className="flex w-[60%] justify-between rounded-lg bg-white">
+            <div className={`flex ${isMobile ? 'w-full' : 'w-[60%]'} justify-between rounded-lg bg-white`}>
                 <div className={'z-10'}></div>
-                <div className="flex flex-col items-center gap-12 lg:flex-row">
+                <div className={`flex flex-col items-center gap-12 ${isMobile ? 'flex-col' : 'lg:flex-row'}`}>
                     <div className="flex-2 space-y-6">
                         <div className={'flex gap-5'}>
                             <Fade>
-                                <h1 className="mb-4 text-4xl font-bold text-gray-800">
+                                <h1 className={`mb-4 ${isMobile ? 'text-2xl' : 'text-4xl'} font-bold text-gray-800`}>
                                     Обо мне
                                 </h1>
                             </Fade>
@@ -51,14 +54,14 @@ export default function AboutMe() {
                             )}
                         </div>
                         <Fade cascade>
-                            <p className="text-lg leading-relaxed text-gray-600">
+                            <p className={`leading-relaxed text-gray-600 ${isMobile ? 'text-base' : 'text-lg'}`}>
                                 Я не просто риелтор — я ваш надёжный партнёр в
                                 решении вопросов с недвижимостью. Моей задачей
                                 является сделать процесс покупки или продажи
                                 вашего жилья максимально комфортным и
                                 безопасным.
                             </p>
-                            <p className="text-lg leading-relaxed text-gray-600">
+                            <p className={`leading-relaxed text-gray-600 ${isMobile ? 'text-base' : 'text-lg'}`}>
                                 Опираясь на более чем 10 лет опыта, я
                                 внимательно изучу ваши пожелания и помогу найти
                                 оптимальный вариант, будь то покупка квартиры
@@ -71,7 +74,7 @@ export default function AboutMe() {
                                 <div className="flex items-center space-x-4">
                                     <FontAwesomeIcon
                                         icon={faSearch}
-                                        className="text-3xl text-blue-500"
+                                        className={`text-${isMobile ? '2xl' : '3xl'} text-blue-500`}
                                     />
                                     <p className="text-gray-600">
                                         Подробный поиск объектов, учитывающий
@@ -81,7 +84,7 @@ export default function AboutMe() {
                                 <div className="flex items-center space-x-4">
                                     <FontAwesomeIcon
                                         icon={faShieldAlt}
-                                        className="text-3xl text-green-500"
+                                        className={`text-${isMobile ? '2xl' : '3xl'} text-green-500`}
                                     />
                                     <p className="text-gray-600">
                                         Безопасность каждой сделки благодаря
@@ -91,7 +94,7 @@ export default function AboutMe() {
                                 <div className="flex items-center space-x-4">
                                     <FontAwesomeIcon
                                         icon={faHeadset}
-                                        className="text-3xl text-yellow-500"
+                                        className={`text-${isMobile ? '2xl' : '3xl'} text-yellow-500`}
                                     />
                                     <p className="text-gray-600">
                                         Возможность связаться со мной по
@@ -101,7 +104,7 @@ export default function AboutMe() {
                                 <div className="flex items-center space-x-4">
                                     <FontAwesomeIcon
                                         icon={faChartLine}
-                                        className="text-3xl text-purple-500"
+                                        className={`text-${isMobile ? '2xl' : '3xl'} text-purple-500`}
                                     />
                                     <p className="text-gray-600">
                                         Актуальная информация по рынку и советы
@@ -128,7 +131,7 @@ export default function AboutMe() {
                         <img
                             src="images/aboutme/realtor-picture.jpg"
                             alt="Фотография Натальи"
-                            className="mx-auto max-w-[25rem] rounded-md shadow-lg"
+                            className={`mx-auto ${isMobile ? 'max-w-[18rem]' : 'max-w-[25rem]'} rounded-md shadow-lg`}
                         />
                     </div>
                 </div>

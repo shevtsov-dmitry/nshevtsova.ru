@@ -9,7 +9,6 @@ export default function HotOffers() {
     const dispatch = useDispatch();
 
     const FORM_TYPES = {
-        // TODO refactor into mutual global enum
         ADD: 'ADD',
         EDIT: 'EDIT'
     };
@@ -42,12 +41,30 @@ export default function HotOffers() {
 
     const isVisible = estateForm.isVisible;
     const isAdmin = true; // TODO make role with auth
-    const isMobile = window.innerWidth < 768;
-    const isLaptop = window.innerWidth < 1500;
+    const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+    const [isLaptop, setIsLaptop] = useState(window.innerWidth < 1500);
+
+    let responsiveGridCols = '';
+    if (isMobile) {
+        responsiveGridCols = 'grid-cols-1';
+    } else if (isLaptop) {
+        responsiveGridCols = 'grid-cols-3';
+    } else {
+        responsiveGridCols = 'grid-cols-4';
+    }
 
     const [estateJson, setEstateJson] = useState(placeholderEstateJson);
     const [currentFormType, setCurrentFormType] = useState('');
     const [estatesList, setEstatesList] = useState([estateJson]);
+
+    useEffect(() => {
+        const handleResize = () => {
+            setIsMobile(window.innerWidth < 768);
+            setIsLaptop(window.innerWidth < 1500);
+        };
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
 
     useEffect(() => {
         async function fetchEstatesList() {
@@ -61,7 +78,7 @@ export default function HotOffers() {
         }
 
         fetchEstatesList();
-    }, []);
+    }, [isMobile]);
 
     function Estate({ estate, innerAttributes, outerAttributes }) {
         const [isOfferHovered, setIsOfferHovered] = useState(false);
@@ -80,12 +97,12 @@ export default function HotOffers() {
             }
 
             fetchImages();
-        }, []);
+        }, [estate.id]);
 
         return (
             <div className="flex w-full justify-center">
                 <div
-                    className="relative h-full w-5/6 rounded-3xl bg-[#ECECEC]"
+                    className={`relative h-full w-${isMobile ? 'full' : '5/6'} rounded-3xl bg-[#ECECEC]`}
                     onMouseEnter={() => setIsOfferHovered(true)}
                     onMouseLeave={() => setIsOfferHovered(false)}
                     style={{
@@ -124,17 +141,16 @@ export default function HotOffers() {
                         </Splide>
                     ) : (
                         <div />
-                        // <img
-                        //     className="h-[300px] w-full"
-                        //     alt="фото квартиры"
-                        //     src={`data:image/png;base64,${noImgIconBase64}`}
-                        // />
                     )}
                     <div className="p-4">
-                        <p className="text-2xl font-semibold text-black">
+                        <p
+                            className={`text-${isMobile ? 'xl' : '2xl'} font-semibold text-black`}
+                        >
                             {estate.price} ₽
                         </p>
-                        <p className="text-lg text-gray-700">
+                        <p
+                            className={`text-${isMobile ? 'base' : 'lg'} text-gray-700`}
+                        >
                             {innerAttributes.roomsAmount} комн.{' '}
                             {parseFloat(innerAttributes.totalSizeSquareMeters)
                                 .toFixed(1)
@@ -143,7 +159,9 @@ export default function HotOffers() {
                             м кв. {outerAttributes.floor}/
                             {outerAttributes.allFloors} этаж
                         </p>
-                        <p className="overflow-hidden text-base text-gray-500">
+                        <p
+                            className={`overflow-hidden text-${isMobile ? 'sm' : 'base'} text-gray-500`}
+                        >
                             {estate.address}
                         </p>
                     </div>
@@ -160,14 +178,14 @@ export default function HotOffers() {
                     'linear-gradient(0deg, rgba(255,255,255,1) 0%, rgba(233,231,231,1) 78%)'
             }}
         >
-            {' '}
-            {/*bg-[#E9E7E7]*/}
-            <div className="flex gap-8 items-center">
+            <div className="flex items-center gap-8">
                 <Slide
                     direction="left"
                     className="ml-[5%] py-[2%] font-ptsans-bold text-4xl"
                 >
-                    <h1>ГОРЯЧИЕ ПРЕДЛОЖЕНИЯ</h1>
+                    <h1 className={`${isMobile ? 'text-3xl' : 'text-4xl'}`}>
+                        ГОРЯЧИЕ ПРЕДЛОЖЕНИЯ
+                    </h1>
                 </Slide>
                 <Slide direction="right">
                     {isAdmin && (
@@ -193,7 +211,7 @@ export default function HotOffers() {
                 <div />
             )}
             <div
-                className={`${isMobile ? 'mx-0' : 'mx-[5%]'} grid ${isLaptop && !isMobile ? 'grid-cols-3' : 'grid-cols-4'} ${isMobile && 'grid-cols-1'} ${window.innerWidth < 1200 ? 'grid-cols-2' : 'grid-cols-3'} gap-8 pb-[2%]`}
+                className={`${isMobile ? 'mx-5' : 'mx-[5%]'} grid ${responsiveGridCols} gap-8 pb-[2%]`}
             >
                 {estatesList.map((json, idx) => (
                     <Fade delay={150} key={idx}>

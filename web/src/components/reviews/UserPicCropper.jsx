@@ -4,11 +4,11 @@ import Cropper from 'react-easy-crop';
 import getCroppedImg from '../../utils/ImageCroppers';
 
 export default function UserPicCropper({
-    userPicFile,
-    setUserPicFile,
-    isCropped,
-    setIsCropped
-}) {
+                                           userPicFile,
+                                           setUserPicFile,
+                                           isCropped,
+                                           setIsCropped
+                                       }) {
     const [userPicCropped, setUserPicCropped] = useState(null);
     const [userPicBase64, setUserPicBase64] = useState('');
     const [crop, setCrop] = useState({ x: 0, y: 0 });

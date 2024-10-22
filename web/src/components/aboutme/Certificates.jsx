@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Splide, SplideSlide } from '@splidejs/react-splide';
 
-const Certificates = ({setIsCertificatesShown}) => {
+const Certificates = ({ setIsCertificatesShown }) => {
     const [certificates, setCertificates] = useState([{}]);
-
+    const isAdmin = true; // TODO make role with auth
     const GLOBAL_VALUES = useSelector((state) => state.globalStringValues);
 
     useEffect(() => {
@@ -23,14 +23,18 @@ const Certificates = ({setIsCertificatesShown}) => {
         }
 
         fetchCertificates();
-    });
+    }, []);
 
     return (
-        <div className={'absolute h-auto w-1/2 bg-black bg-opacity-70'}>
+        <div
+            className={
+                'relative h-auto w-1/2 bg-black bg-opacity-70 max-mobile:w-full'
+            }
+        >
             <div className={'relative'}>
                 <button
                     className={
-                        'absolute right-2 top-2 rounded-full bg-neutral-100 px-2 pb-1 text-3xl font-bold hover:cursor-pointer hover:bg-white z-10'
+                        'absolute right-2 top-2 z-10 rounded-full bg-neutral-100 px-2 pb-1 text-3xl font-bold hover:cursor-pointer hover:bg-white'
                     }
                     onClick={() => setIsCertificatesShown(false)}
                 >
@@ -45,11 +49,24 @@ const Certificates = ({setIsCertificatesShown}) => {
                             <img
                                 // key={certificateJson['id']}
                                 src={`data:image/jpeg;base64,${certificateJson['content']}`}
-                                className={'max-h-fit'}
+                                className={'p-10'}
                             />
                         </SplideSlide>
                     ))}
                 </Splide>
+                {isAdmin && (
+                    <div className={'absolute flex w-full items-end'}>
+                        <div className={'absolute bottom-2 right-2 z-10'}>
+                            <button
+                                className={
+                                    'r-0 h-12 transform select-none rounded-full bg-red-500 px-4 font-bold text-white shadow-lg transition duration-300 ease-in-out hover:scale-105 hover:bg-red-800'
+                                }
+                            >
+                                Удалить
+                            </button>
+                        </div>
+                    </div>
+                )}
             </div>
         </div>
     );

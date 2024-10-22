@@ -1,10 +1,10 @@
 import Navigation from '../navbar/Navigation';
 import { useSelector } from 'react-redux';
 
-function PhoneNumber({ GLOBAL_VALUES }) {
+function PhoneNumber({ GLOBAL_VALUES, isMobile }) {
     return (
-        <div id="phone-number" className="flex items-center gap-3">
-            <img src="images/footer/phone.png" className="w-[17%]" />
+        <div id="phone-number" className={`flex items-center gap-3 ${isMobile ? 'flex-col items-start' : ''}`}>
+            <img src="images/footer/phone.png" className={`w-[17%] ${isMobile ? 'w-[25%]' : ''}`} />
             <div className="flex flex-col gap-1">
                 <u className="phone-number-ul">
                     <p
@@ -35,11 +35,11 @@ function PhoneNumber({ GLOBAL_VALUES }) {
     );
 }
 
-function SocialMedias({ GLOBAL_VALUES }) {
-    const ICON_STYLE = 'w-10 hover:scale-105 transition-all';
+function SocialMedias({ GLOBAL_VALUES, isMobile }) {
+    const ICON_STYLE = `w-10 hover:scale-105 transition-all ${isMobile ? 'w-8' : ''}`;
     const IMAGES_PATH = 'images/footer';
     return (
-        <div className="flex gap-6">
+        <div className={`flex gap-6 ${isMobile ? 'gap-4' : ''}`}>
             <a href={GLOBAL_VALUES.vk}>
                 <img
                     src={`${IMAGES_PATH}/vk.png`}
@@ -70,27 +70,28 @@ function SocialMedias({ GLOBAL_VALUES }) {
 
 export default function Footer() {
     const GLOBAL_VALUES = useSelector((state) => state.globalStringValues);
+    const isMobile = window.innerWidth <= 768;
 
     return (
-        <footer className="h-auto w-full bg-neutral-900 py-[2%]">
+        <footer className={`h-auto w-full bg-neutral-900 py-[2%] ${isMobile ? 'px-4' : ''}`}>
             <div className="flex w-full justify-center">
-                <div className="flex w-[90%] items-center justify-between">
-                    <PhoneNumber GLOBAL_VALUES={GLOBAL_VALUES} />
+                <div className={`flex w-[90%] items-center justify-between ${isMobile ? 'flex-col items-start space-y-4' : ''}`}>
+                    <PhoneNumber GLOBAL_VALUES={GLOBAL_VALUES} isMobile={isMobile} />
                     <Navigation
                         font={'font-sans'}
-                        textSize={'text-[1rem]'}
+                        textSize={isMobile ? 'text-[0.875rem]' : 'text-[1rem]'}
                         isFooter={true}
                     />
                 </div>
             </div>
-            <div className="flex w-full justify-center">
-                <div className="flex w-[90%] items-center justify-between">
-                    <SocialMedias GLOBAL_VALUES={GLOBAL_VALUES} />
-                    <address className="text-white">
+            <div className="flex w-full justify-center mt-4">
+                <div className={`flex w-[90%] items-center justify-between ${isMobile ? 'flex-col items-start space-y-4' : ''}`}>
+                    <SocialMedias GLOBAL_VALUES={GLOBAL_VALUES} isMobile={isMobile} />
+                    <address className={`text-white ${isMobile ? 'text-sm' : ''}`}>
                         г. Воронеж, Ленинский проспект, дом 5Б, 2 подъезд, 38
                         кабинет
                     </address>
-                    <p className="text-end text-[0.9rem] text-white">
+                    <p className={`text-end text-[0.9rem] text-white ${isMobile ? 'text-left text-sm' : ''}`}>
                         Copyright © 2024 <br />
                         Индивидуальный предприниматель <br /> Шевцова Наталья
                         Николаевна <br />

@@ -1,60 +1,48 @@
-import { Fade } from 'react-awesome-reveal';
+import { Fade, Slide } from 'react-awesome-reveal';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
+    faChartLine,
     faHeadset,
-    faShieldAlt,
     faSearch,
-    faChartLine
+    faShieldAlt
 } from '@fortawesome/free-solid-svg-icons';
-import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useState } from 'react';
+import UploadCertificateForm from './UploadCertificateForm.jsx';
 
 export default function AboutMe() {
+    const isAdmin = true; // TODO make role with auth
     const [isCertificatesShown, setIsCertificatesShown] = useState(true);
-    const GLOBAL_VALUES = useSelector((state) => state.globalStringValues);
-
-    const Certificates = () => {
-        const [certificatesBase64, setCertificatesBase64] = useState(['']);
-
-        useEffect(() => {
-            async function fetchCertificates() {
-                try {
-                    const res = await fetch(
-
-                        `${GLOBAL_VALUES.serverUrl}/certificates/get/all`
-                    );
-                    const fetchedImagesList = await res.json();
-                    setCertificatesBase64(fetchedImagesList);
-                } catch (e) {
-                    console.error(
-                        `Error fetching Certificates because of ${e.message}`
-                    );
-                }
-            }
-
-            fetchCertificates();
-        });
-
-        return (
-            <div className={'absolute h-full w-1/2 bg-amber-200'}>
-                {certificatesBase64.map((value, index) => (
-                    <img key={index} src={`data:image/jpeg;base64,${value}`} />
-                ))}
-            </div>
-        );
-    };
+    const [isFormShown, setIsFormShown] = useState(false);
 
     return (
         <div className="flex w-[60%] justify-between rounded-lg bg-white">
-            {isCertificatesShown && <Certificates />}
+            <div className={'z-20'}>
+                {/*{isCertificatesShown && <Certificates />}*/}
+            </div>
             <div className="flex flex-col items-center gap-12 lg:flex-row">
                 <div className="flex-2 space-y-6">
-                    <Fade>
-                        <h1 className="mb-4 text-4xl font-bold text-gray-800">
-                            Обо мне
-                        </h1>
-                    </Fade>
-
+                    <div className={'flex gap-5'}>
+                        <Fade>
+                            <h1 className="mb-4 text-4xl font-bold text-gray-800">
+                                Обо мне
+                            </h1>
+                        </Fade>
+                        <Slide direction={'right'}>
+                            <button
+                                onClick={() => setIsFormShown(true)}
+                                className="admin-upload-button"
+                            >
+                                Добавить сертификат
+                            </button>
+                        </Slide>
+                        {isAdmin && isFormShown && (
+                            <Fade className={"z-50"}>
+                                <UploadCertificateForm
+                                    setIsFormShown={setIsFormShown}
+                                />
+                            </Fade>
+                        )}
+                    </div>
                     <Fade cascade>
                         <p className="text-lg leading-relaxed text-gray-600">
                             Я не просто риелтор — я ваш надёжный партнёр в
@@ -112,14 +100,14 @@ export default function AboutMe() {
                                 </p>
                             </div>
                         </div>
-                        <u
+                        <p
                             className={
-                                'select-none text-2xl hover:cursor-pointer hover:text-blue-500'
+                                'select-none text-2xl underline hover:cursor-pointer hover:text-blue-500'
                             }
                             onClick={() => setIsCertificatesShown(true)}
                         >
                             Посмотреть сертификаты
-                        </u>
+                        </p>
                     </Fade>
                 </div>
 

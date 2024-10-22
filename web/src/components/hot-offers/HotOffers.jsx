@@ -162,7 +162,7 @@ export default function HotOffers() {
         >
             {' '}
             {/*bg-[#E9E7E7]*/}
-            <div className="flex items-center">
+            <div className="flex gap-8 items-center">
                 <Slide
                     direction="left"
                     className="ml-[5%] py-[2%] font-ptsans-bold text-4xl"
@@ -172,7 +172,7 @@ export default function HotOffers() {
                 <Slide direction="right">
                     {isAdmin && (
                         <button
-                            className="ml-5 h-12 transform rounded-full bg-blue-500 px-4 py-2 font-bold text-white shadow-lg transition duration-300 ease-in-out hover:scale-105 hover:bg-blue-700"
+                            className="admin-upload-button"
                             onClick={() => {
                                 dispatch(setIsEstateFormVisible(true));
                                 setCurrentFormType(FORM_TYPES.ADD);

@@ -10,18 +10,22 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @EnableWebMvc
 public class WebConfig implements WebMvcConfigurer {
 
-    @Value("${CLIENT_URL}")
-    private String CLIENT_URL;
+//    @Value("${CLIENT_URL}")
+//    private String CLIENT_URL;
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
 
         registry.addMapping("/reviews/**")
-                .allowedOrigins(CLIENT_URL)
+                .allowedOrigins("*")
                 .allowedMethods("GET", "POST");
 
         registry.addMapping("/estates/**")
-                .allowedOrigins(CLIENT_URL)
+                .allowedOrigins("*")
+                .allowedMethods("GET", "POST", "PUT", "DELETE");
+
+        registry.addMapping("/certificates/**")
+                .allowedOrigins("*")
                 .allowedMethods("GET", "POST", "PUT", "DELETE");
     }
 };

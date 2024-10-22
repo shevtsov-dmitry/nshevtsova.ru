@@ -8,6 +8,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { useState } from 'react';
 import UploadCertificateForm from './UploadCertificateForm.jsx';
+import Certificates from './Certificate.jsx';
 
 export default function AboutMe() {
     const isAdmin = true; // TODO make role with auth
@@ -17,7 +18,7 @@ export default function AboutMe() {
     return (
         <div className="flex w-[60%] justify-between rounded-lg bg-white">
             <div className={'z-20'}>
-                {/*{isCertificatesShown && <Certificates />}*/}
+                {isCertificatesShown && <Certificates />}
             </div>
             <div className="flex flex-col items-center gap-12 lg:flex-row">
                 <div className="flex-2 space-y-6">
@@ -36,7 +37,7 @@ export default function AboutMe() {
                             </button>
                         </Slide>
                         {isAdmin && isFormShown && (
-                            <Fade className={"z-50"}>
+                            <Fade className={'z-50'}>
                                 <UploadCertificateForm
                                     setIsFormShown={setIsFormShown}
                                 />

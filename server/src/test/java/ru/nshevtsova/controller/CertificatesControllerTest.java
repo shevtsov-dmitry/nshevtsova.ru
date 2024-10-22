@@ -19,11 +19,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.Base64;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
+import static org.assertj.core.api.Assertions.as;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -85,8 +83,8 @@ class CertificatesControllerTest {
                     JsonParser jsonParser = JsonParserFactory.getJsonParser();
                     Map<String, Object> certificateJson = jsonParser.parseMap(result.getResponse().getContentAsString());
                     assertThat(certificateJson).containsEntry("filename", filename);
-                    byte[] contents = Base64.getDecoder().decode((String) certificateJson.get("content"));
-                    assertThat(contents).isEqualTo(imageFileBytes);
+                    byte[] savedImageBytes = Base64.getDecoder().decode((String) certificateJson.get("content"));
+                    assertThat(savedImageBytes.length).isLessThan(imageFileBytes.length);
                 });
     }
 
@@ -104,8 +102,9 @@ class CertificatesControllerTest {
                     assertThat(images).isNotEmpty();
                     Map<String, String> certificateJson = (LinkedHashMap<String, String>) images.getLast();
                     assertThat(certificateJson).containsEntry("filename", filename);
-                    byte[] contents = Base64.getDecoder().decode(certificateJson.get("content"));
-                    assertThat(contents).isEqualTo(imageFileBytes);
+                    byte[] savedImageBytes = Base64.getDecoder().decode(certificateJson.get("content"));
+                    assertThat(savedImageBytes).isNotEmpty();
+                    assertThat(savedImageBytes.length).isLessThan(imageFileBytes.length);
                 });
     }
 

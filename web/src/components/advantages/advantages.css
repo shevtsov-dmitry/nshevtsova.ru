@@ -1,11 +1,12 @@
+/* CSS Styles - Tailwind Adaptations */
 .advantage-icon-holder {
-    @apply flex w-full flex-col items-center justify-center gap-3;
+    @apply flex w-full flex-col items-center justify-center gap-3 max-mobile:gap-2;
 }
 
 .advantage-icon {
-    @apply max-laptop:w-[100px];
+    @apply max-laptop:w-[100px] max-mobile:w-[80px];
 }
 
 .advantage-icon-label {
-    @apply font-medium;
+    @apply font-medium max-mobile:text-[1rem];
 }

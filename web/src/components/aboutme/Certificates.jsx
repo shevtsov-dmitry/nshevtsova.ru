@@ -6,6 +6,10 @@ const Certificates = ({ setIsCertificatesShown }) => {
     const [certificates, setCertificates] = useState([{}]);
     const isAdmin = true; // TODO make role with auth
     const GLOBAL_VALUES = useSelector((state) => state.globalStringValues);
+    const [deleteStatusNotification, setDeleteStatusNotification] = useState({
+        status: true,
+        message: ''
+    });
 
     useEffect(() => {
         async function fetchCertificates() {
@@ -23,15 +27,59 @@ const Certificates = ({ setIsCertificatesShown }) => {
         }
 
         fetchCertificates();
-    }, []);
+    }, [deleteStatusNotification]);
+
+    const DeleteCertificateButton = ({ id }) => {
+        async function deleteImage() {
+            const res = await fetch(
+                `${GLOBAL_VALUES.serverUrl}/certificates/delete/by/id/${id}`,
+                { method: 'DELETE' }
+            );
+            if (res.status === 200) {
+                setDeleteStatusNotification({
+                    status: true,
+                    message: 'Успешно удалено'
+                });
+            } else {
+                setDeleteStatusNotification({
+                    status: true,
+                    message: 'Возникла ошибка при удалении'
+                });
+            }
+        }
+
+        return (
+            <div className={'absolute bottom-4 flex w-full items-end'}>
+                <div className={'absolute right-4 z-10'}>
+                    <button
+                        className={
+                            'h-12 transform select-none rounded-full bg-red-500 px-4 font-bold text-white shadow-lg transition duration-300 ease-in-out hover:scale-105 hover:bg-red-800'
+                        }
+                        onClick={() => deleteImage()}
+                    >
+                        Удалить
+                    </button>
+                </div>
+            </div>
+        );
+    };
 
     return (
         <div
             className={
-                'relative h-auto w-1/2 bg-black bg-opacity-70 max-mobile:w-full'
+                'relative h-auto w-1/2 min-[1700px]:w-1/3 bg-black bg-opacity-70 max-mobile:w-full'
             }
         >
             <div className={'relative'}>
+                {isAdmin && (
+                    <div className={'relative flex w-full justify-center'}>
+                        <p
+                            className={`${deleteStatusNotification.status ? 'text-green-400' : 'text-red-400'} font-andika-bold`}
+                        >
+                            {deleteStatusNotification.message}
+                        </p>
+                    </div>
+                )}
                 <button
                     className={
                         'absolute right-2 top-2 z-10 rounded-full bg-neutral-100 px-2 pb-1 text-3xl font-bold hover:cursor-pointer hover:bg-white'
@@ -51,22 +99,14 @@ const Certificates = ({ setIsCertificatesShown }) => {
                                 src={`data:image/jpeg;base64,${certificateJson['content']}`}
                                 className={'p-10'}
                             />
+                            {isAdmin && (
+                                <DeleteCertificateButton
+                                    id={certificateJson['id']}
+                                />
+                            )}
                         </SplideSlide>
                     ))}
                 </Splide>
-                {isAdmin && (
-                    <div className={'absolute flex w-full items-end'}>
-                        <div className={'absolute bottom-2 right-2 z-10'}>
-                            <button
-                                className={
-                                    'r-0 h-12 transform select-none rounded-full bg-red-500 px-4 font-bold text-white shadow-lg transition duration-300 ease-in-out hover:scale-105 hover:bg-red-800'
-                                }
-                            >
-                                Удалить
-                            </button>
-                        </div>
-                    </div>
-                )}
             </div>
         </div>
     );

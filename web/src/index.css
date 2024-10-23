@@ -34,7 +34,11 @@
 }
 
 .phone-number-p {
-    @apply text-white hover:cursor-copy hover:text-blue-500;
+    @apply select-none text-white hover:cursor-copy hover:text-blue-500;
+}
+
+.saved-message {
+    @apply absolute text-[0.9rem] text-green-600 brightness-125;
 }
 
 .phone-number-ul {
@@ -42,5 +46,7 @@
 }
 
 .admin-upload-button {
-    @apply h-12 transform rounded-full bg-blue-500 px-4 py-2 font-bold text-white shadow-lg transition duration-300 ease-in-out hover:scale-105 hover:bg-blue-700;
+    @apply h-12 transform rounded-full bg-blue-500 px-4 py-2 font-bold text-white shadow-lg transition duration-300 ease-in-out;
+    @apply hover:scale-105 hover:bg-blue-700;
+    @apply max-mobile:px-2.5 max-mobile:py-1 max-mobile:text-[1rem];
 }

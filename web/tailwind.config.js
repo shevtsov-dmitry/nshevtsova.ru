@@ -5,7 +5,7 @@ module.exports = {
         extend: {
             fontFamily: {
                 'andika-bold': ['Andika-Bold', 'sans-serif'],
-                jost: ['Jost', 'sans-serif'],
+                'jost-medium': ['Jost-Medium', 'sans-serif'],
                 'ptsans-bold': ['PTSans-Bold', 'sans-serif']
             },
             screens: {

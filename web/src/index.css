@@ -34,7 +34,7 @@
 }
 
 .phone-number-p {
-    @apply select-none text-white hover:cursor-copy hover:text-blue-500;
+    @apply select-none text-[1rem] text-white hover:cursor-copy hover:text-blue-500;
 }
 
 .saved-message {

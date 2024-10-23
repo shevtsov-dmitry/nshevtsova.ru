@@ -1,11 +1,27 @@
+/* CSS */
 .icon {
     @apply h-full w-full transition-all hover:cursor-pointer hover:brightness-125;
 }
 
-.tab-txt {
-    @apply select-none text-white transition-colors hover:cursor-pointer hover:text-[#F2AD2A] hover:contrast-125;
+.nav-bar-label {
+    @apply select-none text-[2rem] max-mobile:text-[1.5rem] text-white transition-colors hover:cursor-pointer hover:text-[#F2AD2A] hover:contrast-125;
+}
+
+.footer-label {
+    @apply select-none text-sm text-white underline hover:cursor-pointer;
 }
 
 .tab-txt-arrow-down {
     @apply absolute mt-1 text-[80%];
+}
+
+/* Mobile specific styles */
+@media (max-width: 768px) {
+    #tabs-holder {
+        @apply flex-wrap items-center gap-x-3 gap-y-0;
+    }
+
+    .phone-number-p {
+        @apply text-xs;
+    }
 }

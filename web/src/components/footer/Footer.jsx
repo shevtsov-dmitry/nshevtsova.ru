@@ -88,7 +88,7 @@ export default function Footer() {
 
     return (
         <footer
-            className={`h-auto w-full bg-neutral-900 py-[2%] ${isMobile ? 'mt-2 px-4' : ''}`}
+            className={`h-auto w-full bg-neutral-900 py-[2%] ${isMobile ? 'px-4 py-5' : ''}`}
         >
             <div className="flex w-full justify-center">
                 <div

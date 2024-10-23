@@ -48,5 +48,5 @@
 .admin-upload-button {
     @apply h-12 transform rounded-full bg-blue-500 px-4 py-2 font-bold text-white shadow-lg transition duration-300 ease-in-out;
     @apply hover:scale-105 hover:bg-blue-700;
-    @apply max-mobile:px-2.5 max-mobile:py-1 max-mobile:text-[1rem];
+    @apply max-mobile:px-2.5 max-mobile:py-1 max-mobile:text-[1rem] max-laptop:text-sm;
 }

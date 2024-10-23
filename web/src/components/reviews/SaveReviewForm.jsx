@@ -1,8 +1,6 @@
-// SaveReviewForm.jsx
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import StarRating from '../common/StarRating';
-import getCroppedImg from '../../utils/ImageCroppers';
 import { setIsReviewSent } from '../../store/reviewSlice';
 import UserPicCropper from './UserPicCropper'; // Adjust the path as necessary
 
@@ -138,13 +136,13 @@ export default function SaveReviewForm({ formHolderRef }) {
     return (
         <div className={'absolute z-50 w-full justify-center'}>
             <div
-                className="z-50 mx-auto w-1/4 p-4 max-laptop:w-1/3 max-mobile:w-full"
+                className="z-50 mx-auto w-1/4 max-laptop:w-1/3 max-mobile:mx-5 max-mobile:w-[90%]"
                 ref={formHolderRef}
             >
                 <form
                     onSubmit={handleFormSubmit}
                     className={
-                        'relative mb-4 rounded-lg bg-white px-10 pb-8 pt-6' +
+                        'relative rounded-lg bg-white px-10 pb-8 pt-6 ' +
                         ' max-mobile:px-3'
                     }
                     style={{
@@ -234,9 +232,11 @@ export default function SaveReviewForm({ formHolderRef }) {
                             isMobile ? 'flex-col gap-3' : 'gap-1'
                         }`}
                     >
-                        <button type="submit" className="form-button">
-                            Оставить отзыв
-                        </button>
+                        <div className={'flex w-full justify-center'}>
+                            <button type="submit" className="form-button">
+                                Оставить отзыв
+                            </button>
+                        </div>
                     </div>
                     <p
                         className={`absolute left-0 mt-1 flex w-full justify-center text-center text-sm ${

@@ -178,12 +178,9 @@ export default function HotOffers() {
                     'linear-gradient(0deg, rgba(255,255,255,1) 0%, rgba(233,231,231,1) 78%)'
             }}
         >
-            <div className="flex items-center gap-8">
-                <Slide
-                    direction="left"
-                    className="ml-[5%] py-[2%] font-ptsans-bold text-4xl"
-                >
-                    <h1 className={`${isMobile ? 'text-3xl' : 'text-4xl'}`}>
+            <div className="flex items-center gap-8 pb-[2%]">
+                <Slide direction="left" className="ml-[5%] font-ptsans-bold">
+                    <h1 className={`${isMobile ? 'text-2xl' : 'text-4xl'}`}>
                         ГОРЯЧИЕ ПРЕДЛОЖЕНИЯ
                     </h1>
                 </Slide>
@@ -211,7 +208,7 @@ export default function HotOffers() {
                 <div />
             )}
             <div
-                className={`${isMobile ? 'mx-5' : 'mx-[5%]'} grid ${responsiveGridCols} gap-8 pb-[2%]`}
+                className={`${isMobile ? 'mx-5' : 'mx-[5%]'} grid ${responsiveGridCols} gap-8`}
             >
                 {estatesList.map((json, idx) => (
                     <Fade delay={150} key={idx}>

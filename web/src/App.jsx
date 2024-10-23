@@ -25,8 +25,13 @@ function App() {
             </div>
             <HotOffers />
 
-            <Slide direction="up" duration={1000} className={'w-full'} triggerOnce={true}>
-                <div id="about-me" className={'flex justify-center mt-[3%] mb-[5%]'}>
+            <Slide
+                direction="up"
+                duration={1000}
+                className={'w-full'}
+                triggerOnce={true}
+            >
+                <div id="about-me" className={'flex justify-center'}>
                     <AboutMe />
                 </div>
             </Slide>

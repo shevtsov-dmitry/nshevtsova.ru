@@ -26,7 +26,7 @@ export default function Advantages() {
             <div className={`flex gap-3 ${isMobile ? 'flex-col items-center' : ''}`}>
                 <div className={`flex h-auto flex-col gap-x-10 ${isMobile ? 'gap-5' : ''}`}>
                     <Slide direction="left" triggerOnce>
-                        <h1 className={`pb-[2%] font-ptsans-bold ${isMobile ? 'text-3xl' : 'text-4xl'}`}>
+                        <h1 className={`pb-[2%] font-ptsans-bold ${isMobile ? 'text-2xl pb-0' : 'text-4xl'}`}>
                             ВОЗЬМУ ВСЮ РАБОТУ НА СЕБЯ
                         </h1>
                     </Slide>

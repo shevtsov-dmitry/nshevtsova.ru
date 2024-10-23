@@ -21,19 +21,28 @@ export default function AboutMe() {
     return (
         <>
             {isCertificatesShown && (
-                <div className={'absolute z-20 h-full flex flex-col items-center justify-center'}>
+                <div
+                    className={
+                        'absolute z-20 flex h-full flex-col items-center justify-center'
+                    }
+                >
                     <Certificates
                         setIsCertificatesShown={setIsCertificatesShown}
                     />
                 </div>
             )}
-            <div className={`flex ${isMobile ? 'w-full' : 'w-[60%]'} justify-between rounded-lg bg-white`}>
-                <div className={'z-10'}></div>
-                <div className={`flex flex-col items-center gap-12 ${isMobile ? 'flex-col' : 'lg:flex-row'}`}>
+            <div
+                className={`flex ${isMobile ? 'w-full' : 'w-[60%]'} justify-between rounded-lg bg-white`}
+            >
+                <div
+                    className={`flex flex-col items-center gap-12 ${isMobile ? 'flex-col' : 'lg:flex-row'}`}
+                >
                     <div className="flex-2 space-y-6">
                         <div className={'flex gap-5'}>
                             <Fade>
-                                <h1 className={`mb-4 ${isMobile ? 'text-2xl' : 'text-4xl'} font-bold text-gray-800`}>
+                                <h1
+                                    className={`mb-4 ${isMobile ? 'text-2xl' : 'text-4xl'} font-bold text-gray-800`}
+                                >
                                     Обо мне
                                 </h1>
                             </Fade>
@@ -54,14 +63,18 @@ export default function AboutMe() {
                             )}
                         </div>
                         <Fade cascade>
-                            <p className={`leading-relaxed text-gray-600 ${isMobile ? 'text-base' : 'text-lg'}`}>
+                            <p
+                                className={`leading-relaxed text-gray-600 ${isMobile ? 'text-base' : 'text-lg'}`}
+                            >
                                 Я не просто риелтор — я ваш надёжный партнёр в
                                 решении вопросов с недвижимостью. Моей задачей
                                 является сделать процесс покупки или продажи
                                 вашего жилья максимально комфортным и
                                 безопасным.
                             </p>
-                            <p className={`leading-relaxed text-gray-600 ${isMobile ? 'text-base' : 'text-lg'}`}>
+                            <p
+                                className={`leading-relaxed text-gray-600 ${isMobile ? 'text-base' : 'text-lg'}`}
+                            >
                                 Опираясь на более чем 10 лет опыта, я
                                 внимательно изучу ваши пожелания и помогу найти
                                 оптимальный вариант, будь то покупка квартиры

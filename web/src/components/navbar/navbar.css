@@ -14,14 +14,3 @@
 .tab-txt-arrow-down {
     @apply absolute mt-1 text-[80%];
 }
-
-/* Mobile specific styles */
-@media (max-width: 768px) {
-    #tabs-holder {
-        @apply flex-wrap items-center gap-x-3 gap-y-0;
-    }
-
-    .phone-number-p {
-        @apply text-xs;
-    }
-}

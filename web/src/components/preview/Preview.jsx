@@ -1,23 +1,40 @@
 import { Fade, Slide } from 'react-awesome-reveal'; // Ensure you have this import
+import { useEffect, useState } from 'react';
 
 export default function Preview() {
     const initialFadeDelayMs = 750;
     const fadeRevealDelayStepMs = 200;
+    const isMobile = window.innerWidth <= 768;
 
     return (
         <div
-            className="flex h-screen w-full items-center bg-[url('/images/preview/new-preview.jpg')] bg-cover bg-center">
-            <div className="flex-[4]" />
-            <div className="w-full flex-[5] font-andika-bold">
+            className={
+                `flex h-screen w-full items-center bg-[url('/images/preview/new-preview.jpg')] bg-cover ` +
+                `${isMobile ? 'bg-[-120px_center] max-mobile:flex-col' : ' '}`
+            }
+        >
+            <div className={`${isMobile ? 'flex-[0]' : 'flex-[4]'}`} />
+            <div
+                className={
+                    `flex w-full flex-col gap-5 text-center font-andika-bold ` +
+                    `${isMobile ? 'flex-[10] justify-end p-3' : 'flex-[5]'}`
+                }
+            >
                 <Fade direction="down" delay={200}>
-                    <h1 className="mb-5 text-6xl text-white">
+                    <h1
+                        className={`text-white ${isMobile ? 'rounded bg-black bg-opacity-50 text-3xl' : 'text-6xl'}`}
+                    >
                         ВАШ НАДЁЖНЫЙ РИЕЛТОР
                     </h1>
                 </Fade>
                 <Fade direction="down" delay={400}>
-                    <h1 className="text-6xl text-white">НАТАЛЬЯ ШЕВЦОВА</h1>
+                    <h1
+                        className={`${isMobile ? 'rounded bg-black bg-opacity-50 text-3xl' : 'text-6xl'} text-white`}
+                    >
+                        НАТАЛЬЯ ШЕВЦОВА
+                    </h1>
                 </Fade>
-                <ul className="mt-[5%] flex flex-col gap-5 text-nowrap">
+                <ul className={`flex flex-col gap-3 text-nowrap`}>
                     <Fade
                         delay={initialFadeDelayMs + fadeRevealDelayStepMs * 1}
                     >

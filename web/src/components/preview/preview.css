@@ -1,20 +1,20 @@
 /* CSS Styles - Tailwind Adaptations */
 .li-holder {
-    @apply flex justify-between gap-3 max-mobile:flex-col max-mobile:items-center;
-}
-
-.li-num {
-    @apply text-[2.5rem] text-[#F2AD2A] max-mobile:text-[2rem];
+    @apply flex justify-between gap-x-3 max-mobile:bg-black max-mobile:bg-opacity-50;
 }
 
 .li-num-holder {
     @apply flex w-1/5 justify-end max-mobile:w-full;
 }
 
-.li-txt {
-    @apply text-[2.5rem] text-white max-mobile:text-[2rem];
+.li-num {
+    @apply text-[2.5rem] text-[#F2AD2A] max-mobile:text-[1.5rem];
 }
 
 .li-txt-holder {
     @apply flex w-full justify-start max-mobile:justify-center;
+}
+
+.li-txt {
+    @apply text-[2.5rem] text-white max-mobile:text-[1.5rem];
 }

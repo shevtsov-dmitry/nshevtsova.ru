@@ -34,11 +34,11 @@
 }
 
 .phone-number-p {
-    @apply select-none text-[1rem] text-white hover:cursor-copy hover:text-blue-500;
+    @apply select-none text-[1rem] text-white underline hover:cursor-copy hover:text-blue-500;
 }
 
 .saved-message {
-    @apply absolute text-[0.9rem] text-green-600 brightness-125;
+    @apply absolute text-[0.9rem] text-green-600;
 }
 
 .phone-number-ul {

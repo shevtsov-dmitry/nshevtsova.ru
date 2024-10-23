@@ -1,32 +1,35 @@
-import { Slide, Fade, Zoom } from 'react-awesome-reveal';
-import { useEffect, useState } from 'react';
+import { Fade, Slide, Zoom } from 'react-awesome-reveal';
 
 export default function Advantages() {
     const fadeRevealDelayStepMs = 300;
-    const [isMobile, setIsMobile] = useState(false);
-
-    useEffect(() => {
-        const handleResize = () => {
-            setIsMobile(window.innerWidth <= 768);
-        };
-
-        handleResize();
-        window.addEventListener('resize', handleResize);
-        return () => window.removeEventListener('resize', handleResize);
-    }, []);
+    const isMobile = window.innerWidth <= 768;
 
     return (
         <div
-            className={`flex h-fit w-full flex-col gap-5 px-[5%] text-black ${isMobile ? 'max-mobile:px-[2%]' : ''}`}
+            className={
+                `mt-[2%] flex h-fit w-full flex-col gap-5 ` +
+                ` max-mobile:mt-7 max-mobile:px-5` +
+                ` max-laptop:px-14`
+            }
             style={{
                 background:
                     'rgb(255,255,255) linear-gradient(180deg, rgba(255,255,255,0.4191877434567577) 15%, rgba(219,216,216,0.6236695361738445) 73%)'
             }}
         >
-            <div className={`flex gap-3 ${isMobile ? 'flex-col items-center' : ''}`}>
-                <div className={`flex h-auto flex-col gap-x-10 ${isMobile ? 'gap-5' : ''}`}>
+            <div
+                className={
+                    `mx-auto flex w-[70%] gap-3 ` +
+                    ` max-laptop:w-full` +
+                    ` max-mobile:flex-col max-mobile:items-center`
+                }
+            >
+                <div
+                    className={`flex h-auto flex-col gap-x-10 gap-y-3 max-mobile:gap-5`}
+                >
                     <Slide direction="left" triggerOnce>
-                        <h1 className={`pb-[2%] font-ptsans-bold ${isMobile ? 'text-2xl pb-0' : 'text-4xl'}`}>
+                        <h1
+                            className={`pb-[2%] font-ptsans-bold text-4xl max-mobile:pb-0 max-mobile:text-2xl`}
+                        >
                             ВОЗЬМУ ВСЮ РАБОТУ НА СЕБЯ
                         </h1>
                     </Slide>
@@ -34,7 +37,7 @@ export default function Advantages() {
                         delay={200}
                         cascade
                         triggerOnce
-                        className={`max-laptop:text-[1.15rem] ${isMobile ? 'text-[1rem]' : 'text-[1.3rem]'}`}
+                        className={`text-[1.3rem] max-laptop:text-[1.15rem] max-mobile:text-[1rem]`}
                     >
                         <p>
                             Моя задача - сохранить ваше время и деньги и уберечь
@@ -52,7 +55,9 @@ export default function Advantages() {
                         </p>
                     </Fade>
                     <div className="flex h-full w-full items-center justify-center">
-                        <ul className={`grid gap-y-10 text-[1.2rem] ${isMobile ? 'grid-cols-1 gap-y-4' : 'grid-cols-2 max-laptop:grid-cols-1 max-laptop:gap-y-4'}`}>
+                        <ul
+                            className={`grid gap-y-10 text-[1.2rem] ${isMobile ? 'grid-cols-1 gap-y-4' : 'grid-cols-2 max-laptop:grid-cols-1 max-laptop:gap-y-4'}`}
+                        >
                             <Fade delay={fadeRevealDelayStepMs * 0}>
                                 <Zoom delay={fadeRevealDelayStepMs * 0}>
                                     <li className="advantage-icon-holder">
@@ -125,7 +130,9 @@ export default function Advantages() {
                         </ul>
                     </div>
                 </div>
-                <div className={`flex w-fit items-center justify-center ${isMobile ? 'hidden' : 'max-laptop:w-full max-mobile:hidden'}`}>
+                <div
+                    className={`flex w-fit items-center justify-center ${isMobile ? 'hidden' : 'max-laptop:w-full max-mobile:hidden'}`}
+                >
                     <img
                         src="images/advantages/smile-near-green-flower.jpg"
                         alt="Фотография Натальи"

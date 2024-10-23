@@ -45,13 +45,13 @@ const PriceList = () => {
 
     return (
         <div
-            className={`flex h-auto flex-col items-center bg-[#E9E7E7] ${isMobile ? 'px-4' : ''}`}
+            className={`flex h-auto flex-col items-center bg-[#E9E7E7] py-[4%] max-mobile:px-4 max-mobile:py-10`}
         >
             <Slide direction="up">
                 <h1
-                    className={`mb-8 font-ptsans-bold font-bold ${isMobile ? 'text-2xl' : 'text-4xl'}`}
+                    className={`mb-8 font-ptsans-bold text-4xl font-bold max-mobile:text-2xl`}
                 >
-                    Прайс-лист на риелторские услуги
+                    ЦЕНЫ НА РИЕЛТОРСКИЕ УСЛУГИ
                 </h1>
             </Slide>
             <div className="w-full max-w-4xl space-y-4">

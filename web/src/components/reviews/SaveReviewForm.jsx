@@ -136,14 +136,13 @@ export default function SaveReviewForm({ formHolderRef }) {
     return (
         <div className={'absolute z-50 w-full justify-center'}>
             <div
-                className="z-50 mx-auto w-1/4 max-laptop:w-1/3 max-mobile:mx-5 max-mobile:w-[90%]"
+                className="z-50 mx-auto w-1/4 max-laptop:w-1/3 max-mobile:w-full"
                 ref={formHolderRef}
             >
                 <form
                     onSubmit={handleFormSubmit}
                     className={
-                        'relative rounded-lg bg-white px-10 pb-8 pt-6 ' +
-                        ' max-mobile:px-3'
+                        'relative ml-[2.5%] w-[95%] rounded-lg bg-white px-5 pb-8 pt-6'
                     }
                     style={{
                         boxShadow: 'rgba(0, 0, 0, 0.56) 0px 22px 70px 4px'

@@ -32,10 +32,10 @@ export default function AboutMe() {
                 </div>
             )}
             <div
-                className={`flex ${isMobile ? 'w-full' : 'w-[60%]'} justify-between rounded-lg bg-white`}
+                className={`my-[5%] flex w-[60%] justify-between rounded-lg bg-white max-mobile:mx-5 max-mobile:my-7 max-mobile:w-full`}
             >
                 <div
-                    className={`flex flex-col items-center gap-12 ${isMobile ? 'flex-col' : 'lg:flex-row'}`}
+                    className={`flex flex-col items-center gap-12 lg:flex-row`}
                 >
                     <div className="flex-2 space-y-6">
                         <div className={'flex gap-5'}>
@@ -144,7 +144,7 @@ export default function AboutMe() {
                         <img
                             src="images/aboutme/realtor-picture.jpg"
                             alt="Фотография Натальи"
-                            className={`mx-auto ${isMobile ? 'max-w-[18rem]' : 'max-w-[25rem]'} rounded-md shadow-lg`}
+                            className={`mx-auto max-w-[25rem] rounded-md shadow-lg max-laptop:max-w-[18rem]`}
                         />
                     </div>
                 </div>

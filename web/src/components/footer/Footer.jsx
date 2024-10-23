@@ -88,11 +88,14 @@ export default function Footer() {
 
     return (
         <footer
-            className={`h-auto w-full bg-neutral-900 py-[2%] ${isMobile ? 'px-4 py-5' : ''}`}
+            className={
+                `h-auto w-full bg-neutral-900 py-[2%] ` +
+                `max-mobile:px-4 max-mobile:py-6`
+            }
         >
             <div className="flex w-full justify-center">
                 <div
-                    className={`flex w-[90%] items-center justify-between ${isMobile ? 'flex-col items-start space-y-4' : ''}`}
+                    className={`flex w-[90%] items-center justify-between ${isMobile ? 'flex-col space-y-4' : ''}`}
                 >
                     <PhoneNumbers
                         GLOBAL_VALUES={GLOBAL_VALUES}
@@ -103,7 +106,7 @@ export default function Footer() {
             </div>
             <div className="mt-4 flex w-full justify-center">
                 <div
-                    className={`flex w-[90%] items-center justify-between ${isMobile ? 'flex-col items-start space-y-4' : ''}`}
+                    className={`flex w-[90%] items-center justify-between ${isMobile ? 'flex-col space-y-4' : ''}`}
                 >
                     <SocialMedias
                         GLOBAL_VALUES={GLOBAL_VALUES}
@@ -116,7 +119,7 @@ export default function Footer() {
                         кабинет
                     </address>
                     <p
-                        className={`text-end text-[0.9rem] text-white ${isMobile ? 'text-left text-sm' : ''}`}
+                        className={`text-white ${isMobile ? 'text-left text-sm' : 'text-end text-[0.9rem]'}`}
                     >
                         Copyright © 2024 <br />
                         Индивидуальный предприниматель <br /> Шевцова Наталья

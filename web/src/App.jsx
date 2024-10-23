@@ -20,18 +20,15 @@ function App() {
                 <OfferedServices />
                 <Advantages />
             </div>
-            <div id="price-list">
-                <PriceList />
-            </div>
+            <PriceList />
             <HotOffers />
-
             <Slide
                 direction="up"
                 duration={1000}
                 className={'w-full'}
                 triggerOnce={true}
             >
-                <div id="about-me" className={'flex justify-center'}>
+                <div id="about-me" className={'flex w-full justify-center'}>
                     <AboutMe />
                 </div>
             </Slide>

@@ -1,6 +1,6 @@
 /* CSS Styles - Tailwind Adaptations */
 .li-holder {
-    @apply flex justify-between gap-x-3 max-mobile:bg-black max-mobile:bg-opacity-50;
+    @apply flex justify-between gap-x-3 rounded max-mobile:bg-black max-mobile:bg-opacity-50;
 }
 
 .li-num-holder {
@@ -8,7 +8,7 @@
 }
 
 .li-num {
-    @apply text-[2.5rem] text-[#F2AD2A] max-mobile:text-[1.5rem];
+    @apply py-1 text-[2.5rem] text-[#F2AD2A] max-mobile:text-[1.3rem];
 }
 
 .li-txt-holder {
@@ -16,5 +16,5 @@
 }
 
 .li-txt {
-    @apply text-[2.5rem] text-white max-mobile:text-[1.5rem];
+    @apply py-1 pr-1 text-[2.5rem] text-white max-mobile:text-[1.3rem];
 }

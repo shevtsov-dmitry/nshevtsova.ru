@@ -82,13 +82,13 @@ export default function Reviews() {
             <SplideSlide>
                 <div
                     ref={reviewDivRef}
-                    className={`my-[5%] flex h-[20em] w-auto flex-col rounded-lg bg-white p-5 ${isShowMore && 'z-50 h-auto'} ${isMobile ? 'p-3' : ''}`}
+                    className={`my-[5%] flex h-[20em] w-auto flex-col rounded-lg bg-white p-5 ${isShowMore && 'z-50 h-auto'} max-mobile:p3`}
                     style={{
                         boxShadow: 'rgba(0, 0, 0, 0.35) 0px 5px 15px'
                     }}
                 >
                     <div
-                        className={`flex items-center gap-2 pb-[2%] ${isMobile ? 'gap-1' : ''}`}
+                        className={`flex items-center gap-2 pb-[2%] max-mobile:gap-1`}
                     >
                         <img
                             id="usr-pic"
@@ -101,10 +101,7 @@ export default function Reviews() {
                             }}
                         />
                         <div>
-                            <h3
-                                id="user-name"
-                                className={`${isMobile ? 'text-sm' : ''}`}
-                            >
+                            <h3 id="user-name" className={`max-mobile:text-sm`}>
                                 {json.name} {json.surname}
                             </h3>
                             <StarRating
@@ -113,13 +110,11 @@ export default function Reviews() {
                             />
                         </div>
                     </div>
-                    <p
-                        className={`overflow-hidden ${isMobile ? 'text-sm' : ''}`}
-                    >
+                    <p className={`overflow-hidden max-mobile:text-sm`}>
                         {json.reviewText}
                     </p>
                     <p
-                        className={`w-fit select-none py-[2%] font-[0.7rem] underline hover:cursor-pointer hover:text-blue-500 ${isMobile ? 'text-xs' : ''}`}
+                        className={`w-fit select-none py-[2%] font-[0.7rem] underline hover:cursor-pointer hover:text-blue-500 max-mobile:text-sm`}
                         onClick={() => setIsShowMore(isShowMore ? false : true)}
                     >
                         {isShowMore ? 'закрыть' : 'посмотреть полностью'}
@@ -131,12 +126,12 @@ export default function Reviews() {
 
     return (
         <div
-            className={`flex h-full w-full flex-col bg-[url('images/reviews/foggy-city.jpg')] bg-cover bg-no-repeat py-[2%]`}
+            className={`flex h-full w-full flex-col bg-[url('images/reviews/foggy-city.jpg')] bg-cover bg-no-repeat py-[2%] max-mobile:py-7`}
         >
             <div className="h-full w-full flex-1">
                 <Slide direction="up" delay={50}>
                     <h1
-                        className={`text-center font-ptsans-bold ${isMobile ? 'text-3xl' : 'text-5xl'}`}
+                        className={`text-center font-ptsans-bold text-5xl max-mobile:text-3xl`}
                     >
                         Отзывы тех, кто уже совершил <br /> выгодную сделку с
                         моей помощью

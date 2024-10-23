@@ -102,7 +102,7 @@ export default function HotOffers() {
         return (
             <div className="flex w-full justify-center">
                 <div
-                    className={`relative h-full w-${isMobile ? 'full' : '5/6'} rounded-3xl bg-[#ECECEC]`}
+                    className={`relative h-full w-5/6 rounded-3xl bg-[#ECECEC] max-mobile:w-full`}
                     onMouseEnter={() => setIsOfferHovered(true)}
                     onMouseLeave={() => setIsOfferHovered(false)}
                     style={{
@@ -180,7 +180,7 @@ export default function HotOffers() {
         >
             <div className="flex items-center gap-8 pb-[2%]">
                 <Slide direction="left" className="ml-[5%] font-ptsans-bold">
-                    <h1 className={`${isMobile ? 'text-2xl' : 'text-4xl'}`}>
+                    <h1 className={`text-4xl max-mobile:text-2xl`}>
                         ГОРЯЧИЕ ПРЕДЛОЖЕНИЯ
                     </h1>
                 </Slide>
@@ -199,16 +199,14 @@ export default function HotOffers() {
                     )}
                 </Slide>
             </div>
-            {isVisible ? (
+            {isVisible && (
                 <EstateManagementForm
                     formType={currentFormType}
                     json={estateJson}
                 />
-            ) : (
-                <div />
             )}
             <div
-                className={`${isMobile ? 'mx-5' : 'mx-[5%]'} grid ${responsiveGridCols} gap-8`}
+                className={`mx-[5%] grid max-mobile:mx-5 ${responsiveGridCols} gap-8`}
             >
                 {estatesList.map((json, idx) => (
                     <Fade delay={150} key={idx}>
@@ -220,10 +218,18 @@ export default function HotOffers() {
                     </Fade>
                 ))}
             </div>
+
             {isMobile && (
-                <p className="text-center font-bold text-blue-800 hover:cursor-pointer hover:text-blue-700">
-                    Показать ещё
-                </p>
+                <div className={'mt-4 flex w-full justify-center'}>
+                    <button
+                        className="text-center font-bold text-blue-800 hover:cursor-pointer hover:text-blue-700"
+                        onClick={() => {
+                            // TODO fetch more images on button click
+                        }}
+                    >
+                        Показать ещё
+                    </button>
+                </div>
             )}
         </div>
     );

@@ -1,5 +1,4 @@
-import { Fade, Slide } from 'react-awesome-reveal'; // Ensure you have this import
-import { useEffect, useState } from 'react';
+import { Fade, Slide } from 'react-awesome-reveal';
 
 export default function Preview() {
     const initialFadeDelayMs = 750;
@@ -9,8 +8,8 @@ export default function Preview() {
     return (
         <div
             className={
-                `flex h-screen w-full items-center bg-[url('/images/preview/new-preview.jpg')] bg-cover ` +
-                `${isMobile ? 'bg-[-120px_center] max-mobile:flex-col' : ' '}`
+                `mb-[2%] flex h-screen w-full items-center bg-[url('/images/preview/new-preview.jpg')] bg-cover ` +
+                `${isMobile && 'mb-7 flex-col bg-[-120px_center]'}`
             }
         >
             <div className={`${isMobile ? 'flex-[0]' : 'flex-[4]'}`} />

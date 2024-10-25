@@ -3,9 +3,9 @@ import { useSelector } from 'react-redux';
 import { Splide, SplideSlide } from '@splidejs/react-splide';
 
 const Certificates = ({ setIsCertificatesShown }) => {
-    const [certificates, setCertificates] = useState([{}]);
-    const isAdmin = true; // TODO make role with auth
     const GLOBAL_VALUES = useSelector((state) => state.globalStringValues);
+    const [certificates, setCertificates] = useState([{}]);
+    const isAdmin = GLOBAL_VALUES.isAdmin; // TODO make role with auth
     const [deleteStatusNotification, setDeleteStatusNotification] = useState({
         status: true,
         message: ''
@@ -67,7 +67,7 @@ const Certificates = ({ setIsCertificatesShown }) => {
     return (
         <div
             className={
-                'relative h-auto w-1/2 min-[1700px]:w-1/3 bg-black bg-opacity-70 max-mobile:w-full'
+                'relative h-auto w-1/2 bg-black bg-opacity-70 max-mobile:w-full min-[1700px]:w-1/3'
             }
         >
             <div className={'relative'}>

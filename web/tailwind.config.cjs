@@ -1,11 +1,12 @@
 /** @type {import('tailwindcss').Config} */
-module.exports = {
+export default {
     content: ['./src/**/*.{js,jsx,ts,tsx}'],
     theme: {
         extend: {
             fontFamily: {
                 'andika-bold': ['Andika-Bold', 'sans-serif'],
-                'jost-medium': ['Jost-Medium', 'sans-serif'],
+                // 'jost-medium': ['Jost-Medium', 'sans-serif'],
+                'jost-medium': ['Jost-Medium', 'serif'],
                 'ptsans-bold': ['PTSans-Bold', 'sans-serif']
             },
             screens: {

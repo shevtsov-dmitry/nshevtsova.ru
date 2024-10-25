@@ -40,7 +40,7 @@ export default function Navigation({ isFooter }) {
     return (
         <ul
             id="tabs-holder"
-            className={`ml-5 flex items-center font-jost ${isMobile ? 'mt-1 flex-wrap items-center gap-x-3 gap-y-0' : 'gap-5'}`}
+            className={`flex items-center font-jost-medium ${isMobile ? 'ml-4 mt-1 flex-wrap items-center gap-x-3 gap-y-0' : 'ml-[3%] gap-5'} `}
         >
             <Link
                 to="portfolio"
@@ -50,7 +50,9 @@ export default function Navigation({ isFooter }) {
             >
                 портфолио
             </Link>
-            <li className={`${isMobile ? 'mr-2.5' : 'mr-4'} flex items-center`}>
+            <li
+                className={`${!isFooter && 'mr-4 max-mobile:mr-2.5'} flex items-center`}
+            >
                 <Link
                     to="offered-services"
                     smooth={true}
@@ -76,7 +78,9 @@ export default function Navigation({ isFooter }) {
             >
                 цены
             </Link>
-            <li className={`${isMobile ? 'mr-2.5' : 'mr-4'} flex items-center`}>
+            <li
+                className={`${!isFooter && 'mr-4 max-mobile:mr-2.5'} flex items-center`}
+            >
                 <Link
                     to="about-me"
                     smooth={true}

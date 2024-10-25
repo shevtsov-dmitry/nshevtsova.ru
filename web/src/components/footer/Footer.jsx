@@ -22,7 +22,7 @@ function PhoneNumbers({ GLOBAL_VALUES, isMobile }) {
         >
             <img
                 src="images/footer/phone.png"
-                className={`w-[17%] ${isMobile ? 'w-[25%]' : ''}`}
+                className={`w-[17%]`}
             />
             <div className="flex flex-col gap-1">
                 <div className="phone-number-ul">
@@ -111,6 +111,10 @@ export default function Footer() {
                     <SocialMedias
                         GLOBAL_VALUES={GLOBAL_VALUES}
                         isMobile={isMobile}
+                    />
+                    <img
+                        src="images/footer/administrator.png"
+                        className="absolute mt-28 ml-1 w-8 hover:cursor-pointer max-mobile:w-6"
                     />
                     <address
                         className={`text-white ${isMobile ? 'text-sm' : ''}`}

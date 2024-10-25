@@ -23,8 +23,6 @@ public class Estate {
     private String address;
     private EstateType estateType;
 
-
-    // I like the approach you offer (lab your opponent's characters), but here is a funny thing. I am a new at tekken and found a tendency to add new characters in DLCs. And they added Eddy... This guy bodied me so much in ranked that I got furious. And here is a thing. I have to lab how to deal with his annoying flow charts, but for this I need to go into practice mode. In there I can't pick him against my main character to record strings, because I need to buy him. So... I have to spend my money on Eddy, whom I hate and never going to play. You might say - this is only one small transaction, but I already feel the flow - they will introduce more dlc characters , which I should buy to learn not to lose. In the conclusion I think the not mentioned most important tekken skill - spend your money.
     @CreatedDate
     @Column(updatable = false)
     private final LocalDateTime createdAt = LocalDateTime.now();

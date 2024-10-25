@@ -6,16 +6,7 @@ import Navigation from './Navigation';
 export default function Navbar() {
     const GLOBAL_VALUES = useSelector((state) => state.globalStringValues);
     const [isBurgerOpened, setIsBurgerOpened] = useState(false);
-    const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
-
-
-    useEffect(() => {
-        const handleResize = () => {
-            setIsMobile(window.innerWidth <= 768);
-        };
-        window.addEventListener('resize', handleResize);
-        return () => window.removeEventListener('resize', handleResize);
-    }, []);
+    const isMobile = window.innerWidth <= 768;
 
     const SocialMediaIcons = () => {
         return (
@@ -65,7 +56,6 @@ export default function Navbar() {
             >
                 <div className={`${isMobile ? 'order-1 mt-0 w-[87%]' : ''}`}>
                     <Navigation font={'font-jost'} isMobile={isMobile} />
-
                 </div>
                 <div
                     id="phone-num-and-icons-holder"
@@ -77,7 +67,10 @@ export default function Navbar() {
                                 onClick={() =>
                                     setIsBurgerOpened(!isBurgerOpened)
                                 }
-                                className="absolute right-2.5 top-4 text-white hover:cursor-pointer"
+                                className={
+                                    'absolute text-white hover:cursor-pointer ' +
+                                    ` ${isMobile && 'right-2.5 top-4'}`
+                                }
                             >
                                 {isBurgerOpened ? (
                                     <FaTimes size={30} />

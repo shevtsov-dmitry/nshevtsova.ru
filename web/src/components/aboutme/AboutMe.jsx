@@ -9,9 +9,11 @@ import {
 import { useState } from 'react';
 import UploadCertificateForm from './UploadCertificateForm.jsx';
 import Certificates from './Certificates.jsx';
+import { useSelector } from 'react-redux';
 
 export default function AboutMe() {
-    const isAdmin = true; // TODO make role with auth
+    const GLOBAL_VALUES = useSelector((state) => state.globalStringValues);
+    const isAdmin = GLOBAL_VALUES.isAdmin; // TODO make role with auth
     const [isCertificatesShown, setIsCertificatesShown] = useState(false);
     const [isFormShown, setIsFormShown] = useState(false);
 

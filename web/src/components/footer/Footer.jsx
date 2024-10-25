@@ -1,86 +1,8 @@
 import Navigation from '../navbar/Navigation';
+import SocialMediaIcons from './SocialMediaIcons';
+import PhoneNumbers from './PhoneNumbers';
 import { useSelector } from 'react-redux';
 import { useState } from 'react';
-
-function PhoneNumbers({ GLOBAL_VALUES, isMobile }) {
-    const [saveNumberNotification, setSaveNumberNotification] = useState(false);
-
-    function copyPhoneNumber(el) {
-        navigator.clipboard.writeText(el.currentTarget.textContent);
-        saveHideSaveNumberNotification();
-    }
-
-    function saveHideSaveNumberNotification() {
-        setSaveNumberNotification(true);
-        setTimeout(() => setSaveNumberNotification(false), 2000);
-    }
-
-    return (
-        <div
-            id="phone-number"
-            className={`flex items-center gap-3 ${isMobile ? 'flex-col items-start' : ''}`}
-        >
-            <img
-                src="images/footer/phone.png"
-                className={`w-[17%]`}
-            />
-            <div className="flex flex-col gap-1">
-                <div className="phone-number-ul">
-                    <button
-                        className="phone-number-p underline"
-                        onClick={copyPhoneNumber}
-                    >
-                        {GLOBAL_VALUES.phoneNumber}
-                    </button>
-                </div>
-                <div className="phone-number-ul">
-                    <button
-                        className="phone-number-p underline"
-                        onClick={copyPhoneNumber}
-                    >
-                        {GLOBAL_VALUES.additionalPhoneNumber}
-                    </button>
-                    {saveNumberNotification && (
-                        <div className={'saved-message'}>номер сохранён</div>
-                    )}
-                </div>
-            </div>
-        </div>
-    );
-}
-
-function SocialMedias({ GLOBAL_VALUES, isMobile }) {
-    const ICON_STYLE = `w-10 hover:scale-105 transition-all ${isMobile ? 'w-8' : ''}`;
-    const IMAGES_PATH = 'images/footer';
-    return (
-        <div className={`flex gap-6 ${isMobile ? 'gap-4' : ''}`}>
-            <a href={GLOBAL_VALUES.vk}>
-                <img
-                    src={`${IMAGES_PATH}/vk.png`}
-                    className={`${ICON_STYLE}`}
-                />
-            </a>
-            <a href={GLOBAL_VALUES.viber}>
-                <img
-                    src={`${IMAGES_PATH}/viber.png`}
-                    className={`${ICON_STYLE}`}
-                />
-            </a>
-            <a href={GLOBAL_VALUES.whatsapp}>
-                <img
-                    src={`${IMAGES_PATH}/whatsapp.png`}
-                    className={`${ICON_STYLE}`}
-                />
-            </a>
-            <a href={GLOBAL_VALUES.telegram}>
-                <img
-                    src={`${IMAGES_PATH}/telegram.png`}
-                    className={`${ICON_STYLE}`}
-                />
-            </a>
-        </div>
-    );
-}
 
 export default function Footer() {
     const GLOBAL_VALUES = useSelector((state) => state.globalStringValues);
@@ -108,7 +30,7 @@ export default function Footer() {
                 <div
                     className={`flex w-[90%] items-center justify-between ${isMobile ? 'flex-col space-y-4' : ''}`}
                 >
-                    <SocialMedias
+                    <SocialMediaIcons
                         GLOBAL_VALUES={GLOBAL_VALUES}
                         isMobile={isMobile}
                     />

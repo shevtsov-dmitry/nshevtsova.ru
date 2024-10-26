@@ -8,27 +8,22 @@
 @tailwind components;
 @tailwind utilities;
 
-/** {*/
-/*    @apply bg-purple-500;*/
-/*}*/
-
 @font-face {
     font-family: 'Andika-Bold';
-    src: url('public/fonts/Andika-Bold.ttf') format('truetype');
+    src: url('/fonts/Andika-Bold.ttf') format('truetype');
     font-weight: bold;
-    font-style: normal;
 }
 
 @font-face {
     font-family: 'Jost-Medium';
-    src: url('public/fonts/Jost-Medium.ttf') format('truetype');
-    font-weight: medium;
+    src: url('/fonts/Jost-Medium.ttf') format('truetype');
+    font-weight: 500; /* Use numerical font-weight for 'medium' */
     font-style: normal;
 }
 
 @font-face {
     font-family: 'PTSans-Bold';
-    src: url('public/fonts/PTSans-Bold.ttf') format('truetype');
+    src: url('/fonts/PTSans-Bold.ttf') format('truetype');
     font-weight: bold;
     font-style: normal;
 }

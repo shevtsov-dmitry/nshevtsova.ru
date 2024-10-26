@@ -12,13 +12,18 @@ const AuthorizationForm = ({ isVisible, setIsVisible }) => {
         e.preventDefault();
         const username = e.target.username.value;
         const password = e.target.password.value;
-        const res = await fetch(GLOBAL_VALUES.serverUrl + '/admin/login', {
+        let res
+        try {
+        	res = await fetch(GLOBAL_VALUES.serverUrl + '/admin/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({ username, password })
         });
+        } catch(error) {
+        		setNotification({status: 401, message: "Не удалось связаться с сервером."})
+        }
         if (res.status === 200) {
             setNotification({
                 status: 200,

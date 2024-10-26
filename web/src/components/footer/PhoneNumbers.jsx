@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useSelector } from "react-redux";
 
 export default function PhoneNumbers() {
@@ -18,7 +19,7 @@ export default function PhoneNumbers() {
     return (
         <div
             id="phone-number"
-            className={`flex items-center gap-3 ${isMobile ? 'flex-col items-start' : ''}`}
+            className={`flex items-center gap-3 max-mobile:flex-col`}
         >
             <img src="images/footer/phone.png" className={`w-[17%]`} />
             <div className="flex flex-col gap-1">

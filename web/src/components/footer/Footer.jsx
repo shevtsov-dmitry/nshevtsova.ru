@@ -3,10 +3,13 @@ import SocialMediaIcons from './SocialMediaIcons';
 import PhoneNumbers from './PhoneNumbers';
 import { useSelector } from 'react-redux';
 import { useState } from 'react';
+import AuthorizationForm from './AuthorizationForm';
 
 export default function Footer() {
     const GLOBAL_VALUES = useSelector((state) => state.globalStringValues);
     const isMobile = window.innerWidth <= 768;
+    const [isAuthorizationFormVisible, setIsAuthorizationFormVisible] =
+        useState(false);
 
     return (
         <footer
@@ -15,6 +18,14 @@ export default function Footer() {
                 `max-mobile:px-4 max-mobile:py-6`
             }
         >
+            <div className="relative">
+                {isAuthorizationFormVisible && (
+                    <AuthorizationForm
+                        isVisible={isAuthorizationFormVisible}
+                        setIsVisible={setIsAuthorizationFormVisible}
+                    />
+                )}
+            </div>
             <div className="flex w-full justify-center">
                 <div
                     className={`flex w-[90%] items-center justify-between ${isMobile ? 'flex-col space-y-4' : ''}`}
@@ -36,7 +47,8 @@ export default function Footer() {
                     />
                     <img
                         src="images/footer/administrator.png"
-                        className="absolute mt-28 ml-1 w-8 hover:cursor-pointer max-mobile:w-6"
+                        className="absolute ml-1 mt-28 w-8 hover:cursor-pointer max-mobile:w-6"
+                        onClick={() => setIsAuthorizationFormVisible(true)}
                     />
                     <address
                         className={`text-white ${isMobile ? 'text-sm' : ''}`}

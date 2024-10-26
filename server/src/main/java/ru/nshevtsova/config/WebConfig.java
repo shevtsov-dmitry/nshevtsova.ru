@@ -1,6 +1,5 @@
 package ru.nshevtsova.config;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -15,11 +14,11 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-
+    	
         registry.addMapping("/reviews/**")
                 .allowedOrigins("*")
                 .allowedMethods("GET", "POST");
-
+        
         registry.addMapping("/estates/**")
                 .allowedOrigins("*")
                 .allowedMethods("GET", "POST", "PUT", "DELETE");
@@ -27,5 +26,6 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addMapping("/certificates/**")
                 .allowedOrigins("*")
                 .allowedMethods("GET", "POST", "PUT", "DELETE");
+     
     }
 };

@@ -13,11 +13,10 @@ import { useSelector } from 'react-redux';
 
 export default function AboutMe() {
     const GLOBAL_VALUES = useSelector((state) => state.globalStringValues);
-    const isAdmin = GLOBAL_VALUES.isAdmin; // TODO make role with auth
+    const isAdmin = GLOBAL_VALUES.isAdmin;
     const [isCertificatesShown, setIsCertificatesShown] = useState(false);
     const [isFormShown, setIsFormShown] = useState(false);
 
-    // Adding screen size detection for mobile adaptation
     const isMobile = window.innerWidth <= 768;
 
     return (
@@ -48,14 +47,16 @@ export default function AboutMe() {
                                     Обо мне
                                 </h1>
                             </Fade>
-                            <Slide direction={'right'}>
-                                <button
-                                    onClick={() => setIsFormShown(true)}
-                                    className="admin-upload-button"
-                                >
-                                    Добавить сертификат
-                                </button>
-                            </Slide>
+                            {isAdmin && (
+                                <Slide direction={'right'}>
+                                    <button
+                                        onClick={() => setIsFormShown(true)}
+                                        className="admin-upload-button"
+                                    >
+                                        Добавить сертификат
+                                    </button>
+                                </Slide>
+                            )}
                             {isAdmin && isFormShown && (
                                 <Fade duration={250} className={'z-50'}>
                                     <UploadCertificateForm

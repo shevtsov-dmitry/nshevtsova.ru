@@ -45,11 +45,14 @@ export default function Footer() {
                         GLOBAL_VALUES={GLOBAL_VALUES}
                         isMobile={isMobile}
                     />
-                    <img
-                        src="images/footer/administrator.png"
-                        className="absolute ml-1 mt-28 w-8 hover:cursor-pointer max-mobile:w-6"
-                        onClick={() => setIsAuthorizationFormVisible(true)}
-                    />
+                        <img
+                            src="images/footer/administrator.png"
+                            className={
+                                `max-mob absolute ml-1 mt-28 w-8 hover:cursor-pointer ` +
+                                ` max-mobile:right-5 max-mobile:w-6`
+                            }
+                            onClick={() => setIsAuthorizationFormVisible(true)}
+                        />
                     <address
                         className={`text-white ${isMobile ? 'text-sm' : ''}`}
                     >

@@ -1,8 +1,10 @@
 import React from 'react';
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { setIsAdmin } from '../../store/globalStringValuesSlice';
 
 const AuthorizationForm = ({ isVisible, setIsVisible }) => {
+    const dispatch = useDispatch();
     const GLOBAL_VALUES = useSelector((state) => state.globalStringValues);
     const [notification, setNotification] = useState();
 
@@ -22,6 +24,7 @@ const AuthorizationForm = ({ isVisible, setIsVisible }) => {
                 status: 200,
                 message: 'Авторизация произведена успешно.'
             });
+            dispatch(setIsAdmin(true))
         } else {
             setNotification({
                 status: 401,
@@ -72,7 +75,7 @@ const AuthorizationForm = ({ isVisible, setIsVisible }) => {
                                 placeholder="Введите пароль"
                             />
                         </div>
-                        <div className="flex flex-col w-full justify-center items-center">
+                        <div className="flex w-full flex-col items-center justify-center">
                             <button
                                 className="mt-4 w-2/3 rounded-lg bg-yellow-400 py-2 font-andika-bold text-2xl text-white transition-all focus:outline-none active:mb-[-10px] active:mt-5"
                                 type="submit"
@@ -82,7 +85,7 @@ const AuthorizationForm = ({ isVisible, setIsVisible }) => {
                             {notification && (
                                 <div className="relative">
                                     <p
-                                        className={`absolute text-nowrap text-sm -left-28  ${notification.status === 200 ? 'text-green-500' : 'text-red-800'} `}
+                                        className={`absolute -left-28 text-nowrap text-sm ${notification.status === 200 ? 'text-green-500' : 'text-red-800'} `}
                                     >
                                         {notification.message}
                                     </p>

@@ -40,7 +40,7 @@ export default function HotOffers() {
     const GLOBAL_VALUES = useSelector((state) => state.globalStringValues);
 
     const isVisible = estateForm.isVisible;
-    const isAdmin = true; // TODO make role with auth
+    const isAdmin = GLOBAL_VALUES.isAdmin;
     const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
     const [isLaptop, setIsLaptop] = useState(window.innerWidth < 1500);
 
@@ -185,7 +185,7 @@ export default function HotOffers() {
                     </h1>
                 </Slide>
                 <Slide direction="right">
-                    {isAdmin && (
+                    {isAdmin ? (
                         <button
                             className="admin-upload-button"
                             onClick={() => {
@@ -196,7 +196,7 @@ export default function HotOffers() {
                         >
                             Добавить новое
                         </button>
-                    )}
+                        ) : <div/>}
                 </Slide>
             </div>
             {isVisible && (

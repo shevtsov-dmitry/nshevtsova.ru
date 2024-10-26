@@ -14,7 +14,7 @@ export const globalStringValuesSlice = createSlice({
     },
     reducers: {
         setIsAdmin: (state, action) => {
-            state.phoneNumber = action.payload;
+            state.isAdmin = action.payload;
         }
     }
 });

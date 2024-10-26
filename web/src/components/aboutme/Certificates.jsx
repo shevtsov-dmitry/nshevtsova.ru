@@ -5,7 +5,7 @@ import { Splide, SplideSlide } from '@splidejs/react-splide';
 const Certificates = ({ setIsCertificatesShown }) => {
     const GLOBAL_VALUES = useSelector((state) => state.globalStringValues);
     const [certificates, setCertificates] = useState([{}]);
-    const isAdmin = GLOBAL_VALUES.isAdmin; // TODO make role with auth
+    const isAdmin = GLOBAL_VALUES.isAdmin;
     const [deleteStatusNotification, setDeleteStatusNotification] = useState({
         status: true,
         message: ''

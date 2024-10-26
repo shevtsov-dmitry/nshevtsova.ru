@@ -1,8 +1,10 @@
 import React from 'react';
+import { useState } from 'react';
 import { useSelector } from 'react-redux';
 
 const AuthorizationForm = ({ isVisible, setIsVisible }) => {
     const GLOBAL_VALUES = useSelector((state) => state.globalStringValues);
+    const [notification, setNotification] = useState();
 
     async function authorizeAdmin(e) {
         e.preventDefault();
@@ -16,9 +18,15 @@ const AuthorizationForm = ({ isVisible, setIsVisible }) => {
             body: JSON.stringify({ username, password })
         });
         if (res.status === 200) {
-            console.log('Authorization successful');
+            setNotification({
+                status: 200,
+                message: 'Авторизация произведена успешно.'
+            });
         } else {
-            console.log('Authorization failed');
+            setNotification({
+                status: 401,
+                message: 'Неудачная попытка авторизации.'
+            });
         }
     }
 
@@ -64,13 +72,22 @@ const AuthorizationForm = ({ isVisible, setIsVisible }) => {
                                 placeholder="Введите пароль"
                             />
                         </div>
-                        <div className="flex w-full justify-center">
+                        <div className="flex flex-col w-full justify-center items-center">
                             <button
                                 className="mt-4 w-2/3 rounded-lg bg-yellow-400 py-2 font-andika-bold text-2xl text-white transition-all focus:outline-none active:mb-[-10px] active:mt-5"
                                 type="submit"
                             >
                                 Войти
                             </button>
+                            {notification && (
+                                <div className="relative">
+                                    <p
+                                        className={`absolute text-nowrap text-sm -left-28  ${notification.status === 200 ? 'text-green-500' : 'text-red-800'} `}
+                                    >
+                                        {notification.message}
+                                    </p>
+                                </div>
+                            )}
                         </div>
                     </form>
                 </div>
